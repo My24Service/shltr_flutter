@@ -1,19 +1,21 @@
 name: shltr_flutter
-description: A new Flutter project.
+description: SHLTR flutter app
 publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 dependencies:
+  firebase_core: ^2.25.1
+  firebase_messaging: ^14.7.12
   flutter:
     sdk: flutter
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 flutter:
   uses-material-design: true
