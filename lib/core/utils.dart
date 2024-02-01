@@ -17,10 +17,10 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:shltr_flutter/core/api/api.dart';
 import 'package:shltr_flutter/core/models/models.dart';
 
-import '../company/models/models.dart';
-import '../member/models/models.dart';
-import '../member/models/public/api.dart';
-import '../member/models/public/models.dart';
+import 'package:shltr_flutter/company/models/models.dart';
+import 'package:shltr_flutter/member/models/models.dart';
+import 'package:shltr_flutter/member/models/public/api.dart';
+import 'package:shltr_flutter/member/models/public/models.dart';
 
 class Utils with ApiMixin {
   MemberDetailPublicApi memberApi = MemberDetailPublicApi();
@@ -67,15 +67,15 @@ class Utils with ApiMixin {
   }
 
   Future<String?> getMemberName() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return _prefs.getString('member_name');
+    return prefs.getString('member_name');
   }
 
   Future<Member?> fetchMemberPref() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final int? memberPk = _prefs.getInt('member_pk');
+    final int? memberPk = prefs.getInt('member_pk');
     try {
       final Member result = await memberApi.detail(memberPk!, needsAuth: false);
       return result;
@@ -98,18 +98,18 @@ class Utils with ApiMixin {
   }
 
   Future<String?> getFirstName() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return _prefs.getString('first_name');
+    return prefs.getString('first_name');
   }
 
   Locale? lang2locale(String? lang) {
     if (lang == 'nl') {
-      return Locale('nl', 'NL');
+      return const Locale('nl', 'NL');
     }
 
     if (lang == 'en') {
-      return Locale('en', 'US');
+      return const Locale('en', 'US');
     }
 
     return null;
@@ -127,15 +127,11 @@ class Utils with ApiMixin {
   }
 
   Future<bool> logout() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    _prefs.remove('token');
+    prefs.remove('token');
 
     return true;
-  }
-
-  Map<String, String> getHeaders(String? token) {
-    return {'Authorization': 'Bearer $token'};
   }
 
   Future<SlidingToken?> attemptLogIn(String username, String password) async {
@@ -164,10 +160,10 @@ class Utils with ApiMixin {
   }
 
   Future<dynamic> getUserInfo() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final url = await getUrl('/company/user-info-me/');
-    final token = _prefs.getString('token');
+    final token = prefs.getString('token');
     final res = await _httpClient.get(
         Uri.parse(url),
         headers: getHeaders(token)
@@ -196,105 +192,41 @@ class Utils with ApiMixin {
     return null;
   }
 
-  Future<StreamInfo> getStreamInfo() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-
-    final url = await getUrl('/company/stream-info/');
-    final token = _prefs.getString('token');
-    final res = await _httpClient.get(
-        Uri.parse(url),
-        headers: getHeaders(token)
-    );
-
-    if (res.statusCode == 200) {
-      var responseData = json.decode(res.body);
-
-      // create models based on user type
-      return StreamInfo.fromJson(responseData);
-    }
-
-    throw Exception(res.body);
-  }
-
-  Future<String?> createStreamPrivateChannel(String toUserId) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-
-    final url = await getUrl('/company/stream-private-channel-create/');
-    final token = _prefs.getString('token');
-    final authHeaders = getHeaders(token);
-    Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
-    allHeaders.addAll(authHeaders);
-    final res = await _httpClient.post(
-        Uri.parse(url),
-        body: json.encode(<String, String>{"to_member_user_id": toUserId}),
-        headers: allHeaders
-    );
-
-    if (res.statusCode == 200) {
-      var responseData = json.decode(res.body);
-      if (responseData["error"] != null) {
-        throw Exception(res.body);
-      }
-
-      return responseData["created"];
-    }
-
-    return null;
-  } //
-
-
-  Future<bool?> getHasBranches() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-
-    final Map<String, String> envVars = Platform.environment;
-
-    if (!_prefs.containsKey('member_has_branches')) {
-      if (envVars['TESTING'] != null) {
-        _prefs.setBool('member_has_branches', false);
-      } else {
-        final Member member = (await fetchMemberPref())!;
-        _prefs.setBool('member_has_branches', member.hasBranches!);
-      }
-    }
-
-    return _prefs.getBool('member_has_branches');
-  }
-
   Future<int?> getEmployeeBranch() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (!_prefs.containsKey('employee_branch')) {
+    if (!prefs.containsKey('employee_branch')) {
       var userData = await utils.getUserInfo();
       var userInfo = userData['user'];
       if (userInfo is EmployeeUser) {
         EmployeeUser employeeUser = userInfo;
         if (employeeUser.employee!.branch != null) {
-          _prefs.setString('submodel', 'branch_employee_user');
-          _prefs.setInt('employee_branch', employeeUser.employee!.branch!);
+          prefs.setString('submodel', 'branch_employee_user');
+          prefs.setInt('employee_branch', employeeUser.employee!.branch!);
         } else {
-          _prefs.setString('submodel', 'employee_user');
-          _prefs.setInt('employee_branch', 0);
+          prefs.setString('submodel', 'employee_user');
+          prefs.setInt('employee_branch', 0);
         }
       } else {
-        _prefs.setInt('employee_branch', 0);
+        prefs.setInt('employee_branch', 0);
       }
 
     }
 
-    return _prefs.getInt('employee_branch');
+    return prefs.getInt('employee_branch');
   }
 
   Future<String?> getUserSubmodel() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return _prefs.getString('submodel');
+    return prefs.getString('submodel');
   }
 
   Future<void> requestFCMPermissions() async {
     // request permissions
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (!_prefs.containsKey('fcm_allowed')) {
+    if (!prefs.containsKey('fcm_allowed')) {
       bool isAllowed = false;
 
       if (Platform.isAndroid) {
@@ -318,7 +250,7 @@ class Utils with ApiMixin {
         }
       }
 
-      _prefs.setBool('fcm_allowed', isAllowed);
+      prefs.setBool('fcm_allowed', isAllowed);
 
       if (isAllowed) {
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {

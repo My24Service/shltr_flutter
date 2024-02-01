@@ -10,7 +10,7 @@ import '../i18n_mixin.dart';
 
 abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with ApiMixin {
   final String? basePath = null;
-  http.Client httpClient = new http.Client();
+  http.Client httpClient = http.Client();
 
   U fromJsonList(Map<String, dynamic>? parsedJson);
   T fromJsonDetail(Map<String, dynamic>? parsedJson);
@@ -28,11 +28,11 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     String? basePathAddition, http.Client? httpClientOverride,
     bool needsAuth=true
   }) async {
-    var _client = httpClientOverride != null ? httpClientOverride : httpClient;
+    var client = httpClientOverride ?? httpClient;
 
     Map<String, String> headers = {};
     if (needsAuth) {
-      SlidingToken newToken = await getNewToken(httpClientOverride: _client);
+      SlidingToken newToken = await getNewToken(httpClientOverride: client);
       headers = getHeaders(newToken.token);
     }
 
@@ -56,14 +56,14 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       url = url.substring(0, url.length-1);
     }
 
-    if (args.length > 0) {
+    if (args.isNotEmpty) {
       url = "$url/?${args.join('&')}";
     } else {
       url = "$url/";
     }
     // print('list: $url, httpClient: $_client, headers: $headers');
 
-    final response = await _client.get(
+    final response = await client.get(
         Uri.parse(url),
         headers: headers
     );
@@ -208,8 +208,8 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
   }
 
   Future<SlidingToken> getNewToken({http.Client? httpClientOverride}) async {
-    var _client = httpClientOverride != null ? httpClientOverride : httpClient;
-    SlidingToken? newToken = await refreshSlidingToken(_client);
+    var client = httpClientOverride ?? httpClient;
+    SlidingToken? newToken = await refreshSlidingToken(client);
 
     if(newToken == null) {
       print('newToken is null');

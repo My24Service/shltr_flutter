@@ -8,9 +8,13 @@ import 'package:shltr_flutter/core/models/models.dart';
 import 'package:shltr_flutter/core/widgets.dart';
 import 'package:shltr_flutter/company/models/models.dart';
 
+
+
 class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
   @override
-  State<StatefulWidget> createState() => new _LoginViewState();
+  State<StatefulWidget> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends State<LoginView> {
@@ -18,23 +22,30 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     _addListeners();
 
-    return ModalProgressHUD(child: Container(
-      padding: EdgeInsets.all(16.0),
+    return ModalProgressHUD(inAsyncCall: _saving, child: Container(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
           _buildTextFields(),
-          Divider(),
+          const Divider(),
           _buildButtons(),
         ],
       ),
-    ), inAsyncCall: _saving);
+    ));
   }
 
-  final TextEditingController _emailFilter = new TextEditingController();
-  final TextEditingController _passwordFilter = new TextEditingController();
+  final TextEditingController _emailFilter = TextEditingController();
+  final TextEditingController _passwordFilter = TextEditingController();
   String _username = "";
   String _password = "";
   bool _saving = false;
+
+  @override
+  void dispose() {
+    _emailFilter.dispose();
+    _passwordFilter.dispose();
+    super.dispose();
+  }
 
   _addListeners() {
     _emailFilter.addListener(_emailListen);
@@ -58,46 +69,38 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _buildTextFields() {
-    return new Container(
-      child: new Column(
-        children: <Widget>[
-          new Container(
-            child: new TextField(
-              controller: _emailFilter,
-              decoration: new InputDecoration(
-                  labelText: 'login.username'.tr()
-              ),
-            ),
+    return Column(
+      children: <Widget>[
+        TextField(
+          controller: _emailFilter,
+          decoration: InputDecoration(
+              labelText: 'login.username'.tr()
           ),
-          new Container(
-            child: new TextField(
-              controller: _passwordFilter,
-              decoration: new InputDecoration(
-                  labelText: 'login.password'.tr()
-              ),
-              obscureText: true,
-            ),
-          )
-        ],
-      ),
+        ),
+        TextField(
+          controller: _passwordFilter,
+          decoration: InputDecoration(
+              labelText: 'login.password'.tr()
+          ),
+          obscureText: true,
+        )
+      ],
     );
   }
 
   Widget _buildButtons() {
-    return new Container(
-      child: new Column(
-        children: <Widget>[
-          createDefaultElevatedButton(
-              'login.button_login'.tr(),
-              _loginPressed
-          ),
-          SizedBox(height: 30),
-          createElevatedButtonColored(
-              'login.button_forgot_password'.tr(),
-              _passwordReset
-          ),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        createDefaultElevatedButton(
+            'login.button_login'.tr(),
+            _loginPressed
+        ),
+        const SizedBox(height: 30),
+        createElevatedButtonColored(
+            'login.button_forgot_password'.tr(),
+            _passwordReset
+        ),
+      ],
     );
   }
 
@@ -120,11 +123,14 @@ class _LoginViewState extends State<LoginView> {
         _saving = false;
       });
 
-      displayDialog(
-          context,
-          'login.dialog_error_title'.tr(),
-          'login.dialog_error_content'.tr()
-      );
+      if (context.mounted) {
+        await displayDialog(
+            context,
+            Text('login.dialog_error_title'.tr()),
+            Text('login.dialog_error_content'.tr())
+        );
+      }
+
       return;
     }
 
@@ -156,12 +162,9 @@ class _LoginViewState extends State<LoginView> {
       prefs.setInt('user_id', employeeUser.id!);
       prefs.setString('email', employeeUser.email!);
       prefs.setString('first_name', employeeUser.firstName!);
-
-      if (employeeUser.employee!.branch != null) {
-        prefs.setString('submodel', 'branch_employee_user');
-        prefs.setInt('employee_branch', employeeUser.employee!.branch!);
-        // TODO go somewhere
-      }
+      prefs.setString('submodel', 'branch_employee_user');
+      prefs.setInt('employee_branch', employeeUser.employee!.branch!);
+      // TODO go somewhere
     }
   }
 }

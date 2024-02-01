@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:shltr_flutter/core/utils.dart';
 
 Widget loadingNotice() {
-  return Center(child: CircularProgressIndicator());
+  return const Center(child: CircularProgressIndicator());
 }
 
 ElevatedButton createDefaultElevatedButton(String text, Function callback) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
-    child: new Text(text),
     onPressed: callback as void Function()?,
+    child: Text(text),
   );
 }
 
@@ -20,8 +20,8 @@ ElevatedButton createElevatedButtonColored(String text, Function callback,
       foregroundColor: foregroundColor,
       backgroundColor: backgroundColor,
     ),
-    child: new Text(text),
     onPressed: callback as void Function()?,
+    child: Text(text),
   );
 }
 
@@ -34,7 +34,7 @@ Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
       children: [
         ListTile(
           title: Text('${member.name}',
-              style: TextStyle(fontWeight: FontWeight.w500)),
+              style: const TextStyle(fontWeight: FontWeight.w500)),
           subtitle: Text(
               '${member.address}\n${member.countryCode}-${member.postal}\n${member.city}'),
           leading: Icon(
@@ -44,7 +44,7 @@ Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
         ),
         ListTile(
           title: Text('${member.tel}',
-              style: TextStyle(fontWeight: FontWeight.w500)),
+              style: const TextStyle(fontWeight: FontWeight.w500)),
           leading: Icon(
             Icons.contact_phone,
             color: Colors.blue[500],
@@ -60,7 +60,7 @@ Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
   ),
 );
 
-Future<dynamic> displayDialog(context, title, text) {
+Future<dynamic> displayDialog(BuildContext context, title, text) {
   return showDialog(
       context: context,
       builder: (context) {

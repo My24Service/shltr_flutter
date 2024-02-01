@@ -14,11 +14,11 @@ class HourMin {
 }
 
 num checkNumberNull(num? val) {
-  return val == null ? 0 : val;
+  return val ?? 0;
 }
 
 String checkNull(String? val) {
-  return val == null ? "" : val;
+  return val ?? "";
 }
 
 abstract class BaseFormData<T> {
