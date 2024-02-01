@@ -43,6 +43,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+lib/app_config-dev.dart
+lib/app_config-live.dart
+
 # secrets
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
