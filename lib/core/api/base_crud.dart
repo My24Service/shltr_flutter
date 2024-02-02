@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import 'package:shltr_flutter/core/api/api.dart';
 import 'package:shltr_flutter/core/models/models.dart';
 import 'package:shltr_flutter/core/models/base_models.dart';
 import '../i18n_mixin.dart';
 
+final log = Logger('BaseCrud');
 
 abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with ApiMixin {
-  final String? basePath = null;
+  String get basePath;
   http.Client httpClient = http.Client();
 
   U fromJsonList(Map<String, dynamic>? parsedJson);
@@ -46,12 +48,12 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       }
     }
 
-    String url = await getUrl('$basePath');
+    String url = await getUrl(basePath);
     if (basePathAddition != null) {
       url = "$url/$basePathAddition";
     }
 
-    // print('url.substring ${url.substring(url.length-1)}');
+    // log.info('url.substring ${url.substring(url.length-1)}');
     if (url.substring(url.length-1) == '/') {
       url = url.substring(0, url.length-1);
     }
@@ -61,7 +63,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     } else {
       url = "$url/";
     }
-    // print('list: $url, httpClient: $_client, headers: $headers');
+    // log.info('list: $url, httpClient: $_client, headers: $headers');
 
     final response = await client.get(
         Uri.parse(url),
@@ -71,7 +73,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     if (response.statusCode == 200) {
       return response.body;
     }
-    //print(response.body);
+    //log.info(response.body);
 
     final String errorMsg = getTranslationTr('generic.exception_fetch', null);
     String msg = "$errorMsg (${response.body})";
@@ -90,7 +92,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     if (basePathAddition != null) {
       url = "$url$basePathAddition";
     }
-    // print('detail: $url, httpClient: $httpClient');
+    // log.info('detail: $url, httpClient: $httpClient');
 
     final response = await httpClient.get(
         Uri.parse(url),
@@ -113,7 +115,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     final url = await getUrl('$basePath/');
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    // print('insert: $url');
+    // log.info('insert: $url');
 
     final response = await httpClient.post(
       Uri.parse(url),
@@ -139,16 +141,16 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
 
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    // print(url);
+    // log.info(url);
 
-    // print(data);
+    // log.info(data);
     final response = await httpClient.post(
       Uri.parse(url),
       body: json.encode(data),
       headers: allHeaders,
     );
 
-    // print(response.body);
+    // log.info(response.body);
 
     if (response.statusCode == 200) {
       if (returnTypeBool) {
@@ -171,7 +173,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     final url = await getUrl('$basePath/$pk/');
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    // print('update: $url');
+    // log.info('update: $url');
 
     final response = await httpClient.patch(
       Uri.parse(url),
@@ -196,7 +198,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
         Uri.parse(url),
         headers: getHeaders(newToken.token)
     );
-    // print('delete: $url');
+    // log.info('delete: $url');
 
     if (response.statusCode == 204) {
       return true;
@@ -212,7 +214,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     SlidingToken? newToken = await refreshSlidingToken(client);
 
     if(newToken == null) {
-      print('newToken is null');
+      log.info('newToken is null');
       throw Exception(getTranslationTr('generic.token_expired', null));
     }
 

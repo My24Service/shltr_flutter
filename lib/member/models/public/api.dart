@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:shltr_flutter/core/api/base_crud.dart';
-import '../../../core/i18n_mixin.dart';
+
+import 'package:shltr_flutter/core/i18n_mixin.dart';
 import 'models.dart';
 
 class MemberListPublicApi extends BaseCrud<Member, Members> {
+  @override
   final String basePath = "/member/list-public";
 
   @override
@@ -19,6 +21,7 @@ class MemberListPublicApi extends BaseCrud<Member, Members> {
 }
 
 class MemberDetailPublicApi extends BaseCrud<Member, Members> {
+  @override
   final String basePath = "/member/detail-public"; //current-detail-public
 
   @override
@@ -33,6 +36,7 @@ class MemberDetailPublicApi extends BaseCrud<Member, Members> {
 }
 
 class MemberByCompanycodePublicApi extends BaseCrud<Member, Members> {
+  @override
   final String basePath = "/member/detail-public-companycode";
 
 

@@ -4,6 +4,7 @@ import 'package:shltr_flutter/core/api/base_crud.dart';
 import 'models.dart';
 
 class PrivateMemberApi extends BaseCrud<PrivateMember, PrivateMembers> {
+  @override
   final String basePath = "/member/member";
 
   @override

@@ -1,6 +1,1 @@
-class AppConfig {
-  AppConfig();
-
-  final String apiBaseUrl = 'my24service-dev.com';
-  final int pageSize = 20;
-}
+app_config_dev.dart

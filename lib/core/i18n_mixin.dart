@@ -7,11 +7,9 @@ getTranslationTr(String path, Map<String, String>? namedArgs) {
     return "bla";
   }
 
-  if (namedArgs == null) {
-    namedArgs = {};
-  }
+  namedArgs ??= {};
 
-  return "$path".tr(namedArgs: namedArgs);
+  return path.tr(namedArgs: namedArgs);
 }
 
 mixin i18nMixin {

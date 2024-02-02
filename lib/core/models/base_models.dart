@@ -81,7 +81,6 @@ abstract class BaseModel {
 abstract class BaseModelPagination {
   BaseModelPagination();
   factory BaseModelPagination.fromJson(Map<String, dynamic> parsedJson) {
-    print("BaseModelPagination.fromJson not implemented");
     throw UnimplementedError();
   }
 }

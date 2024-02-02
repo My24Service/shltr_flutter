@@ -6,6 +6,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logging/logging.dart';
 import 'package:shltr_flutter/core/i18n_mixin.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,6 +22,8 @@ import 'package:shltr_flutter/company/models/models.dart';
 import 'package:shltr_flutter/member/models/models.dart';
 import 'package:shltr_flutter/member/models/public/api.dart';
 import 'package:shltr_flutter/member/models/public/models.dart';
+
+final log = Logger('Utils');
 
 class Utils with ApiMixin {
   MemberDetailPublicApi memberApi = MemberDetailPublicApi();
@@ -80,8 +83,7 @@ class Utils with ApiMixin {
       final Member result = await memberApi.detail(memberPk!, needsAuth: false);
       return result;
     } catch (e) {
-      print(e);
-      print("Error fetching member public");
+      log.severe("Error fetching member public: $e");
     }
 
     return null;
@@ -254,11 +256,10 @@ class Utils with ApiMixin {
 
       if (isAllowed) {
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          print('Got a message whilst in the foreground!');
-          print('Message data: ${message.data}');
+          log.info('Got a message whilst in the foreground! Message data: ${message.data}');
 
           if (message.notification != null) {
-            print('Message also contained a notification: ${message.notification}');
+            log.info('Message also contained a notification: ${message.notification}');
           }
         });
       }
@@ -294,7 +295,7 @@ class Utils with ApiMixin {
     file.copySync(tmpFilePath);
 
     if (!io.File(tmpFilePath).existsSync()) {
-      print('file $tmpFilePath does not EXIST hellup');
+      log.severe('file $tmpFilePath does not exist');
       return {
         'result': false,
         'message': 'file does not exist'
@@ -304,7 +305,7 @@ class Utils with ApiMixin {
     try {
       await OpenFilex.open(tmpFilePath);
     } catch (e) {
-      print("Error in OpenFilex: $e");
+      log.severe("Error in OpenFilex: $e");
       return {
         'message': getTranslationTr("generic.error", null),
         'result': false,
@@ -321,9 +322,9 @@ class Utils with ApiMixin {
       return;
     }
 
-    Uri _uri = Uri.parse(url);
-    if (await canLaunchUrl(_uri)) {
-      await launchUrl(_uri);
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }
@@ -352,7 +353,7 @@ class Utils with ApiMixin {
     var today = DateTime.now();
     // if it's sunday, use next day as start date
     if (today.weekday == DateTime.sunday) {
-      return today.add(Duration(days: 1));
+      return today.add(const Duration(days: 1));
     }
 
     if (today.weekday == 1) {

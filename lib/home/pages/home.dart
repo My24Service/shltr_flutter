@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-// import 'package:stream_chat_flutter/stream_chat_flutter.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart' show PlatformException;
+import 'package:shltr_flutter/login/pages/login.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 
@@ -16,15 +17,16 @@ import 'package:shltr_flutter/home/blocs/preferences_states.dart';
 import 'package:shltr_flutter/app_config.dart';
 import 'package:shltr_flutter/member/models/public/models.dart';
 import 'package:shltr_flutter/member/models/public/api.dart';
+import 'package:shltr_flutter/core/i18n_mixin.dart';
+import 'package:shltr_flutter/core/widgets.dart';
 
-import '../../core/i18n_mixin.dart';
-import '../../core/widgets.dart';
+final log = Logger('ShltrApp');
 
 class ShltrApp extends StatefulWidget {
   const ShltrApp({super.key});
 
   @override
-  _ShltrAppState createState() => _ShltrAppState();
+  State<ShltrApp> createState() => _ShltrAppState();
 }
 
 class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin, i18nMixin {
@@ -55,20 +57,20 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     //   return;
     // }
     _streamSubscription = FlutterBranchSdk.listSession().listen((data) async {
-      print('listenDynamicLinks - DeepLink Data: $data');
+      log.info('listenDynamicLinks - DeepLink Data: $data');
       if (data.containsKey("+clicked_branch_link") &&
           data["+clicked_branch_link"] == true) {
         // Link clicked. Add logic to get link data
         if (data['cc'] == 'open') {
           return;
         }
-        print('Company code: ${data["cc"]}');
+        log.info('Company code: ${data["cc"]}');
         await _getMemberCompanycode(data['cc']);
         setState(() {});
         // _streamSubscription?.cancel();
       }
     }, onError: (error) {
-      print('InitSession error: ${error.toString()}');
+      log.severe('InitSession error: ${error.toString()}');
     });
   }
 
@@ -91,8 +93,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
       return true;
     } catch (e) {
-      print(e);
-      print("Error fetching member public");
+      log.severe("Error fetching member public: $e");
       return false;
     }
   }
@@ -111,7 +112,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     // the foreground or in the background.
     _sub = uriLinkStream.listen((Uri? uri) async {
       if (!mounted) return;
-      print('got host: ${uri!.host}');
+      log.info('got host: ${uri!.host}');
       List<String>? parts = uri.host.split('.');
       if (!_isCompanycodeOkay(parts[0])) return;
       await _getMemberCompanycode(parts[0]);
@@ -127,10 +128,10 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     try {
       final uri = await getInitialUri();
       if (uri == null) {
-        print('no initial uri');
+        log.info('no initial uri');
       } else {
         if (!mounted) return;
-        print('got initial uri: $uri');
+        log.info('got initial uri: $uri');
         List<String>? parts = uri.host.split('.');
         if (!_isCompanycodeOkay(parts[0])) return;
         await _getMemberCompanycode(parts[0]);
@@ -139,17 +140,17 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
       setState(() {});
     } on PlatformException {
       // Platform messages may fail but we ignore the exception
-      print('failed to get initial uri');
+      log.warning('failed to get initial uri');
     } on FormatException catch (err) {
       if (!mounted) return;
-      print('malformed initial uri: $err');
+      log.warning('malformed initial uri: $err');
       setState(() {});
     }
   }
 
   GetHomePreferencesBloc _initialCall() {
     GetHomePreferencesBloc bloc = GetHomePreferencesBloc();
-    bloc.add(GetHomePreferencesEvent(status: HomeEventStatus.GET_PREFERENCES));
+    bloc.add(const GetHomePreferencesEvent(status: HomeEventStatus.getPreferences));
 
     return bloc;
   }
@@ -167,30 +168,32 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
+    const themeColor = Color.fromARGB(255, 48, 191, 191);
     Map<int, Color> color = {
-      50: Color.fromARGB(255, 255, 153, 51),
-      100: Color.fromARGB(255, 255, 153, 51),
-      200: Color.fromARGB(255, 255, 153, 51),
-      300: Color.fromARGB(255, 255, 153, 51),
-      400: Color.fromARGB(255, 255, 153, 51),
-      500: Color.fromARGB(255, 255, 153, 51),
-      600: Color.fromARGB(255, 255, 153, 51),
-      700: Color.fromARGB(255, 255, 153, 51),
-      800: Color.fromARGB(255, 255, 153, 51),
-      900: Color.fromARGB(255, 255, 153, 51),
+      50: themeColor,
+      100: themeColor,
+      200: themeColor,
+      300: themeColor,
+      400: themeColor,
+      500: themeColor,
+      600: themeColor,
+      700: themeColor,
+      800: themeColor,
+      900: themeColor,
     };
 
-    MaterialColor colorCustom = MaterialColor(0xFFf28c00, color);
+    MaterialColor colorCustom = MaterialColor(0xFF30BFBF, color);
 
     return BlocProvider(
       create: (BuildContext context) => _initialCall(),
       child: BlocBuilder<GetHomePreferencesBloc, HomePreferencesBaseState>(
         builder: (context, dynamic state) {
-          if (!(state is HomePreferencesState)) {
+          if (state is! HomePreferencesState) {
             return loadingNotice();
           }
 
           Locale? locale = utils.lang2locale(state.languageCode);
+          final bool isLoggedIn = state.isLoggedIn;
 
           return MaterialApp(
               localizationsDelegates: context.localizationDelegates,
@@ -212,7 +215,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                     future: _setBasePrefs(),
                     builder: (ctx, snapshot) {
                       if (snapshot.hasData) {
-                        return _getHomePageWidget(state.doSkip);
+                        return _getHomePageWidget(isLoggedIn);
                       } else if (snapshot.hasError) {
                         return Center(
                             child: Text(
@@ -233,7 +236,11 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     );
   }
 
-  Widget _getHomePageWidget(bool? doSkip) {
-    return MemberPage();
+  Widget _getHomePageWidget(bool isLoggedIn) {
+    if (!isLoggedIn) {
+      return const LoginPage();
+    }
+
+    return const MemberPage();
   }
 }

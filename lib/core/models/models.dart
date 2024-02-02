@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 class Token {
   final String? access;
@@ -31,7 +32,7 @@ class Token {
     return payload['user_id'];
   }
 
-  DateTime? getExpAccesss() {
+  DateTime? getExpAccess() {
     var payloadAccess = getPayloadAccess();
     if (payloadAccess == null) {
       return null;
@@ -126,10 +127,8 @@ class SlidingToken {
       isExpired = true;
       return;
     }
-    print(payload);
 
     var expires = DateTime.fromMillisecondsSinceEpoch(payload["exp"]*1000);
-    print('expires: $expires');
 
     if(expires.isAfter(DateTime.now())) {
       isExpired = false;
@@ -156,6 +155,8 @@ class DefaultPageData {
   });
 }
 
+final log = Logger('PaginationInfo');
+
 class PaginationInfo {
   final int? count;
   final String? next;
@@ -164,7 +165,7 @@ class PaginationInfo {
   final int? pageSize;
 
   void debug() {
-    print('count: ${this.count}, next: ${this.next}, previous: ${this.previous}, currentPage: ${this.currentPage}, pageSize: ${this.pageSize}');
+    log.info('count: $count, next: $next, previous: $previous, currentPage: $currentPage, pageSize: $pageSize');
   }
 
   PaginationInfo({

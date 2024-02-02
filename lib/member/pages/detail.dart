@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 import 'package:shltr_flutter/core/utils.dart';
 import 'package:shltr_flutter/member/widgets/detail.dart';
@@ -6,7 +7,11 @@ import 'package:shltr_flutter/member/widgets/detail.dart';
 import 'package:shltr_flutter/core/widgets.dart';
 import 'package:shltr_flutter/member/models/models.dart';
 
+final log = Logger('MemberPage');
+
 class MemberPage extends StatelessWidget {
+  const MemberPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<MemberDetailData>(
@@ -20,12 +25,12 @@ class MemberPage extends StatelessWidget {
                 title: Text(detailData.member!.name!),
               ),
               body: Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: MemberDetailWidget(detailData: detailData)
               )
           );
         }  else if (snapshot.hasError) {
-          print(snapshot.error);
+          log.severe(snapshot.error);
           return Center(child: Text("An error occurred (${snapshot.error})"));
         } else {
           return Scaffold(

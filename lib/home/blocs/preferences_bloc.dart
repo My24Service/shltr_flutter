@@ -1,11 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:shltr_flutter/core/utils.dart';
+
 import 'package:shltr_flutter/home/blocs/preferences_states.dart';
 
-enum HomeEventStatus { GET_PREFERENCES }
+enum HomeEventStatus { getPreferences }
+
+final log = Logger('GetHomePreferencesBloc');
 
 class GetHomePreferencesEvent {
   final String? value;
@@ -19,7 +22,7 @@ class GetHomePreferencesBloc extends Bloc<GetHomePreferencesEvent, HomePreferenc
 
   GetHomePreferencesBloc() : super(HomePreferencesInitialState()) {
     on<GetHomePreferencesEvent>((event, emit) async {
-      if (event.status == HomeEventStatus.GET_PREFERENCES) {
+      if (event.status == HomeEventStatus.getPreferences) {
         await _handleGetPreferencesState(event, emit);
       }
     },
@@ -33,36 +36,32 @@ class GetHomePreferencesBloc extends Bloc<GetHomePreferencesEvent, HomePreferenc
 
   Future<HomePreferencesState> _getPreferences(String? contextLanguageCode) async {
     prefs = await SharedPreferences.getInstance();
-    bool doSkip = false;
     String? languageCode;
     int? memberPk;
 
-    if (prefs.containsKey('skip_member_list')) {
-      doSkip = prefs.getBool('skip_member_list')!;
-      memberPk = await utils.getPreferredMemberPk();
-    }
+    final bool isLoggedIn = await utils.isLoggedInSlidingToken();
 
     // check the default language
-    if (!prefs.containsKey('prefered_language_code')) {
+    if (!prefs.containsKey('preferred_language_code')) {
       if (contextLanguageCode != null) {
         await prefs.setString('preferred_language_code', contextLanguageCode);
       } else {
-        print('not setting contextLanguageCode, it\'s null');
+        log.info('not setting contextLanguageCode, it\'s null');
       }
     } else {
-      languageCode = prefs.getString('prefered_language_code');
+      languageCode = prefs.getString('preferred_language_code');
       if (languageCode != null) {
         await prefs.setString('preferred_language_code', languageCode);
       }
     }
 
     languageCode = prefs.getString('preferred_language_code');
-    print('doSkip: $doSkip, memberPk: $memberPk');
+    log.info('memberPk: $memberPk');
 
     return HomePreferencesState(
       languageCode: languageCode,
-      doSkip: doSkip,
       memberPk: memberPk,
+      isLoggedIn: isLoggedIn
     );
   }
 }

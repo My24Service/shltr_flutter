@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
         title: Text('login.app_bar_title'.tr()),
         centerTitle: true,
       ),
-      body: LoginView(),
+      body: const LoginView(),
     );
   }
 }

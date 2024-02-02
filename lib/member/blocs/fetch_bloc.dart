@@ -6,8 +6,8 @@ import 'package:shltr_flutter/member/blocs/fetch_states.dart';
 import 'package:shltr_flutter/member/models/public/models.dart';
 
 enum MemberEventStatus {
-  FETCH_MEMBER,
-  FETCH_MEMBERS,
+  fetchMember,
+  fetchMembers,
 }
 
 class FetchMemberEvent {
@@ -23,10 +23,10 @@ class FetchMemberBloc extends Bloc<FetchMemberEvent, MemberFetchState> {
 
   FetchMemberBloc() : super(MemberFetchInitialState()) {
     on<FetchMemberEvent>((event, emit) async {
-      if (event.status == MemberEventStatus.FETCH_MEMBER) {
+      if (event.status == MemberEventStatus.fetchMember) {
         await _handleFetchMemberState(event, emit);
       }
-      if (event.status == MemberEventStatus.FETCH_MEMBERS) {
+      if (event.status == MemberEventStatus.fetchMembers) {
         await _handleFetchMembersState(event, emit);
       }
     },

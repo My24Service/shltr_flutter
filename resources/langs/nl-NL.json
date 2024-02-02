@@ -1,0 +1,324 @@
+{
+  "orders": {
+    "model_name": "Opdracht",
+    "info_order": "Opdracht",
+    "info_order_id": "Opdracht ID",
+    "info_order_date": "Opdracht datum",
+    "info_name": "@:generic.info_name",
+    "info_customer": "@:generic.info_customer",
+    "info_customer_id": "@:generic.info_customer_id",
+    "info_address": "@:generic.info_address",
+    "info_postal": "@:generic.info_postal",
+    "info_postal_city": "@:generic.info_postal/@:generic.info_city",
+    "info_country_city": "@:generic.info_country_code/@:generic.info_city",
+    "info_contact": "@:generic.info_contact",
+    "info_tel": "@:generic.info_tel",
+    "info_mobile": "@:generic.info_mobile",
+    "info_start_date": "Start datum",
+    "info_start_time": "Start tijd",
+    "info_end_date": "Eind datum",
+    "info_end_time": "Eind tijd",
+    "info_order_type": "Opdracht type",
+    "info_order_reference": "Opdracht referentie",
+    "info_order_email": "Opdracht email",
+    "info_order_mobile": "Opdracht mobiel",
+    "info_order_tel": "Opdracht tel",
+    "info_last_status": "Laatste status",
+    "info_last_accepted_status": "Aanvaarding",
+    "info_order_customer_remarks": "Klant opmerkingen",
+    "info_add_orderline": "Voeg opdrachtregel toe",
+    "info_infoline": "Info",
+    "info_license_plate": "Kenteken",
+    "header_order_details": "Opdracht details",
+    "header_orderlines": "Opdrachtregels",
+    "header_infolines": "Inforegels",
+    "header_orderline_form": "Nieuwe opdrachtregel",
+    "header_infoline_form": "Nieuwe inforegel",
+    "header_assigned_users_info": "Toegewezen gebruikers",
+    "header_documents": "Documenten",
+    "header_workorder_documents": "Werkbon documenten",
+    "header_status_history": "Status historie",
+
+    "list": {
+      "model_name": "Opdracht",
+      "notice_no_order": "Geen opdrachten gevonden.",
+      "app_bar_title_empty": "Geen opdrachten",
+      "app_bar_title_error": "Fout",
+
+      "_page": "-------------------",
+      "dialog_add_documents_title": "Documenten toevoegen?",
+      "dialog_add_documents_content": "Wilt u direct documenten bij deze order toevoegen?",
+      "dialog_add_documents_button_yes": "Voeg documenten toe",
+      "dialog_add_documents_button_no": "Nee, ga verder",
+      "snackbar_added": "Opdracht aangemaakt",
+      "snackbar_updated": "Opdracht aangepast",
+      "snackbar_deleted": "Opdracht verwijderd",
+      "snackbar_accepted": "Opdracht geaccepteerd",
+      "snackbar_rejected": "Opdracht afgewezen",
+
+      "_widget": "-------------------",
+      "app_title_planning_user_no_orders": "Geen opdrachten",
+      "app_title_planning_user_one_order": "Eén opdracht",
+      "app_title_planning_user": "Alle opdrachten",
+
+      "app_title_branch_employee_user_no_orders": "Geen opdrachten",
+      "app_title_branch_employee_user_one_order": "Eén opdracht",
+      "app_title_branch_employee_user": "Uw opdrachten",
+
+      "delete_dialog_title": "Verwijder opdracht",
+      "delete_dialog_content": "Wilt u deze opdracht verwijderen?",
+
+      "button_documents": "Documenten"
+    },
+    "form": {
+      "app_bar_title_insert": "Nieuwe opdracht",
+      "app_bar_title_update": "Wijzig opdracht",
+
+      "error_loading_ordertypes": "Fout bij het laden van de opdrachttypes",
+
+      "exception_fetch": "Fout bij het laden van de opdracht",
+
+      "label_search_branch": "Zoek vestiging",
+      "typeahead_label_search_branch": "Zoek",
+
+      "typeahead_label_search_equipment": "Zoek apparatuur",
+      "equipment_not_found": "Geen apparatuur gevonden",
+      "create_new_equipment": "Voeg apparatuur toe",
+      "validator_equipment": "Apparatuur is vereist",
+      "adding_equipment": "Apparatuur aan het toevoegen...",
+
+      "typeahead_label_search_location": "Zoek locatie",
+      "location_not_found": "Geen locatie gevonden",
+      "create_new_location": "Voeg locatie toe",
+      "validator_location": "Locatie is vereist",
+      "adding_location": "Locatie aan het toevoegen...",
+
+      "button_order_update": "Wijzig opdracht",
+      "button_order_insert": "Voeg opdracht toe",
+      "button_add_orderline": "Voeg opdrachtregel toe",
+      "button_delete_orderline": "Verwijder opdrachtregel",
+      "button_add_infoline": "Voeg inforegel toe",
+      "button_delete_infoline": "Verwijder inforegel",
+      "button_nav_orders": "Terug naar opdrachten",
+
+      "typeahead_label_search_customer": "Zoek",
+
+      "dialog_add_documents_title": "Documenten toevoegen?",
+      "dialog_add_documents_content": "Wilt u direct documenten bij deze order toevoegen?",
+
+      "dialog_add_documents_button_yes": "Voeg documenten toe",
+      "dialog_add_documents_button_no": "Nee, ga verder",
+
+      "dialog_content_error_loading_ordertypes": "Fout bij het laden van de opdracht types",
+
+      "delete_dialog_title_orderline": "Verwijder opdrachtregel",
+      "delete_dialog_content_orderline": "Wilt u deze opdrachtregel verwijderen?",
+      "error_adding_orderline": "Fout bij het verwijderen van de opdrachtregel",
+
+      "error_adding_infoline": "Fout bij het toevoegen van de informatieregel",
+      "delete_dialog_title_infoline": "Verwijder informatieregel",
+      "delete_dialog_content_infoline": "Wilt u deze informatieregel verwijderen?",
+
+      "validator_ordertype_dialog_title": "Geen opdrachttype",
+      "validator_ordertype_dialog_content": "Kies een opdrachttype",
+
+      "notification_order_date": "NB. De uiteindelijke datum van de opdracht wordt vastgesteld door de planning"
+    },
+    "unaccepted": {
+      "model_name": "Opdracht",
+      "notice_no_order": "Geen opdrachten gevonden.",
+      "app_bar_title": "Niet-geaccepteerde opdrachten",
+      "app_bar_title_one_order": "Eén niet-geaccepteerde opdracht",
+      "app_bar_title_no_orders": "Geen niet-geaccepteerde opdrachten",
+      "app_bar_title_empty": "Geen opdrachten",
+      "app_bar_title_error": "Fout",
+      "button_documents": "Documenten",
+
+      "_page": "-------------------",
+      "dialog_add_documents_title": "Documenten toevoegen?",
+      "dialog_add_documents_content": "Wilt u direct documenten bij deze order toevoegen?",
+      "dialog_add_documents_button_yes": "Voeg documenten toe",
+      "dialog_add_documents_button_no": "Nee, ga verder",
+      "snackbar_added": "Opdracht aangemaakt",
+      "snackbar_updated": "Opdracht aangepast",
+      "snackbar_deleted": "Opdracht verwijderd",
+      "snackbar_accepted": "Opdracht geaccepteerd",
+      "snackbar_rejected": "Opdracht afgewezen"
+    },
+    "past": {
+      "model_name": "Opdracht",
+      "notice_no_order": "Geen opdrachten gevonden.",
+      "app_bar_title": "Opdrachten in het verleden",
+      "app_bar_title_no_orders": "Geen opdrachten in het verleden",
+      "app_bar_title_one_order": "Eén opdracht in het verleden",
+      "app_bar_title_empty": "Geen opdrachten",
+      "app_bar_title_error": "Fout",
+      "button_documents": "Documenten"
+    },
+    "unassigned": {
+      "model_name": "Opdracht",
+      "notice_no_order": "Geen niet-toegewezen gevonden.",
+      "app_bar_title": "Niet-toegewezen opdrachten",
+      "app_bar_title_no_orders": "Geen niet-toegewezen opdrachten",
+      "app_bar_title_one_order": "Eén niet-toegewezen opdracht",
+      "app_bar_title_empty": "Geen opdrachten",
+      "app_bar_title_error": "Fout",
+      "button_assign": "Wijs toe",
+      "header_confirm_assign_to_me": "Aan jou toewijzen?",
+      "content_confirm_assign_to_me": "Deze opdracht zal aan jou worden toegewezen",
+      "button_assign_engineer": "Wijs aan mij toe"
+    },
+    "documents": {
+      "model_name": "Document",
+      "app_bar_title": "Documenten",
+      "app_bar_subtitle": "{count} documenten",
+      "app_bar_title_error": "Fout",
+
+      "_page": "----------------------",
+      "snackbar_added": "Document toegevoegd",
+      "snackbar_updated": "Document gewijzigd",
+      "snackbar_deleted": "Document verwijderd",
+
+      "_empty_error": "------------------",
+
+      "_form_list": "-------------------------",
+      "app_bar_title_new": "Voeg document toe",
+      "app_bar_title_edit": "Wijzig document",
+      "button_nav_order": "Terug naar opdrachten",
+      "name": "Naam",
+      "info_photo": "Foto",
+      "button_delete": "Verwijder document",
+      "delete_dialog_title": "Verwijder document",
+      "delete_dialog_content": "Wilt u dit document verwijderen?"
+    },
+    "detail": {
+      "button_nav_orders": "Terug naar opdrachten",
+      "app_bar_title": "Opdracht details"
+    }
+  },
+
+  "generic": {
+    "loading": "Laden...",
+    "error": "Er is iets misgegaan",
+    "error_dialog_title": "Fout",
+    "model_name": "Item",
+    "error_arg": "Er is een fout opgetreden ({error})",
+    "exception_fetch": "Fout bij het ophalen van data",
+    "exception_fetch_detail": "Fout bij het ophalen van detail data",
+    "exception_insert": "Fout bij het aanmaken",
+    "exception_update": "Fout bij het wijzigen",
+    "exception_delete": "Fout bij het verwijderen",
+    "action_delete": "Verwijder",
+    "action_search": "Zoek",
+    "action_edit": "Wijzig",
+    "action_open": "Open",
+    "action_view": "Bekijk",
+    "action_new": "Nieuw",
+    "action_cancel": "Annuleer",
+    "info_customer": "Klant",
+    "info_branch": "Vestiging",
+    "info_customer_id": "Klant ID",
+    "info_name": "Naam",
+    "info_address": "Adres",
+    "info_postal": "Postcode",
+    "info_city": "Plaats",
+    "info_country_code": "Land",
+    "info_tel": "Tel",
+    "info_mobile": "Mobiel",
+    "info_email": "Email",
+    "info_contact": "Contact",
+    "info_remarks": "Opmerkingen",
+    "info_description": "Omschrijving",
+    "info_equipment": "Apparatuur",
+    "info_material": "Materiaal",
+    "info_identifier": "Identifier",
+    "info_amount": "Aantal",
+    "info_location": "Locatie",
+    "info_or": "Of:",
+    "info_document": "Document",
+    "info_date": "Datum",
+    "info_status": "Status",
+    "info_info": "Info",
+    "validator_name": "Kies een naam",
+    "validator_address": "Kies een adres",
+    "validator_postal": "Kies een postcode",
+    "validator_city": "Kies een plaats",
+    "validator_required": "Vereist",
+
+    "button_choose_file": "Kies een bestand",
+    "button_take_picture": "Maak foto",
+    "button_choose_image": "Kies een afbeelding",
+    "snackbar_deleted_document": "Document verwijderd",
+    "delete_dialog_title_document": "Verwijder document",
+    "delete_dialog_content_document": "Wilt u dit document verwijderen?",
+
+    "header_new_document": "Nieuw document",
+    "form_button_submit_document": "Voeg document toe",
+    "dialog_no_document_title": "Geen document",
+    "dialog_no_document_content": "Selecteer een document of afbeelding",
+    "validator_name_document": "Kies een naam",
+    "snackbar_added_document": "Document toegevoegd",
+    "error_adding_document": "Fout bij het toevoegen",
+
+    "empty_table": "Geen resultaten gevonden.",
+    "token_expired": "Token verlopen",
+
+    "orders_app_bar_subtitle": "Klanten o.a.: {customers}",
+
+    "pagination_more_pages": "{modelName} {start} - {end}, Totaal {total}",
+    "pagination_one_page": "{modelName} {start} - {end} ({pageSize} per pagina)",
+
+    "button_back": "Vorige",
+    "button_next": "Volgende",
+    "button_open_workorder": "Open werkbon (PDF)",
+    "button_open_document": "Open document",
+    "button_no_workorder": "Geen werkbon",
+    "button_submit": "Verstuur",
+    "button_new": "Nieuw"
+  },
+
+  "member_detail": {
+    "exception_fetch": "Fout bij het laden van het bedrijf",
+    "app_bar_title": "Bedrijfsdetails",
+    "button_go_to_orders": "Ga naar opdrachten",
+    "button_login": "Login"
+  },
+
+  "utils": {
+    "drawer_logout": "Uitloggen",
+    "drawer_options": "Opties",
+    "drawer_preferences": "Voorkeuren",
+
+    "drawer_planning_orders": "Opdrachten",
+    "drawer_planning_orders_past": "Opdrachten in het verleden",
+    "drawer_planning_orders_unaccepted": "Niet geaccepteerde opdrachten",
+    "drawer_planning_orders_unassigned": "Niet toegewezen opdrachten",
+    "drawer_planning_order_new": "Nieuwe opdracht",
+    "drawer_planning_branches": "Branches",
+    "drawer_planning_quotations": "Offertes",
+    "drawer_planning_quotations_unaccepted": "Niet geaccepteerde offertes",
+
+    "button_cancel": "Annuleer",
+    "button_delete": "Verwijder"
+  },
+
+  "login": {
+    "app_bar_title": "Login",
+    "username": "Gebruikersnaam",
+    "password": "Wachtwoord",
+    "button_login": "Login",
+    "button_forgot_password": "Wachtwoord vergeten?",
+    "dialog_error_title": "Er ging iets fout",
+    "dialog_error_content": "Er is geen account gevonden met deze gebruikersnaam en wachtwoord"
+  },
+
+  "interact": {
+    "preferences": {
+      "info_language_code": "Taal",
+      "app_bar_title": "Voorkeuren",
+      "button_save": "Voorkeuren opslaan",
+      "snackbar_updated": "Voorkeuren opgeslagen"
+    }
+
+  }
+}
