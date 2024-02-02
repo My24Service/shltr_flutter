@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'firebase_options.dart';
 
+import 'firebase_options.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
 
 void main() async {
