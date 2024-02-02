@@ -45,5 +45,51 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app wants to pick and upload photos to be sent along with the order for more detailed information</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app wants to take and upload photos to be sent along with the order for more detailed information</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app wants to use the microphone for videos</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>nl</string>
+        <string>fr</string>
+        <string>de</string>
+    </array>
+	<key>branch_universal_link_domains</key>
+	<array>
+		<string>link.shltr-group.app</string>
+		<string>g0nv0-alternate.app.link</string>
+		<string>g0nv0-alternate.test-app.link</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>shltr</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>link.shltr-group.app</string>
+		</dict>
+	</array>
+	<key>branch_key</key>
+	<string>key_live_eykw7eIxisx3tkupwcQ3bmgfAzlQOm4f</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+	  <string>sms</string>
+	  <string>tel</string>
+	</array>
 </dict>
 </plist>
