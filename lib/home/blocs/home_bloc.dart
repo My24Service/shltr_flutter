@@ -3,6 +3,8 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:my24_flutter_core/utils.dart';
+
 import 'package:shltr_flutter/core/utils.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/member/models/public/models.dart';
@@ -48,7 +50,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
   Future<void> _handleGetPreferencesState(HomeEvent event, Emitter<HomeBaseState> emit) async {
     prefs = await SharedPreferences.getInstance();
 
-    final bool isLoggedIn = await utils.isLoggedInSlidingToken();
+    final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
 
     var user = await utils.getUserInfo(withFetch: isLoggedIn);
     Member? member = await utils.getMember(withFetch: false);
@@ -62,7 +64,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
   Future<void> _handleDoLoginState(HomeEvent event, Emitter<HomeBaseState> emit) async {
     try {
       Member? member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
-      await utils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
+      await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
       var user = await utils.getUserInfo();
 
       emit(HomeLoggedInState(

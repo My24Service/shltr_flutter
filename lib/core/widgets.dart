@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shltr_flutter/core/utils.dart';
+
+import 'package:my24_flutter_core/utils.dart';
 
 Widget loadingNotice() {
   return const Center(child: CircularProgressIndicator());
@@ -51,7 +52,7 @@ Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
           ),
           onTap: () {
             if (member.tel != '' && member.tel != null) {
-              utils.launchURL("tel://${member.tel}");
+              coreUtils.launchURL("tel://${member.tel}");
             }
           },
         ),

@@ -7,6 +7,8 @@ import 'package:flutter/services.dart' show PlatformException;
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 
+import 'package:my24_flutter_core/utils.dart';
+
 import 'package:shltr_flutter/login/pages/login.dart';
 import 'package:shltr_flutter/core/utils.dart';
 import 'package:shltr_flutter/core/i18n_mixin.dart';
@@ -139,7 +141,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
             return loadingNotice();
           }
 
-          Locale? locale = utils.lang2locale(snapshot.data);
+          Locale? locale = coreUtils.lang2locale(snapshot.data);
 
           return MaterialApp(
               localizationsDelegates: context.localizationDelegates,

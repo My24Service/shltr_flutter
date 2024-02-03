@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import 'package:my24_flutter_core/utils.dart';
+
 import 'package:shltr_flutter/core/utils.dart';
 import 'package:shltr_flutter/core/widgets.dart';
 import 'package:shltr_flutter/member/models/public/models.dart';
@@ -195,7 +197,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
   _passwordReset () async {
     final url = await utils.getUrl('/frontend/#/reset-password');
-    utils.launchURL(url.replaceAll('/api', ''));
+    coreUtils.launchURL(url.replaceAll('/api', ''));
   }
 
   _loginPressed () async {
