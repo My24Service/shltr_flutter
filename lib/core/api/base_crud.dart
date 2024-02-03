@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
 
-import 'package:shltr_flutter/core/api/api.dart';
+import 'package:shltr_flutter/core/api/api_mixin.dart';
 import 'package:shltr_flutter/core/models/models.dart';
 import 'package:shltr_flutter/core/models/base_models.dart';
 import '../i18n_mixin.dart';

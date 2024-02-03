@@ -1,84 +1,158 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:shltr_flutter/core/utils.dart';
-import 'package:shltr_flutter/core/models/models.dart';
 import 'package:shltr_flutter/core/widgets.dart';
-import 'package:shltr_flutter/company/models/models.dart';
+import 'package:shltr_flutter/member/models/public/models.dart';
+import 'package:shltr_flutter/home/blocs/home_bloc.dart';
+import 'package:shltr_flutter/home/blocs/home_states.dart';
 
+// we have three modes of entry:
+// - not logged in, no member
+// - not logged in, member
+// - logged in
+class LoginWidget extends StatefulWidget {
+  final Member? member;
+  final dynamic user;
 
-
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  const LoginWidget({
+    super.key,
+    required this.member,
+    required this.user
+  });
 
   @override
-  State<StatefulWidget> createState() => _LoginViewState();
+  State<StatefulWidget> createState() => _LoginWidgetState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginWidgetState extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     _addListeners();
 
-    return ModalProgressHUD(inAsyncCall: _saving, child: Container(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          _buildTextFields(),
-          const Divider(),
-          _buildButtons(),
-        ],
-      ),
-    ));
+    return Container(
+        padding: const EdgeInsets.all(16.0),
+        child: _buildBodyColumn(),
+      );
   }
-
-  final TextEditingController _emailFilter = TextEditingController();
-  final TextEditingController _passwordFilter = TextEditingController();
+  final TextEditingController _companycodeController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   String _username = "";
   String _password = "";
-  bool _saving = false;
 
   @override
   void dispose() {
-    _emailFilter.dispose();
-    _passwordFilter.dispose();
+    _companycodeController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
   _addListeners() {
-    _emailFilter.addListener(_emailListen);
-    _passwordFilter.addListener(_passwordListen);
+    _emailController.addListener(_emailListen);
+    _passwordController.addListener(_passwordListen);
   }
 
   void _emailListen() {
-    if (_emailFilter.text.isEmpty) {
+    if (_emailController.text.isEmpty) {
       _username = "";
     } else {
-      _username = _emailFilter.text;
+      _username = _emailController.text;
     }
   }
 
   void _passwordListen() {
-    if (_passwordFilter.text.isEmpty) {
+    if (_passwordController.text.isEmpty) {
       _password = "";
     } else {
-      _password = _passwordFilter.text;
+      _password = _passwordController.text;
     }
   }
+  
+  Widget _buildBodyColumn() {
+    if (!widget.user) {
+      Column(
+        children: <Widget>[
+          _buildMemberSection(),
+          const Divider(),
+          _buildLoginTextFields(),
+          const Divider(),
+          _buildLoginButtons(),
+        ],
+      );
+    }
 
-  Widget _buildTextFields() {
+    return Column(
+      children: <Widget>[
+        _buildMemberSection(),
+        const Divider(),
+        _buildLoggedInButtons()
+      ],
+    );
+  }
+
+  Widget _buildLogo(String companylogoUrl) => SizedBox(
+      width: 100,
+      height: 210,
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+              Image.network(companylogoUrl, cacheWidth: 100),
+          ]
+      )
+  );
+
+  Widget _buildMemberSection() {
+    // member logo and info when entering the app with member data
+    if (widget.member != null) {
+      return Center(
+          child: Column(
+              children: [
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildLogo(widget.member!.companylogoUrl!),
+                      Flexible(
+                          child: buildMemberInfoCard(context, widget.member)
+                      )
+                    ]
+                ),
+              ]
+          )
+      );
+    }
+
+    // return manual entry else
+    return Center(
+      child: Column(
+        children: <Widget>[
+          TextField(
+            controller: _companycodeController,
+            decoration: InputDecoration(
+                labelText: 'login.companycode'.tr()
+            ),
+          )
+        ]
+      )
+    );
+  }
+
+  Widget _buildLoginTextFields() {
     return Column(
       children: <Widget>[
         TextField(
-          controller: _emailFilter,
+          controller: _emailController,
           decoration: InputDecoration(
               labelText: 'login.username'.tr()
           ),
         ),
         TextField(
-          controller: _passwordFilter,
+          controller: _passwordController,
           decoration: InputDecoration(
               labelText: 'login.password'.tr()
           ),
@@ -88,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Widget _buildButtons() {
+  Widget _buildLoginButtons() {
     return Column(
       children: <Widget>[
         createDefaultElevatedButton(
@@ -104,67 +178,44 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
+  Widget _buildLoggedInButtons() {
+    return Column(
+      children: <Widget>[
+        createDefaultElevatedButton(
+            'orders.list'.tr(),
+            _navOrders
+        ),
+      ],
+    );
+  }
+
+  _navOrders() {
+    // TODO
+  }
+
   _passwordReset () async {
     final url = await utils.getUrl('/frontend/#/reset-password');
     utils.launchURL(url.replaceAll('/api', ''));
   }
 
   _loginPressed () async {
-    final prefs = await SharedPreferences.getInstance();
+    final bloc = BlocProvider.of<HomeBloc>(context);
+    bloc.add(const HomeEvent(status: HomeEventStatus.doAsync));
 
-    setState(() {
-      _saving = true;
-    });
-
-    SlidingToken? resultToken = await utils.attemptLogIn(_username, _password);
-
-    if (resultToken == null) {
-      setState(() {
-        _saving = false;
-      });
-
-      if (context.mounted) {
-        await displayDialog(
-            context,
-            Text('login.dialog_error_title'.tr()),
-            Text('login.dialog_error_content'.tr())
-        );
+    if (widget.member == null) {
+      if (_companycodeController.text == "") {
+        // TODO show error
+        return;
       }
 
-      return;
-    }
-
-    // fetch user info and determine type
-    var userData = await utils.getUserInfo();
-    var userInfo = userData['user'];
-    // print(userInfo);
-
-    setState(() {
-      _saving = false;
-    });
-
-
-    // planning?
-    if (userInfo is PlanningUser) {
-      PlanningUser planningUser = userInfo;
-      prefs.setInt('user_id', planningUser.id!);
-      prefs.setString('email', planningUser.email!);
-      prefs.setString('first_name', planningUser.firstName!);
-      prefs.setString('submodel', 'planning_user');
-
-      // navigate to orders
-      // TODO go somewhere
-    }
-
-    // employee?
-    if (userInfo is EmployeeUser) {
-      EmployeeUser employeeUser = userInfo;
-      prefs.setInt('user_id', employeeUser.id!);
-      prefs.setString('email', employeeUser.email!);
-      prefs.setString('first_name', employeeUser.firstName!);
-      prefs.setString('submodel', 'branch_employee_user');
-      prefs.setInt('employee_branch', employeeUser.employee!.branch!);
-      // TODO go somewhere
+      bloc.add(HomeEvent(
+          status: HomeEventStatus.doLogin,
+          doLoginState: HomeDoLoginState(
+              companycode: _companycodeController.text,
+              userName: _username,
+              password: _password
+          )
+      ));
     }
   }
 }

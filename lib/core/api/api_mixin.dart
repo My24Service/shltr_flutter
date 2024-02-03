@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:shltr_flutter/core/models/models.dart';
+import 'package:shltr_flutter/app_config.dart';
 
 mixin ApiMixin {
   Map<String, String> getHeaders(String? token) {
@@ -58,10 +59,10 @@ mixin ApiMixin {
   }
 
   Future<SlidingToken?> refreshSlidingToken(http.Client httpClient) async {
-    SharedPreferences prefs0 = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final url = await getUrl('/jwt-token/refresh/');
-    final token = prefs0.getString('token');
+    final token = prefs.getString('token');
     final authHeaders = getHeaders(token);
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(authHeaders);
@@ -80,7 +81,6 @@ mixin ApiMixin {
       SlidingToken token = SlidingToken.fromJson(json.decode(response.body));
       // token.checkIsTokenExpired();
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token.token!);
 
       return token;
@@ -89,27 +89,15 @@ mixin ApiMixin {
     return null;
   }
 
-  Future<int> getPageSize() async {
-    final prefs = await SharedPreferences.getInstance();
-    int? pageSize = prefs.getInt('pageSize');
-    if (pageSize == null) {
-      return 20;
-    }
-
-    return pageSize;
-  }
-
   Future<String> getUrl(String? path) async {
+    AppConfig config = AppConfig();
+
     final prefs = await SharedPreferences.getInstance();
     String? companycode = prefs.getString('companycode');
-    String? apiBaseUrl = prefs.getString('apiBaseUrl');
+    String apiBaseUrl = config.apiBaseUrl;
 
     if (companycode == null || companycode == '') {
       companycode = 'demo';
-    }
-
-    if (apiBaseUrl == null || apiBaseUrl == '') {
-      apiBaseUrl = 'my24service-dev.com';
     }
 
     return 'https://$companycode.$apiBaseUrl/api$path';

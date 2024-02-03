@@ -67,3 +67,14 @@ Future<dynamic> displayDialog(BuildContext context, title, text) {
         return AlertDialog(title: Text(title), content: Text(text));
       });
 }
+
+createSnackBar(BuildContext context, String content) {
+  final snackBar = SnackBar(
+    content: Text(content),
+    duration: const Duration(seconds: 1),
+  );
+
+  // Find the ScaffoldMessenger in the widget tree
+  // and use it to show a SnackBar.
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}

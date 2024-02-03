@@ -15,7 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:shltr_flutter/core/api/api.dart';
+import 'package:shltr_flutter/core/api/api_mixin.dart';
 import 'package:shltr_flutter/core/models/models.dart';
 
 import 'package:shltr_flutter/company/models/models.dart';
@@ -156,39 +156,6 @@ class Utils with ApiMixin {
       prefs.setString('token', token.token!);
 
       return token;
-    }
-
-    return null;
-  }
-
-  Future<dynamic> getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    final url = await getUrl('/company/user-info-me/');
-    final token = prefs.getString('token');
-    final res = await _httpClient.get(
-        Uri.parse(url),
-        headers: getHeaders(token)
-    );
-
-    if (res.statusCode == 200) {
-      var userInfoData = json.decode(res.body);
-
-      if (userInfoData['submodel'] == 'planning_user') {
-        PlanningUser planningUser = PlanningUser.fromJson(userInfoData['user']);
-
-        return {
-          'user': planningUser,
-        };
-      }
-
-      if (userInfoData['submodel'] == 'employee_user') {
-        EmployeeUser employeeUser = EmployeeUser.fromJson(userInfoData['user']);
-
-        return {
-          'user': employeeUser,
-        };
-      }
     }
 
     return null;
@@ -363,39 +330,93 @@ class Utils with ApiMixin {
     return today.subtract(Duration(days: today.weekday - 1));
   }
 
-  Future<void> storeMemberInfo(
-      String companycode,
-      int pk,
-      String memberName,
-      String logoUrl,
-      bool hasBranches
-      ) async {
+  Future<Member?> getMember({withFetch = true, String? companycode}) async {
+    // check prefs first
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // generic prefs
-    await prefs.setString('companycode', companycode);
-    await prefs.setInt('member_pk', pk);
-    await prefs.setString('member_name', memberName);
-    await prefs.setString('member_logo_url', logoUrl);
-    await prefs.setBool('member_has_branches', hasBranches);
+    var memberData = prefs.getString('memberData');
+    if (memberData == null) {
+      if (!withFetch) {
+        return null;
+      }
 
-    // preferred member prefs
-    await prefs.setBool('skip_member_list', true);
-    await prefs.setInt('preferred_member_pk', pk);
-    await prefs.setString('preferred_companycode', companycode);
+      // fetch member by company code
+      MemberByCompanycodePublicApi memberApi = MemberByCompanycodePublicApi();
+      try {
+        Member member = await memberApi.get(companycode!);
+        await prefs.setString('memberData', member.toJson());
+
+        return member;
+      } catch (e) {
+        log.severe("Error fetching member public: $e");
+        return null;
+      }
+    } else {
+      return Member.fromJson(json.decode(memberData));
+    }
   }
 
-  Future<int?> getPreferredMemberPk() async {
+  Future<dynamic> getUserInfo({withFetch=true}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? preferredMemberPk = prefs.getInt('preferred_member_pk');
 
-    if (preferredMemberPk != null) {
-      return preferredMemberPk;
+    String? userInfoData = prefs.getString('userInfoData');
+    if (userInfoData == null) {
+      if (!withFetch) {
+        return null;
+      }
+
+      final url = await getUrl('/company/user-info-me/');
+      final token = prefs.getString('token');
+      final res = await _httpClient.get(
+          Uri.parse(url),
+          headers: getHeaders(token)
+      );
+
+      if (res.statusCode == 200) {
+        userInfoData = res.body;
+        await prefs.setString('userInfoData', userInfoData);
+      }
+    }
+
+    if (userInfoData == null) {
+      log.warning("Could not determine user");
+      return;
+    }
+
+    var userInfoDataDecoded = json.decode(userInfoData);
+
+    if (userInfoDataDecoded['submodel'] == 'planning_user') {
+      return PlanningUser.fromJson(userInfoDataDecoded['user']);
+    }
+
+    if (userInfoDataDecoded['submodel'] == 'employee_user') {
+      return EmployeeUser.fromJson(userInfoDataDecoded['user']);
     }
 
     return null;
   }
 
+  Future<String?> getLanguageCode(String? contextLanguageCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? languageCode;
+
+    // check the default language
+    if (!prefs.containsKey('preferred_language_code')) {
+      if (contextLanguageCode != null) {
+        log.info("Setting preferred language from device to: $contextLanguageCode");
+        await prefs.setString('preferred_language_code', contextLanguageCode);
+      } else {
+        log.info('not setting contextLanguageCode, it\'s null');
+      }
+    } else {
+      languageCode = prefs.getString('preferred_language_code');
+      if (languageCode != null) {
+        await prefs.setString('preferred_language_code', languageCode);
+      }
+    }
+
+    return prefs.getString('preferred_language_code');
+  }
 }
 
 Utils utils = Utils();
