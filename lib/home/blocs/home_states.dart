@@ -7,14 +7,16 @@ abstract class HomeBaseState extends Equatable {}
 class HomeState extends HomeBaseState {
   final dynamic user;
   final Member? member;
+  final Member? shltrMember;
 
   HomeState({
     required this.user,
     required this.member,
+    required this.shltrMember
   });
 
   @override
-  List<Object?> get props => [user, member];
+  List<Object?> get props => [user, member, shltrMember];
 }
 
 class HomeInitialState extends HomeBaseState {

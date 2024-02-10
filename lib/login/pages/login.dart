@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:shltr_flutter/core/i18n_mixin.dart';
+import 'package:my24_flutter_core/i18n.dart';
+
 import 'package:shltr_flutter/login/widgets/login.dart';
 import 'package:shltr_flutter/core/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({
+  final My24i18n i18n = My24i18n(basePath: "login");
+
+  LoginPage({
     super.key,
   });
 
@@ -17,7 +19,7 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with i18nMixin {
+class _LoginPageState extends State<LoginPage> {
   HomeBloc _initialCall() {
     HomeBloc bloc = HomeBloc();
     bloc.add(const HomeEvent(
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> with i18nMixin {
             builder: (context, state) {
               return Scaffold(
                 appBar: AppBar(
-                  title: Text('login.app_bar_title'.tr()),
+                  title: Text(widget.i18n.$trans('app_bar_title')),
                   centerTitle: true,
                 ),
                 body: _getBody(context, state),
@@ -50,21 +52,31 @@ class _LoginPageState extends State<LoginPage> with i18nMixin {
 
   void _handleListeners(BuildContext context, state) {
     if (state is HomeLoggedInState) {
-      createSnackBar(context, $trans('snackbar_logged_in'));
+      createSnackBar(context, widget.i18n.$trans('snackbar_logged_in'));
     }
 
-    // TODO handle login errors
-    //             Text('login.dialog_error_title'.tr()),
-    //             Text('login.dialog_error_content'.tr())
+    if (state is HomeLoginErrorState) {
+      createSnackBar(context, widget.i18n.$trans('snackbar_error_logging_in'));
+    }
   }
 
   Widget _getBody(context, state) {
     if (state is HomeState) {
-      return LoginWidget(user: state.user, member: state.member);
+      return LoginWidget(
+        user: state.user,
+        member: state.member,
+        shltrMember: state.shltrMember,
+        i18n: widget.i18n,
+      );
     }
 
     if (state is HomeLoggedInState) {
-      return LoginWidget(user: state.user, member: state.member);
+      return LoginWidget(
+        user: state.user,
+        member: state.member,
+        shltrMember: null,
+        i18n: widget.i18n,
+      );
     }
 
     return loadingNotice();

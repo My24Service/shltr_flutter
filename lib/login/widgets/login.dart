@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 
+import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/utils.dart';
+import 'package:my24_flutter_member_models/public/models.dart';
 
 import 'package:shltr_flutter/core/utils.dart';
 import 'package:shltr_flutter/core/widgets.dart';
-import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 
@@ -17,11 +17,15 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 class LoginWidget extends StatefulWidget {
   final Member? member;
   final dynamic user;
+  final Member? shltrMember;
+  final My24i18n i18n;
 
   const LoginWidget({
     super.key,
     required this.member,
-    required this.user
+    required this.user,
+    required this.shltrMember,
+    required this.i18n
   });
 
   @override
@@ -131,15 +135,22 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     // return manual entry else
     return Center(
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: _companycodeController,
-            decoration: InputDecoration(
-                labelText: 'login.companycode'.tr()
-            ),
-          )
-        ]
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildLogo(widget.shltrMember!.companylogoUrl!),
+              Column(
+              children: <Widget>[
+                TextField(
+                  controller: _companycodeController,
+                  decoration: InputDecoration(
+                      labelText: widget.i18n.$trans('companycode')
+                  ),
+                )
+              ]
+            )
+          ]
       )
     );
   }
@@ -150,13 +161,13 @@ class _LoginWidgetState extends State<LoginWidget> {
         TextField(
           controller: _emailController,
           decoration: InputDecoration(
-              labelText: 'login.username'.tr()
+              labelText: widget.i18n.$trans('username')
           ),
         ),
         TextField(
           controller: _passwordController,
           decoration: InputDecoration(
-              labelText: 'login.password'.tr()
+              labelText: widget.i18n.$trans('password')
           ),
           obscureText: true,
         )
@@ -168,12 +179,12 @@ class _LoginWidgetState extends State<LoginWidget> {
     return Column(
       children: <Widget>[
         createDefaultElevatedButton(
-            'login.button_login'.tr(),
+            widget.i18n.$trans('button_login'),
             _loginPressed
         ),
         const SizedBox(height: 30),
         createElevatedButtonColored(
-            'login.button_forgot_password'.tr(),
+            widget.i18n.$trans('button_forgot_password'),
             _passwordReset
         ),
       ],
@@ -184,7 +195,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     return Column(
       children: <Widget>[
         createDefaultElevatedButton(
-            'orders.list'.tr(),
+            widget.i18n.$trans('order_list'),
             _navOrders
         ),
       ],
@@ -200,13 +211,18 @@ class _LoginWidgetState extends State<LoginWidget> {
     coreUtils.launchURL(url.replaceAll('/api', ''));
   }
 
-  _loginPressed () async {
+  _loginPressed (BuildContext context) async {
     final bloc = BlocProvider.of<HomeBloc>(context);
     bloc.add(const HomeEvent(status: HomeEventStatus.doAsync));
 
     if (widget.member == null) {
       if (_companycodeController.text == "") {
-        // TODO show error
+        displayDialog(
+            context,
+            widget.i18n.$trans('error_dialog_title_no_companycode'),
+            widget.i18n.$trans('error_dialog_content_no_companycode')
+        );
+
         return;
       }
 

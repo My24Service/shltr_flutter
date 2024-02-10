@@ -54,10 +54,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
     var user = await utils.getUserInfo(withFetch: isLoggedIn);
     Member? member = await utils.getMember(withFetch: false);
+    Member? shltrMember = await utils.getShltr();
 
     emit(HomeState(
         member: member,
-        user: user
+        user: user,
+        shltrMember: shltrMember
     ));
   }
 

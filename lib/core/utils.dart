@@ -71,6 +71,32 @@ class Utils with CoreApiMixin {
     }
   }
 
+  Future<Member?> getShltr({withFetch = true}) async {
+    // check prefs first
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var shltrData = prefs.getString('shltrData');
+    if (shltrData == null) {
+      if (!withFetch) {
+        return null;
+      }
+
+      // fetch member by company code
+      MemberByCompanycodePublicApi memberApi = MemberByCompanycodePublicApi();
+      try {
+        Member member = await memberApi.get('shltr');
+        await prefs.setString('shltrData', member.toJson());
+
+        return member;
+      } catch (e) {
+        log.severe("Error fetching member public: $e");
+        return null;
+      }
+    } else {
+      return Member.fromJson(json.decode(shltrData));
+    }
+  }
+
   Future<dynamic> getUserInfo({withFetch=true}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

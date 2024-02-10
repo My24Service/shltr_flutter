@@ -161,7 +161,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   ),
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
-              home: const Scaffold(
+              home: Scaffold(
                 body: LoginPage(),
               )
           );

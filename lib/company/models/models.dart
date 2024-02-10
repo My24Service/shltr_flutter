@@ -1,4 +1,4 @@
-
+// TODO create directories for all models with API
 class MinimalUser {
   final int? id;
   final String? email;

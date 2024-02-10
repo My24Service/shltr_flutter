@@ -304,12 +304,16 @@
 
   "login": {
     "app_bar_title": "Login",
+    "snackbar_logged_in": "Je bent nu ingelogd",
+    "snackbar_error_logging_in": "Fout bij het inloggen",
+    "companycode": "Bedrijf",
     "username": "Gebruikersnaam",
     "password": "Wachtwoord",
     "button_login": "Login",
     "button_forgot_password": "Wachtwoord vergeten?",
-    "dialog_error_title": "Er ging iets fout",
-    "dialog_error_content": "Er is geen account gevonden met deze gebruikersnaam en wachtwoord"
+    "order_list": "Orders",
+    "error_dialog_title_no_companycode": "Geen bedrijf",
+    "error_dialog_content_no_companycode": "Voer een bedrijf in"
   },
 
   "interact": {
