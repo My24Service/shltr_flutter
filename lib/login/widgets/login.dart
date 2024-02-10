@@ -6,7 +6,7 @@ import 'package:my24_flutter_core/utils.dart';
 
 import 'package:shltr_flutter/core/utils.dart';
 import 'package:shltr_flutter/core/widgets.dart';
-import 'package:shltr_flutter/member/models/public/models.dart';
+import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 

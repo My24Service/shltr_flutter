@@ -154,7 +154,11 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   ),
               locale: locale,
               theme: ThemeData(
-                  primarySwatch: colorCustom,
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: colorCustom,
+                    primary: colorCustom,
+                    brightness: Brightness.light,
+                  ),
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
               home: const Scaffold(

@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _flutterfire_internals
-      sha256: d2e3bdcf79345363e16ce1cd590d94e33b03f2a7810fd71541ac7568c9793abe
+      sha256: "1a52f1afae8ab7ac4741425114713bdbba802f1ce1e0648e167ffcc6e05e96cf"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.18"
+    version: "1.3.21"
   archive:
     dependency: transitive
     description:
@@ -213,10 +213,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: d51386e4ac38e226f4a9293c2f7e0aa0b0c5dc990ad230aaf783b728666d5e09
+      sha256: "7e049e32a9d347616edb39542cf92cd53fdb4a99fb6af0a0bff327c14cd76445"
       url: "https://pub.dev"
     source: hosted
-    version: "2.25.1"
+    version: "2.25.4"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -229,34 +229,34 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "8b70f6e50248be70b9e8cb012401bbd040ddf284a4eeab5425da86ed317d8ace"
+      sha256: "57e61d6010e253b36d38191cefd6199d7849152cdcd234b61ca290cdb278a0ba"
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.1"
+    version: "2.11.4"
   firebase_messaging:
     dependency: "direct main"
     description:
       name: firebase_messaging
-      sha256: "2d43d27a406098470777a91d8339dcede8bf78b84a7e164fb7c6d28bdccb18e2"
+      sha256: "9c97b20c012542252a8853f11334efd833ddae83551fe37d27f87d885c655038"
       url: "https://pub.dev"
     source: hosted
-    version: "14.7.12"
+    version: "14.7.15"
   firebase_messaging_platform_interface:
     dependency: transitive
     description:
       name: firebase_messaging_platform_interface
-      sha256: "50defd18f08de4543273d7a8bea443890e485ba79d4e34eb7c113ebb108ba796"
+      sha256: d464b255e922c7915dc4b0ebc305ebad4e1f130519bee3d6e568ef2ea1613a4b
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.20"
+    version: "4.5.23"
   firebase_messaging_web:
     dependency: transitive
     description:
       name: firebase_messaging_web
-      sha256: be0d4b466519e0ffe9d271d9d97b7f5f8510a4a5e0205051d49c8babefcbb83d
+      sha256: f3f71aeec719ec1fe2c99f75cd74d00d33f1c240cf1e402cc9d43883e84f935a
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.1"
+    version: "3.6.4"
   fixnum:
     dependency: transitive
     description:
@@ -282,10 +282,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_branch_sdk
-      sha256: "6c9c2bc04c9aed1d522b23c2a516f9fcc0a35fd9bf9ebefccf638cc00b74a0c1"
+      sha256: "27e77f2d35aa1e1f20664383d1bc0e09c190be5bfa7eb503c0ea7e83b6910865"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.2"
+    version: "7.0.4"
   flutter_cache_manager:
     dependency: "direct main"
     description:
@@ -337,10 +337,10 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
-      sha256: afe2393715372e3901f789422a8a527fd78cfd423783e721c7e9ae826b081ece
+      sha256: "136f1c97e1903366393bda514c5d9e98843418baea52899aa45edae9af8a5cd6"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.1"
+    version: "4.5.2"
   geolocator_apple:
     dependency: transitive
     description:
@@ -490,10 +490,28 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6dbdb5098a8324120b1fe2014a663660768baaee"
+      resolved-ref: "6e5d7412336fe9d2a5fe2b74d74340737dc45816"
       url: "https://github.com/My24Service/my24_flutter_core.git"
     source: git
+    version: "0.0.4"
+  my24_flutter_equipment:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: e4b2d98696d8fd4f8573d43ee2814ea57ff4136d
+      url: "https://github.com/My24Service/my24_flutter_equipment.git"
+    source: git
     version: "0.0.1"
+  my24_flutter_member_models:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "30a4bb2a6c4be5b853a92cd08c505f630f512efe"
+      url: "https://github.com/My24Service/my24_flutter_member_models.git"
+    source: git
+    version: "0.0.2"
   nested:
     dependency: transitive
     description:
@@ -514,10 +532,10 @@ packages:
     dependency: "direct main"
     description:
       name: open_filex
-      sha256: a6c95237767c5647e68b71a476602fcf4f1bfc530c126265e53addae22ef5fc2
+      sha256: "74e2280754cf8161e860746c3181db2c996d6c1909c7057b738ede4a469816b8"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.4"
+    version: "4.4.0"
   os_detect:
     dependency: transitive
     description:

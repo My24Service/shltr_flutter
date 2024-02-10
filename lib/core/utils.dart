@@ -7,8 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my24_flutter_core/api/api_mixin.dart';
 
 import 'package:shltr_flutter/company/models/models.dart';
-import 'package:shltr_flutter/member/models/public/api.dart';
-import 'package:shltr_flutter/member/models/public/models.dart';
+import 'package:my24_flutter_member_models/public/api.dart';
+import 'package:my24_flutter_member_models/public/models.dart';
 
 final log = Logger('Utils');
 
