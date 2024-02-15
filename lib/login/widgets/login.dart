@@ -5,10 +5,12 @@ import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 
-import 'package:shltr_flutter/core/utils.dart';
-import 'package:shltr_flutter/core/widgets.dart';
+import 'package:shltr_flutter/common/utils.dart';
+import 'package:shltr_flutter/common/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
+
+import '../../company/models/models.dart';
 
 // we have three modes of entry:
 // - not logged in, no member
@@ -16,15 +18,13 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 // - logged in
 class LoginWidget extends StatefulWidget {
   final Member? member;
-  final dynamic user;
-  final Member? shltrMember;
+  final BaseUser? user;
   final My24i18n i18n;
 
   const LoginWidget({
     super.key,
     required this.member,
     required this.user,
-    required this.shltrMember,
     required this.i18n
   });
 
@@ -39,7 +39,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     return Container(
         padding: const EdgeInsets.all(16.0),
-        child: _buildBodyColumn(),
+        child: _buildBodyColumn(context),
       );
   }
   final TextEditingController _companycodeController = TextEditingController();
@@ -77,15 +77,14 @@ class _LoginWidgetState extends State<LoginWidget> {
     }
   }
   
-  Widget _buildBodyColumn() {
-    if (!widget.user) {
-      Column(
+  Widget _buildBodyColumn(BuildContext context) {
+    if (widget.user == null) {
+      return Column(
         children: <Widget>[
           _buildMemberSection(),
-          const Divider(),
           _buildLoginTextFields(),
           const Divider(),
-          _buildLoginButtons(),
+          _buildLoginButtons(context),
         ],
       );
     }
@@ -99,7 +98,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  Widget _buildLogo(String companylogoUrl) => SizedBox(
+  Widget _buildLogo(String companylogoUrl) => SizedBox( // Image.asset("assets/images/empty_profile.png")
       width: 100,
       height: 210,
       child: Row(
@@ -108,6 +107,19 @@ class _LoginWidgetState extends State<LoginWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
               Image.network(companylogoUrl, cacheWidth: 100),
+          ]
+      )
+  );
+
+  Widget _buildShltrLogo() => SizedBox(
+      width: 100,
+      height: 210,
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset("assets/icon/icon.png", cacheWidth: 100),
           ]
       )
   );
@@ -135,22 +147,18 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     // return manual entry else
     return Center(
-      child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildLogo(widget.shltrMember!.companylogoUrl!),
-              Column(
-              children: <Widget>[
-                TextField(
-                  controller: _companycodeController,
-                  decoration: InputDecoration(
-                      labelText: widget.i18n.$trans('companycode')
-                  ),
-                )
-              ]
-            )
-          ]
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildShltrLogo(),
+          TextField(
+              controller: _companycodeController,
+              decoration: InputDecoration(
+                  labelText: widget.i18n.$trans('companycode')
+              ),
+            ),
+        ],
       )
     );
   }
@@ -175,12 +183,12 @@ class _LoginWidgetState extends State<LoginWidget> {
     );
   }
 
-  Widget _buildLoginButtons() {
+  Widget _buildLoginButtons(BuildContext context) {
     return Column(
       children: <Widget>[
         createDefaultElevatedButton(
             widget.i18n.$trans('button_login'),
-            _loginPressed
+            () async { _loginPressed(context); }
         ),
         const SizedBox(height: 30),
         createElevatedButtonColored(

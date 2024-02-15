@@ -1,13 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:logging/logging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my24_flutter_core/utils.dart';
-
-import 'package:shltr_flutter/core/utils.dart';
-import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
+
+import 'package:shltr_flutter/common/utils.dart';
+import 'package:shltr_flutter/home/blocs/home_states.dart';
+
+import '../../company/models/models.dart';
 
 enum HomeEventStatus {
   getPreferences,
@@ -26,8 +27,6 @@ class HomeEvent {
 }
 
 class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
-  late SharedPreferences prefs;
-
   HomeBloc() : super(HomeInitialState()) {
     on<HomeEvent>((event, emit) async {
       if (event.status == HomeEventStatus.getPreferences) {
@@ -48,30 +47,33 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
   }
 
   Future<void> _handleGetPreferencesState(HomeEvent event, Emitter<HomeBaseState> emit) async {
-    prefs = await SharedPreferences.getInstance();
+    try {
+      final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
+      final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
+      final Member? member = await utils.getMember(withFetch: false);
 
-    final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
-
-    var user = await utils.getUserInfo(withFetch: isLoggedIn);
-    Member? member = await utils.getMember(withFetch: false);
-    Member? shltrMember = await utils.getShltr();
-
-    emit(HomeState(
-        member: member,
-        user: user,
-        shltrMember: shltrMember
-    ));
+      emit(HomeState(
+          member: member,
+          user: user,
+      ));
+    } catch(e) {
+      print(e);
+      throw e;
+      emit(HomeLoginErrorState(
+          error: e.toString()
+      ));
+    }
   }
 
   Future<void> _handleDoLoginState(HomeEvent event, Emitter<HomeBaseState> emit) async {
     try {
-      Member? member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
+      final Member? member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
       await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
-      var user = await utils.getUserInfo();
+      final BaseUser? user = await utils.getUserInfo();
 
       emit(HomeLoggedInState(
           member: member!,
-          user: user
+          user: user,
       ));
     } catch(e) {
       emit(HomeLoginErrorState(

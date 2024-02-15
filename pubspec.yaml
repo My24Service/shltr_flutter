@@ -28,6 +28,7 @@ dependencies:
   upgrader: ^9.0.0
   url_launcher: ^6.2.4
   logging: ^1.2.0
+  flutter_typeahead: ^4.0.0
   my24_flutter_core:
 #    path: ../my24_flutter_core
     git:
@@ -40,6 +41,11 @@ dependencies:
     #    path: ../my24_flutter_member_models
     git:
       url: https://github.com/My24Service/my24_flutter_member_models.git
+  my24_flutter_orders:
+        path: ../my24_flutter_orders
+#    git:
+#      url: https://github.com/My24Service/my24_flutter_member_models.git
+
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
@@ -51,6 +57,7 @@ flutter:
   uses-material-design: true
   # Our translation resources
   assets:
+    - assets/icon/icon.png
     - resources/langs/
 
 flutter_launcher_icons:

@@ -2,21 +2,21 @@ import 'package:equatable/equatable.dart';
 
 import 'package:my24_flutter_member_models/public/models.dart';
 
+import '../../company/models/models.dart';
+
 abstract class HomeBaseState extends Equatable {}
 
 class HomeState extends HomeBaseState {
-  final dynamic user;
+  final BaseUser? user;
   final Member? member;
-  final Member? shltrMember;
 
   HomeState({
     required this.user,
     required this.member,
-    required this.shltrMember
   });
 
   @override
-  List<Object?> get props => [user, member, shltrMember];
+  List<Object?> get props => [user, member];
 }
 
 class HomeInitialState extends HomeBaseState {
@@ -25,7 +25,7 @@ class HomeInitialState extends HomeBaseState {
 }
 
 class HomeLoggedInState extends HomeBaseState {
-  final dynamic user;
+  final BaseUser? user;
   final Member member;
 
   HomeLoggedInState({

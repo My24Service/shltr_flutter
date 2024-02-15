@@ -1,4 +1,9 @@
 // TODO create directories for all models with API
+
+class BaseUser {
+
+}
+
 class MinimalUser {
   final int? id;
   final String? email;
@@ -59,7 +64,7 @@ class StreamInfo {
   }
 }
 
-class PlanningUser {
+class PlanningUser extends BaseUser {
   final int? id;
   final String? email;
   final String? username;
@@ -103,7 +108,7 @@ class EmployeeProperty {
   }
 }
 
-class EmployeeUser {
+class EmployeeUser extends BaseUser {
   final int? id;
   final String? email;
   final String? username;

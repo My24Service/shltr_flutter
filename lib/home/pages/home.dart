@@ -10,9 +10,9 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 import 'package:my24_flutter_core/utils.dart';
 
 import 'package:shltr_flutter/login/pages/login.dart';
-import 'package:shltr_flutter/core/utils.dart';
-import 'package:shltr_flutter/core/i18n_mixin.dart';
-import 'package:shltr_flutter/core/widgets.dart';
+import 'package:shltr_flutter/common/utils.dart';
+import 'package:shltr_flutter/common/i18n_mixin.dart';
+import 'package:shltr_flutter/common/widgets.dart';
 
 final log = Logger('ShltrApp');
 
