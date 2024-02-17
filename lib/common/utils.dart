@@ -14,6 +14,7 @@ final log = Logger('Utils');
 
 class Utils with CoreApiMixin {
   MemberDetailPublicApi memberApi = MemberDetailPublicApi();
+  MemberByCompanycodePublicApi memberByCompanycodeApi = MemberByCompanycodePublicApi();
 
   // default and settable for tests
   http.Client _httpClient = http.Client();
@@ -63,9 +64,8 @@ class Utils with CoreApiMixin {
       }
 
       // fetch member by company code
-      MemberByCompanycodePublicApi memberApi = MemberByCompanycodePublicApi();
       try {
-        Member member = await memberApi.get(companycode);
+        Member member = await memberByCompanycodeApi.get(companycode);
         await prefs.setString('memberData', member.toJson());
         await prefs.setString('companycode', member.companycode!);
 
