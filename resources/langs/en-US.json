@@ -321,7 +321,6 @@
     "snackbar_logged_in": "You are now logged in",
     "snackbar_error_logging_in": "Error logging you in",
     "typeahead_label_search_company": "Search company",
-    "companycode": "Company",
     "username": "Username",
     "password": "Password",
     "button_login": "Login",
