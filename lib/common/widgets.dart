@@ -8,7 +8,7 @@ Widget loadingNotice() {
 
 ElevatedButton createDefaultElevatedButton(String text, Function callback) {
   return ElevatedButton(
-    style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
+    style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
     onPressed: callback as void Function()?,
     child: Text(text),
   );
@@ -28,7 +28,7 @@ ElevatedButton createElevatedButtonColored(String text, Function callback,
 
 Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
   height: 200,
-  width: 1000,
+  width: 300,
   child: Center(
     child: Column(
       mainAxisSize: MainAxisSize.max,

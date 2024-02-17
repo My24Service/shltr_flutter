@@ -27,6 +27,9 @@ class HomeEvent {
 }
 
 class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
+  final Utils utils = Utils();
+  final CoreUtils coreUtils = CoreUtils();
+
   HomeBloc() : super(HomeInitialState()) {
     on<HomeEvent>((event, emit) async {
       if (event.status == HomeEventStatus.getPreferences) {
@@ -50,7 +53,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
     try {
       final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
       final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
-      final Member? member = await utils.getMember(withFetch: false);
+      final Member? member = await utils.getMember(withFetch: true);
 
       emit(HomeState(
           member: member,
@@ -65,8 +68,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
   Future<void> _handleDoLoginState(HomeEvent event, Emitter<HomeBaseState> emit) async {
     try {
-      final Member? member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
       await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
+      final Member? member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
       final BaseUser? user = await utils.getUserInfo();
 
       emit(HomeLoggedInState(

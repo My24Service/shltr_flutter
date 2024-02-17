@@ -50,16 +50,24 @@ class Utils with CoreApiMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var memberData = prefs.getString('memberData');
-    if (memberData == null) {
+    if (memberData == null || memberData == "{}") {
       if (!withFetch) {
+        return null;
+      }
+
+      companycode ??= prefs.getString('companycode');
+
+      // still null?
+      if (companycode == null) {
         return null;
       }
 
       // fetch member by company code
       MemberByCompanycodePublicApi memberApi = MemberByCompanycodePublicApi();
       try {
-        Member member = await memberApi.get(companycode!);
+        Member member = await memberApi.get(companycode);
         await prefs.setString('memberData', member.toJson());
+        await prefs.setString('companycode', member.companycode!);
 
         return member;
       } catch (e) {
@@ -75,30 +83,11 @@ class Utils with CoreApiMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.remove('token');
+    prefs.remove('userInfoData');
+    prefs.remove('memberData');
+    prefs.remove('companycode');
 
     return true;
-  }
-
-  Future<Member> getShltr() async {
-    // check prefs first
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    var shltrData = prefs.getString('shltrData');
-    if (shltrData == null) {
-      // fetch member by company code
-      MemberByCompanycodePublicApi memberApi = MemberByCompanycodePublicApi();
-      try {
-        Member member = await memberApi.get('shltr');
-        await prefs.setString('shltrData', member.toJson());
-
-        return member;
-      } catch (e) {
-        log.severe("Error fetching member public: $e");
-        throw "Error fetching shltr member";
-      }
-    } else {
-      return Member.fromJson(json.decode(shltrData));
-    }
   }
 
   Future<dynamic> getUserInfo({withFetch=true}) async {

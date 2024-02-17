@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/services.dart' show PlatformException;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 
@@ -13,6 +15,9 @@ import 'package:shltr_flutter/login/pages/login.dart';
 import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/common/i18n_mixin.dart';
 import 'package:shltr_flutter/common/widgets.dart';
+
+import '../../app_config.dart';
+import '../blocs/home_bloc.dart';
 
 final log = Logger('ShltrApp');
 
@@ -30,6 +35,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
+    _setBasePrefs();
     _handleIncomingLinks();
     _handleInitialUri();
     _listenDynamicLinks();
@@ -116,6 +122,18 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     }
   }
 
+  Future<bool> _setBasePrefs() async {
+    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+
+    AppConfig config = kDebugMode ? AppConfig(protocol: "http") : AppConfig();
+
+    await sharedPrefs.setString('apiBaseUrl', config.apiBaseUrl);
+    await sharedPrefs.setInt('pageSize', config.pageSize);
+    await sharedPrefs.setString('apiProtocol', config.protocol);
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     const themeColor = Color.fromARGB(255, 48, 191, 191);
@@ -162,7 +180,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
               home: Scaffold(
-                body: LoginPage(),
+                body: LoginPage(bloc: HomeBloc()),
               )
           );
         },

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
+// import 'package:shltr_flutter/common/utils.dart';
 
 import 'firebase_options.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
@@ -18,6 +19,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // await utils.logout();
 
   Logger.root.onRecord.listen((record) {
     if (kDebugMode) {

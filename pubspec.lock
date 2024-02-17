@@ -746,7 +746,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1f092ad51eb0831a35286a587d983603f3b617f2"
+      resolved-ref: "4216b6772d7fea5af8294e9677e44d10c1b767a4"
       url: "https://github.com/My24Service/my24_flutter_core.git"
     source: git
     version: "0.0.4"
@@ -764,7 +764,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "30a4bb2a6c4be5b853a92cd08c505f630f512efe"
+      resolved-ref: eef7f982915c1c06fa1d33b010275d39d78ae5f4
       url: "https://github.com/My24Service/my24_flutter_member_models.git"
     source: git
     version: "0.0.2"

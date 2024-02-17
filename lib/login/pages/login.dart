@@ -10,11 +10,14 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 
 class LoginPage extends StatelessWidget {
   final My24i18n i18n = My24i18n(basePath: "login");
+  final HomeBloc bloc;
 
-  LoginPage({super.key});
+  LoginPage({
+    super.key,
+    required this.bloc
+  });
 
   HomeBloc _initialCall() {
-    HomeBloc bloc = HomeBloc();
     bloc.add(const HomeEvent(
         status: HomeEventStatus.getPreferences
     ));
@@ -54,15 +57,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _getBody(context, state) {
-    if (state is HomeState) {
-      return LoginWidget(
-        user: state.user,
-        member: state.member,
-        i18n: i18n,
-      );
-    }
-
-    if (state is HomeLoggedInState) {
+    if (state is HomeState || state is HomeLoggedInState || state is HomeLoginErrorState) {
       return LoginWidget(
         user: state.user,
         member: state.member,
