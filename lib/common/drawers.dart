@@ -56,7 +56,7 @@ ListTile listTileOrderList(BuildContext context, String text) {
           MaterialPageRoute(
               builder: (context) => OrderListPage(
                 bloc: OrderBloc(),
-                fetchMode: OrderEventStatus.FETCH_ALL,
+                fetchMode: OrderEventStatus.fetchAll,
               )
           )
       );
@@ -75,7 +75,7 @@ ListTile listTileOrdersUnacceptedPage(BuildContext context, String text) {
           MaterialPageRoute(
               builder: (context) => OrderListPage(
                 bloc: OrderBloc(),
-                fetchMode: OrderEventStatus.FETCH_UNACCEPTED,
+                fetchMode: OrderEventStatus.fetchUnaccepted,
               )
           )
       );
@@ -92,7 +92,7 @@ ListTile listTileOrderPastList(BuildContext context, String text) {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => OrderListPage(
               bloc: OrderBloc(),
-              fetchMode: OrderEventStatus.FETCH_PAST,
+              fetchMode: OrderEventStatus.fetchPast,
             )
           )
       );
@@ -109,7 +109,7 @@ Widget createPlanningDrawer(BuildContext context, SharedPreferences sharedPrefs)
     // space to fit everything.
     child: ListView(
       // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       children: <Widget>[
         createDrawerHeader(),
         listTileOrderList(
@@ -118,7 +118,7 @@ Widget createPlanningDrawer(BuildContext context, SharedPreferences sharedPrefs)
         listTileOrderPastList(context,
             My24i18n.tr('utils.drawer_planning_orders_past')),
         // listTileUserWorkHoursList(context, 'utils.drawer_planning_workhours'.tr()),
-        Divider(),
+        const Divider(),
         // listTilePreferences(context),
         listTileLogout(context),
       ],
@@ -135,7 +135,7 @@ Widget createEmployeeDrawer(BuildContext context, SharedPreferences sharedPrefs)
     // space to fit everything.
     child: ListView(
       // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       children: <Widget>[
         createDrawerHeader(),
         listTileOrderList(
@@ -144,7 +144,7 @@ Widget createEmployeeDrawer(BuildContext context, SharedPreferences sharedPrefs)
             My24i18n.tr('utils.drawer_employee_orders_unaccepted')),
         listTileOrderPastList(context,
             My24i18n.tr('utils.drawer_employee_orders_past')),
-        Divider(),
+        const Divider(),
         // listTilePreferences(context),
         listTileLogout(context),
       ],
@@ -155,11 +155,11 @@ Widget createEmployeeDrawer(BuildContext context, SharedPreferences sharedPrefs)
 Future<Widget?> getDrawerForUser(BuildContext context) async {
   String? submodel = await coreUtils.getUserSubmodel();
   SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-  if (submodel == 'planning_user') {
+  if (submodel == 'planning_user' && context.mounted) {
     return createPlanningDrawer(context, sharedPrefs);
   }
 
-  if (submodel == 'branch_employee_user') {
+  if (submodel == 'branch_employee_user' && context.mounted) {
     return createEmployeeDrawer(context, sharedPrefs);
   }
 
@@ -169,11 +169,11 @@ Future<Widget?> getDrawerForUser(BuildContext context) async {
 Future<Widget?> getDrawerForUserWithSubmodelLocal(BuildContext context, String? submodel) async {
   SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
 
-  if (submodel == 'planning_user') {
+  if (submodel == 'planning_user' && context.mounted) {
     return createPlanningDrawer(context, sharedPrefs);
   }
 
-  if (submodel == 'branch_employee_user') {
+  if (submodel == 'branch_employee_user' && context.mounted) {
     return createEmployeeDrawer(context, sharedPrefs);
   }
 

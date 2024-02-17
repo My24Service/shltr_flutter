@@ -82,7 +82,6 @@ class Utils with CoreApiMixin {
   Future<Member> getShltr() async {
     // check prefs first
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("HOI");
 
     var shltrData = prefs.getString('shltrData');
     if (shltrData == null) {
@@ -98,7 +97,6 @@ class Utils with CoreApiMixin {
         throw "Error fetching shltr member";
       }
     } else {
-      print("shltrData from prefs: $shltrData");
       return Member.fromJson(json.decode(shltrData));
     }
   }

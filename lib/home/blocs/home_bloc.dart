@@ -57,8 +57,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
           user: user,
       ));
     } catch(e) {
-      print(e);
-      throw e;
       emit(HomeLoginErrorState(
           error: e.toString()
       ));

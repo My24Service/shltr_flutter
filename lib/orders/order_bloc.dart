@@ -1,6 +1,6 @@
-
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_states.dart';
@@ -12,7 +12,7 @@ class OrderBloc extends OrderBlocBase {
 
   OrderBloc() : super(OrderInitialState()) {
     on<OrderEvent>((event, emit) async {
-      if (event.status == OrderEventStatus.NEW) {
+      if (event.status == OrderEventStatus.newOrder) {
         await _handleNewFormDataState(event, emit);
       } else {
         await handleEvent(event, emit);
