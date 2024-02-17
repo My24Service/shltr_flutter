@@ -22,8 +22,14 @@ class HomeEvent {
   final String? value;
   final HomeEventStatus? status;
   final HomeDoLoginState? doLoginState;
+  final Member? memberFromHome;
 
-  const HomeEvent({this.value, this.status, this.doLoginState});
+  const HomeEvent({
+    this.value,
+    this.status,
+    this.doLoginState,
+    this.memberFromHome
+  });
 }
 
 class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
@@ -50,10 +56,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
   }
 
   Future<void> _handleGetPreferencesState(HomeEvent event, Emitter<HomeBaseState> emit) async {
+    Member? member = event.memberFromHome;
+
     try {
       final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
       final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
-      final Member? member = await utils.getMember(withFetch: true);
+      if (event.memberFromHome == null) {
+        member = await utils.getMember();
+      }
 
       emit(HomeState(
           member: member,
@@ -61,15 +71,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
       ));
     } catch(e) {
       emit(HomeLoginErrorState(
-          error: e.toString()
+        error: e.toString(),
+        member: member
       ));
     }
   }
 
   Future<void> _handleDoLoginState(HomeEvent event, Emitter<HomeBaseState> emit) async {
+    Member? member;
+
     try {
       await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
-      final Member? member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
+      member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
       final BaseUser? user = await utils.getUserInfo();
 
       emit(HomeLoggedInState(
@@ -78,7 +91,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
       ));
     } catch(e) {
       emit(HomeLoginErrorState(
-          error: e.toString()
+        error: e.toString(),
+        member: member
       ));
     }
   }

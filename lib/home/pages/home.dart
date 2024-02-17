@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/services.dart' show PlatformException;
+import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
@@ -31,6 +32,7 @@ class ShltrApp extends StatefulWidget {
 class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin, i18nMixin {
   StreamSubscription? _sub;
   StreamSubscription<Map>? _streamSubscription;
+  Member? member;
 
   @override
   void initState() {
@@ -49,11 +51,6 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   }
 
   void _listenDynamicLinks() async {
-    // int? memberPk = await utils.getPreferredMemberPk();
-    // if (memberPk != null) {
-    //   print("memberPk: $memberPk");
-    //   return;
-    // }
     _streamSubscription = FlutterBranchSdk.listSession().listen((data) async {
       log.info('listenDynamicLinks - DeepLink Data: $data');
       if (data.containsKey("+clicked_branch_link") &&
@@ -63,7 +60,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
           return;
         }
         log.info('Company code: ${data["cc"]}');
-        await utils.getMember(companycode: data['cc']);
+        member = await utils.getMember(companycode: data['cc']);
         setState(() {});
         // _streamSubscription?.cancel();
       }
@@ -89,7 +86,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
       log.info('got host: ${uri!.host}');
       List<String>? parts = uri.host.split('.');
       if (!_isCompanycodeOkay(parts[0])) return;
-      await utils.getMember(companycode: parts[0]);
+      member = await utils.getMember(companycode: parts[0]);
       setState(() {});
     }, onError: (Object err) {
       if (!mounted) return;
@@ -108,7 +105,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         log.info('got initial uri: $uri');
         List<String>? parts = uri.host.split('.');
         if (!_isCompanycodeOkay(parts[0])) return;
-        await utils.getMember(companycode: parts[0]);
+        member = await utils.getMember(companycode: parts[0]);
         setState(() {});
       }
       setState(() {});
@@ -180,7 +177,10 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
               home: Scaffold(
-                body: LoginPage(bloc: HomeBloc()),
+                body: LoginPage(
+                  bloc: HomeBloc(),
+                  memberFromHome: member,
+                ),
               )
           );
         },

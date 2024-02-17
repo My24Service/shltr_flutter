@@ -39,9 +39,11 @@ class HomeLoggedInState extends HomeBaseState {
 
 class HomeLoginErrorState extends HomeBaseState {
   final String error;
+  final Member? member;
 
   HomeLoginErrorState({
-    required this.error
+    required this.error,
+    required this.member
   });
 
   @override

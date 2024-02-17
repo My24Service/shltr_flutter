@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:my24_flutter_core/i18n.dart';
+import 'package:my24_flutter_member_models/public/models.dart';
 
 import 'package:shltr_flutter/login/widgets/login.dart';
 import 'package:shltr_flutter/common/widgets.dart';
@@ -13,18 +14,21 @@ class LoginPage extends StatelessWidget {
   final HomeBloc bloc;
   final String? initialMode;
   final HomeDoLoginState? loginState;
+  final Member? memberFromHome;
 
   LoginPage({
     super.key,
     required this.bloc,
     this.initialMode,
-    this.loginState
+    this.loginState,
+    this.memberFromHome
   });
 
   HomeBloc _initialCall() {
     if (initialMode == null) {
-      bloc.add(const HomeEvent(
-          status: HomeEventStatus.getPreferences
+      bloc.add(HomeEvent(
+        status: HomeEventStatus.getPreferences,
+        memberFromHome: memberFromHome
       ));
     } else if (initialMode == "login") {
       bloc.add(HomeEvent(
