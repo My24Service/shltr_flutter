@@ -119,6 +119,7 @@ class Utils with CoreApiMixin {
     }
 
     var userInfoDataDecoded = json.decode(userInfoData);
+    prefs.setString('submodel', userInfoDataDecoded['submodel']);
 
     if (userInfoDataDecoded['submodel'] == 'planning_user') {
       return PlanningUser.fromJson(userInfoDataDecoded['user']);

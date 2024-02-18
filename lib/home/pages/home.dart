@@ -124,6 +124,8 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
     AppConfig config = kDebugMode ? AppConfig(protocol: "http") : AppConfig();
 
+    await coreUtils.fetchSetInitialData();
+
     await sharedPrefs.setString('apiBaseUrl', config.apiBaseUrl);
     await sharedPrefs.setInt('pageSize', config.pageSize);
     await sharedPrefs.setString('apiProtocol', config.protocol);
