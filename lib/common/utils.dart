@@ -57,7 +57,7 @@ class Utils with CoreApiMixin {
 
     // fetch member by company code
     try {
-      Member member = await memberByCompanycodeApi.get(companycode);
+      Member member = await memberByCompanycodeApi.detail(companycode);
       await prefs.setString('memberData', member.toJson());
       await prefs.setString('companycode', member.companycode!);
 
