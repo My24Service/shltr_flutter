@@ -8,6 +8,7 @@ import 'package:my24_flutter_core/tests/http_client.mocks.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
+import 'package:shltr_flutter/common/logger.dart';
 import 'package:shltr_flutter/orders/form_data.dart';
 import 'package:shltr_flutter/orders/order_bloc.dart';
 import 'fixtures.dart';
@@ -15,6 +16,7 @@ import 'fixtures.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
+  setUpLogging();
 
   test('Test fetch order detail', () async {
     final client = MockClient();

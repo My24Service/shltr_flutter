@@ -12,6 +12,7 @@ import 'package:my24_flutter_orders/widgets/order/detail.dart';
 import 'package:my24_flutter_orders/widgets/order/empty.dart';
 import 'package:my24_flutter_orders/widgets/order/error.dart';
 import 'package:my24_flutter_orders/widgets/order/list.dart';
+import 'package:shltr_flutter/common/logger.dart';
 import 'package:shltr_flutter/orders/detail.dart';
 import 'package:shltr_flutter/orders/form_widget.dart';
 import 'package:shltr_flutter/orders/order_bloc.dart';
@@ -31,6 +32,7 @@ Widget createWidget({Widget? child}) {
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
+  setUpLogging();
 
   testWidgets('loads main list', (tester) async {
     final client = MockClient();

@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
+
 import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
-
 import 'package:shltr_flutter/login/pages/login.dart';
 import 'package:shltr_flutter/login/widgets/login.dart';
-
+import 'package:shltr_flutter/common/logger.dart';
 import 'fixtures.dart';
 
 Widget createWidget({Widget? child}) {
@@ -29,12 +29,23 @@ Widget createWidget({Widget? child}) {
 }
 
 void main() async {
+  setUp(() async {
+    // TODO this fails the tests, figure out why
+    // SharedPreferences.setMockInitialValues({
+    //   'token': "",
+    //   'companycode': "",
+    //   'userInfoData': "",
+    //   'memberData': ""
+    // });
+  });
+
   tearDown(() async {
     await utils.logout();
   });
 
   TestWidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
+  setUpLogging();
 
   testWidgets('loads login page', (tester) async {
     final client = MockClient();
