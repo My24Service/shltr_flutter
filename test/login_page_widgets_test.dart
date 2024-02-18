@@ -73,6 +73,51 @@ void main() async {
     expect(find.byType(LoginButtons), findsOneWidget);
   });
 
+  testWidgets('loads login page logged in', (tester) async {
+    final client = MockClient();
+    final HomeBloc bloc = HomeBloc();
+    bloc.utils.httpClient = client;
+    bloc.coreUtils.httpClient = client;
+
+    SharedPreferences.setMockInitialValues({
+      'memberData': memberPublic
+    });
+
+    LoginPage page = LoginPage(
+        bloc: bloc
+    );
+
+    // return token request with a 200
+    when(
+        client.post(Uri.parse('https://demo.my24service-dev.com/api/jwt-token/refresh/'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body')
+        )
+    ).thenAnswer((_) async => http.Response(tokenData, 200));
+
+    when(
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/company/user-info-me/'),
+          headers: anyNamed('headers'),
+        )
+    ).thenAnswer((_) async => http.Response(planningUser, 200));
+
+    // member info public
+    when(
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/member/detail-public-companycode/demo/'),
+          headers: anyNamed('headers'),
+        )
+    ).thenAnswer((_) async => http.Response(memberPublic, 200));
+
+    await mockNetworkImagesFor(() async => await tester.pumpWidget(
+        createWidget(child: page))
+    );
+    await mockNetworkImagesFor(() async => await tester.pumpAndSettle());
+
+    expect(find.byType(CompanyLogo), findsOneWidget);
+    expect(find.byType(ShltrLogo), findsNothing);
+    expect(find.byType(LoginButtons), findsNothing);
+  });
+
   testWidgets('loads login page with member from home', (tester) async {
     final client = MockClient();
     final HomeBloc bloc = HomeBloc();
