@@ -60,7 +60,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
           return;
         }
         log.info('Company code: ${data["cc"]}');
-        member = await utils.getMember(companycode: data['cc']);
+        member = await utils.fetchMember(companycode: data['cc']);
         setState(() {});
         // _streamSubscription?.cancel();
       }
@@ -86,7 +86,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
       log.info('got host: ${uri!.host}');
       List<String>? parts = uri.host.split('.');
       if (!_isCompanycodeOkay(parts[0])) return;
-      member = await utils.getMember(companycode: parts[0]);
+      member = await utils.fetchMember(companycode: parts[0]);
       setState(() {});
     }, onError: (Object err) {
       if (!mounted) return;
@@ -105,7 +105,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         log.info('got initial uri: $uri');
         List<String>? parts = uri.host.split('.');
         if (!_isCompanycodeOkay(parts[0])) return;
-        member = await utils.getMember(companycode: parts[0]);
+        member = await utils.fetchMember(companycode: parts[0]);
         setState(() {});
       }
       setState(() {});

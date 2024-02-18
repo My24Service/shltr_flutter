@@ -62,7 +62,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
       final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
       final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
       if (event.memberFromHome == null) {
-        member = await utils.getMember();
+        member = await utils.fetchMember();
       }
 
       emit(HomeState(
@@ -82,7 +82,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
     try {
       await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
-      member = await utils.getMember(companycode: event.doLoginState!.companycode, withFetch: true);
+      member = await utils.fetchMember(companycode: event.doLoginState!.companycode);
       final BaseUser? user = await utils.getUserInfo();
 
       emit(HomeLoggedInState(

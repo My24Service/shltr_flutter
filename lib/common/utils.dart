@@ -46,37 +46,38 @@ class Utils with CoreApiMixin {
     return prefs.getInt('employee_branch');
   }
 
-  Future<Member?> getMember({withFetch = true, String? companycode}) async {
-    // check prefs first
+  Future<Member?> fetchMember({String? companycode}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    companycode ??= prefs.getString('companycode');
+
+    if (companycode == null) {
+      return null;
+    }
+
+    // fetch member by company code
+    try {
+      Member member = await memberByCompanycodeApi.get(companycode);
+      await prefs.setString('memberData', member.toJson());
+      await prefs.setString('companycode', member.companycode!);
+
+      return member;
+    } catch (e) {
+      log.severe("Error fetching member public: $e");
+      return null;
+    }
+  }
+
+  // this should be used everywhere in the app except login
+  Future<Member?> getMemberPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var memberData = prefs.getString('memberData');
-    if (memberData == null || memberData == "{}") {
-      if (!withFetch) {
-        return null;
-      }
-
-      companycode ??= prefs.getString('companycode');
-
-      // still null?
-      if (companycode == null) {
-        return null;
-      }
-
-      // fetch member by company code
-      try {
-        Member member = await memberByCompanycodeApi.get(companycode);
-        await prefs.setString('memberData', member.toJson());
-        await prefs.setString('companycode', member.companycode!);
-
-        return member;
-      } catch (e) {
-        log.severe("Error fetching member public: $e");
-        return null;
-      }
-    } else {
-      return Member.fromJson(json.decode(memberData));
+    if (memberData == null) {
+      return null;
     }
+
+    return Member.fromJson(json.decode(memberData));
   }
 
   Future<bool> logout() async {

@@ -9,6 +9,7 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
+import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 
@@ -29,11 +30,7 @@ Widget createWidget({Widget? child}) {
 
 void main() async {
   tearDown(() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
-    prefs.remove('userInfoData');
-    prefs.remove('companycode');
-    prefs.remove('memberData');
+    await utils.logout();
   });
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -78,9 +75,12 @@ void main() async {
     final HomeBloc bloc = HomeBloc();
     bloc.utils.httpClient = client;
     bloc.coreUtils.httpClient = client;
+    bloc.utils.memberByCompanycodeApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
-      'memberData': memberPublic
+      'companycode': 'demo',
+      'memberData': memberPublic,
+
     });
 
     LoginPage page = LoginPage(
