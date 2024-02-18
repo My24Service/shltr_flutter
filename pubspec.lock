@@ -746,7 +746,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4216b6772d7fea5af8294e9677e44d10c1b767a4"
+      resolved-ref: "2dc9b9dc9e3993c655e09d05cf9776afcd1a1fda"
       url: "https://github.com/My24Service/my24_flutter_core.git"
     source: git
     version: "0.0.4"

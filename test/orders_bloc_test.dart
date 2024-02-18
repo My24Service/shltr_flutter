@@ -4,11 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
+import 'package:my24_flutter_core/dev_logging.dart';
 
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
-import 'package:shltr_flutter/common/logger.dart';
 import 'package:shltr_flutter/orders/form_data.dart';
 import 'package:shltr_flutter/orders/order_bloc.dart';
 import 'fixtures.dart';

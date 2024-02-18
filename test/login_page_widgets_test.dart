@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:my24_flutter_core/dev_logging.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
 
@@ -15,7 +16,6 @@ import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/login/pages/login.dart';
 import 'package:shltr_flutter/login/widgets/login.dart';
-import 'package:shltr_flutter/common/logger.dart';
 import 'fixtures.dart';
 
 Widget createWidget({Widget? child}) {

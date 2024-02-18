@@ -2,11 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
-import 'package:shltr_flutter/common/logger.dart';
+
+import 'package:my24_flutter_core/dev_logging.dart';
 // import 'package:shltr_flutter/common/utils.dart';
 
-import 'firebase_options.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
