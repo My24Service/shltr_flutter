@@ -773,7 +773,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6fbaff97550cb736f199cac7be1f1cd657cd3d2c"
+      resolved-ref: "8a1455763fa8c66402c93d54771f04acf7a38ae7"
       url: "https://github.com/My24Service/my24_flutter_orders.git"
     source: git
     version: "0.0.1"
@@ -961,6 +961,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sentry:
+    dependency: transitive
+    description:
+      name: sentry
+      sha256: d2ee9c850d876d285f22e2e662f400ec2438df9939fe4acd5d780df9841794ce
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.16.1"
+  sentry_flutter:
+    dependency: "direct main"
+    description:
+      name: sentry_flutter
+      sha256: "5b428c189c825f16fb14e9166529043f06b965d5b59bfc3a1415e39c082398c0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.16.1"
   shared_preferences:
     dependency: "direct main"
     description:
