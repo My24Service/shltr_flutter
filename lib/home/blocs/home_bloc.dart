@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:logging/logging.dart';
+import 'package:my24_flutter_core/models/models.dart';
 
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
@@ -65,6 +66,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
         member = await utils.fetchMember();
       }
 
+      if (isLoggedIn) {
+        await coreUtils.fetchSetInitialData();
+      }
+
       emit(HomeState(
           member: member,
           user: user,
@@ -81,9 +86,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
     Member? member;
 
     try {
-      await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
+      final SlidingToken? token = await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
       member = await utils.fetchMember(companycode: event.doLoginState!.companycode);
       final BaseUser? user = await utils.getUserInfo();
+
+      if (token != null) {
+        await coreUtils.fetchSetInitialData();
+      }
 
       emit(HomeLoggedInState(
           member: member!,

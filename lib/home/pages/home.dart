@@ -12,7 +12,7 @@ import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 
 import 'package:my24_flutter_core/utils.dart';
 
-import 'package:shltr_flutter/login/pages/login.dart';
+import 'package:shltr_flutter/home/pages/login.dart';
 import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/common/i18n_mixin.dart';
 import 'package:shltr_flutter/common/widgets.dart';
@@ -124,11 +124,10 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
     AppConfig config = kDebugMode ? AppConfig(protocol: "http") : AppConfig();
 
-    await coreUtils.fetchSetInitialData();
-
     await sharedPrefs.setString('apiBaseUrl', config.apiBaseUrl);
     await sharedPrefs.setInt('pageSize', config.pageSize);
     await sharedPrefs.setString('apiProtocol', config.protocol);
+    print('protocol: ${config.protocol}');
 
     return true;
   }
@@ -161,6 +160,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
           Locale? locale = coreUtils.lang2locale(snapshot.data);
 
           return MaterialApp(
+              debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               builder: (context, child) =>

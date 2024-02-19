@@ -14,8 +14,8 @@ import 'package:my24_flutter_core/tests/http_client.mocks.dart';
 import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
-import 'package:shltr_flutter/login/pages/login.dart';
-import 'package:shltr_flutter/login/widgets/login.dart';
+import 'package:shltr_flutter/home/pages/login.dart';
+import 'package:shltr_flutter/home/widgets/login.dart';
 import 'fixtures.dart';
 
 Widget createWidget({Widget? child}) {

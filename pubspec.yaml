@@ -60,6 +60,10 @@ flutter:
   # Our translation resources
   assets:
     - assets/icon/icon.png
+    - assets/bg1.jpg
+    - assets/bg2.jpg
+    - assets/bg3.jpg
+    - assets/bg4.jpg
     - resources/langs/
 
 flutter_launcher_icons:

@@ -304,6 +304,7 @@
 
   "login": {
     "app_bar_title": "Login",
+    "app_bar_title_logged_in": "Home",
     "snackbar_logged_in": "Je bent nu ingelogd",
     "snackbar_error_logging_in": "Fout bij het inloggen",
     "typeahead_label_search_company": "Zoek bedrijf",

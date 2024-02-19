@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:my24_flutter_core/i18n.dart';
+import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 
-import 'package:shltr_flutter/login/widgets/login.dart';
+import 'package:shltr_flutter/home/widgets/login.dart';
 import 'package:shltr_flutter/common/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
@@ -41,24 +42,41 @@ class LoginPage extends StatelessWidget {
     return bloc;
   }
 
+  Future<String> getTitle() async {
+    final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
+    final title = isLoggedIn ? i18n.$trans('app_bar_title_logged_in') : i18n.$trans('app_bar_title');
+    return title;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-        create: (context) => _initialCall(),
-        child: BlocConsumer<HomeBloc, HomeBaseState>(
-            listener: (context, state) {
-              _handleListeners(context, state);
-            },
-            builder: (context, state) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text(i18n.$trans('app_bar_title')),
-                  centerTitle: true,
-                ),
-                body: _getBody(context, state),
-              );
-            }
-        )
+    return FutureBuilder<String>(
+        future: getTitle(),
+        builder: (context, dynamic snapshot) {
+          if (!snapshot.hasData) {
+            return loadingNotice();
+          }
+
+          String title = snapshot.data;
+
+          return BlocProvider<HomeBloc>(
+            create: (context) => _initialCall(),
+            child: BlocConsumer<HomeBloc, HomeBaseState>(
+                listener: (context, state) {
+                  _handleListeners(context, state);
+                },
+                builder: (context, state) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: Text(title),
+                      centerTitle: true,
+                    ),
+                    body: _getBody(context, state),
+                  );
+                }
+            )
+          );
+        }
     );
   }
 

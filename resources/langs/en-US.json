@@ -318,6 +318,7 @@
 
   "login": {
     "app_bar_title": "Login",
+    "app_bar_title_logged_in": "Home",
     "snackbar_logged_in": "You are now logged in",
     "snackbar_error_logging_in": "Error logging you in",
     "typeahead_label_search_company": "Search company",
