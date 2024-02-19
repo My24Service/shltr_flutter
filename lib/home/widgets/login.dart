@@ -5,6 +5,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/models/base_models.dart';
 import 'package:my24_flutter_core/utils.dart';
+import 'package:my24_flutter_core/widgets/widgets.dart';
 import 'package:my24_flutter_member_models/public/api.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
@@ -44,6 +45,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   final TextEditingController _companycodeController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final CoreWidgets coreWidgets = CoreWidgets();
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +94,12 @@ class _LoginWidgetState extends State<LoginWidget> {
       children: <Widget>[
         _buildMemberSection(),
         const Divider(),
-        LoggedInButtons(i18n: widget.i18n)
+        LoggedInButtons(
+          i18n: widget.i18n,
+          isPlanning: widget.user is PlanningUser,
+          user: widget.user,
+          member: widget.member,
+        )
       ],
     );
   }
@@ -231,10 +238,17 @@ class LoginTextFields extends StatelessWidget {
 
 class LoggedInButtons extends StatelessWidget {
   final My24i18n i18n;
+  final bool isPlanning;
+  final BaseUser? user;
+  final Member? member;
+  final CoreWidgets coreWidgets = CoreWidgets();
 
-  const LoggedInButtons({
+  LoggedInButtons({
     super.key,
-    required this.i18n
+    required this.i18n,
+    required this.isPlanning,
+    required this.member,
+    required this.user,
   });
 
   _navOrders(BuildContext context) {
@@ -248,6 +262,27 @@ class LoggedInButtons extends StatelessWidget {
     );
   }
 
+  _navUnaccepted(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => OrderListPage(
+              bloc: OrderBloc(),
+              fetchMode: OrderEventStatus.fetchUnaccepted,
+            )
+        )
+    );
+  }
+
+  _soon(BuildContext context) {
+    final bloc = BlocProvider.of<HomeBloc>(context);
+    bloc.add(const HomeEvent(status: HomeEventStatus.doAsync));
+    bloc.add(HomeEvent(
+      status: HomeEventStatus.soon,
+      user: user,
+      member: member
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -256,6 +291,31 @@ class LoggedInButtons extends StatelessWidget {
             i18n.$trans('order_list'),
             () { _navOrders(context); }
         ),
+        if (isPlanning)
+          const SizedBox(height: 10),
+        if (isPlanning)
+          createDefaultElevatedButton(
+              i18n.$trans('order_not_accepted_list'),
+              () { _navUnaccepted(context); }
+          ),
+        coreWidgets.getMy24Divider(context),
+        const SizedBox(height: 10),
+        createDefaultElevatedButton(
+            i18n.$trans('equipment_list'),
+            () { _soon(context); }
+        ),
+        const SizedBox(height: 10),
+        createDefaultElevatedButton(
+            i18n.$trans('location_list'),
+            () { _soon(context); }
+        ),
+        if (isPlanning)
+          const SizedBox(height: 10),
+        if (isPlanning)
+          createDefaultElevatedButton(
+              i18n.$trans('branch_list'),
+              () { _soon(context); }
+          ),
       ],
     );
   }

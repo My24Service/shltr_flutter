@@ -89,10 +89,14 @@ class LoginPage extends StatelessWidget {
     if (state is HomeLoginErrorState) {
       createSnackBar(context, i18n.$trans('snackbar_error_logging_in'));
     }
+
+    if (state is HomeSoonState) {
+      createSnackBar(context, i18n.$trans('snackbar_soon'));
+    }
   }
 
   Widget _getBody(context, state) {
-    if (state is HomeState || state is HomeLoggedInState) {
+    if (state is HomeState || state is HomeLoggedInState || state is HomeSoonState) {
       return LoginWidget(
         user: state.user,
         member: state.member,

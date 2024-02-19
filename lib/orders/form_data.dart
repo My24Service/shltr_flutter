@@ -54,15 +54,66 @@ class OrderFormData extends BaseOrderFormData {
   });
 
   factory OrderFormData.newFromOrderTypes(OrderTypes orderTypes) {
+    TextEditingController typeAheadControllerCustomer = TextEditingController();
+    TextEditingController typeAheadControllerBranch = TextEditingController();
+
+    final TextEditingController orderCustomerIdController = TextEditingController();
+    final TextEditingController orderNameController = TextEditingController();
+    final TextEditingController orderAddressController = TextEditingController();
+    final TextEditingController orderPostalController = TextEditingController();
+    final TextEditingController orderCityController = TextEditingController();
+    final TextEditingController orderContactController = TextEditingController();
+    final TextEditingController orderEmailController = TextEditingController();
+    final TextEditingController orderTelController = TextEditingController();
+    final TextEditingController orderMobileController = TextEditingController();
+    final TextEditingController orderReferenceController = TextEditingController();
+    final TextEditingController customerRemarksController = TextEditingController();
+
     final OrderlineFormData orderlineFormData = OrderlineFormData.createEmpty();
     final InfolineFormData infolineFormData = InfolineFormData.createEmpty();
 
     return OrderFormData(
+      id: null,
+      customerPk: null,
+      customerId: null,
+      customerBranchId: null,
+      typeAheadControllerCustomer: typeAheadControllerCustomer,
+      typeAheadControllerBranch: typeAheadControllerBranch,
+      orderCustomerIdController: orderCustomerIdController,
+      orderNameController: orderNameController,
+      orderAddressController: orderAddressController,
+      orderPostalController: orderPostalController,
+      orderCityController: orderCityController,
+      orderCountryCode: 'NL',
+      orderContactController: orderContactController,
+      orderEmailController: orderEmailController,
+      orderTelController: orderTelController,
+      orderMobileController: orderMobileController,
+      orderReferenceController: orderReferenceController,
+      customerRemarksController: customerRemarksController,
+      orderType: null,
       orderTypes: orderTypes,
       startDate: DateTime.now(),
+      startTime: null,
+      // // "end_date": "26/10/2020",
       endDate: DateTime.now(),
+      endTime: null,
+      changedEndDate: false,
+      customerOrderAccepted: false,
+
       orderlineFormData: orderlineFormData,
-      infolineFormData: infolineFormData
+      infolineFormData: infolineFormData,
+
+      orderLines: [],
+      infoLines: [],
+      deletedOrderLines: [],
+      deletedInfoLines: [],
+
+      locations: [],
+
+      isCreatingEquipment: false,
+      isCreatingLocation: false,
+      quickCreateSettings: null,
     );
   }
 
@@ -77,19 +128,6 @@ class OrderFormData extends BaseOrderFormData {
     orderEmailController!.text = branch.email!;
     orderTelController!.text = branch.tel!;
     orderMobileController!.text = branch.mobile!;
-  }
-
-  factory OrderFormData.createEmpty(OrderTypes orderTypes) {
-    final OrderlineFormData orderlineFormData = OrderlineFormData.createEmpty();
-    final InfolineFormData infolineFormData = InfolineFormData.createEmpty();
-
-    return OrderFormData(
-        orderTypes: orderTypes,
-        startDate: DateTime.now(),
-        endDate: DateTime.now(),
-        orderlineFormData: orderlineFormData,
-        infolineFormData: infolineFormData
-    );
   }
 
   factory OrderFormData.createFromModel(Order order, OrderTypes orderTypes) {

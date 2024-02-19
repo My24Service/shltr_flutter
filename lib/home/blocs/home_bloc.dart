@@ -14,7 +14,8 @@ import '../../company/models/models.dart';
 enum HomeEventStatus {
   getPreferences,
   doAsync,
-  doLogin
+  doLogin,
+  soon
 }
 
 final log = Logger('HomeBloc');
@@ -24,12 +25,16 @@ class HomeEvent {
   final HomeEventStatus? status;
   final HomeDoLoginState? doLoginState;
   final Member? memberFromHome;
+  final BaseUser? user;
+  final Member? member;
 
   const HomeEvent({
     this.value,
     this.status,
     this.doLoginState,
-    this.memberFromHome
+    this.memberFromHome,
+    this.user,
+    this.member
   });
 }
 
@@ -45,6 +50,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
       if (event.status == HomeEventStatus.doAsync) {
         _handleDoAsyncState(event, emit);
       }
+      if (event.status == HomeEventStatus.soon) {
+        _handleSoonState(event, emit);
+      }
       if (event.status == HomeEventStatus.doLogin) {
         await _handleDoLoginState(event, emit);
       }
@@ -54,6 +62,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
   void _handleDoAsyncState(HomeEvent event, Emitter<HomeBaseState> emit) {
     emit(HomeLoadingState());
+  }
+
+  void _handleSoonState(HomeEvent event, Emitter<HomeBaseState> emit) {
+    emit(HomeSoonState(
+      user: event.user,
+      member: event.member
+    ));
   }
 
   Future<void> _handleGetPreferencesState(HomeEvent event, Emitter<HomeBaseState> emit) async {

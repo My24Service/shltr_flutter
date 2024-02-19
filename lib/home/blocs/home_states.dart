@@ -24,6 +24,19 @@ class HomeInitialState extends HomeBaseState {
   List<Object> get props => [];
 }
 
+class HomeSoonState extends HomeBaseState {
+  final BaseUser? user;
+  final Member? member;
+
+  HomeSoonState({
+    required this.user,
+    required this.member,
+  });
+
+  @override
+  List<Object> get props => [];
+}
+
 class HomeLoggedInState extends HomeBaseState {
   final BaseUser? user;
   final Member member;

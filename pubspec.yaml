@@ -42,9 +42,9 @@ dependencies:
     git:
       url: https://github.com/My24Service/my24_flutter_member_models.git
   my24_flutter_orders:
-        path: ../my24_flutter_orders
-#    git:
-#      url: https://github.com/My24Service/my24_flutter_member_models.git
+#        path: ../my24_flutter_orders
+    git:
+      url: https://github.com/My24Service/my24_flutter_orders.git
 
 
 dev_dependencies:

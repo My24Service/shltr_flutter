@@ -56,6 +56,17 @@ class OrderListPage<OrderBloc> extends BaseOrderListPage {
   }
 
   @override
+  void handleCreateDocumentsCancel(BuildContext context, OrderPageMetaData? orderPageMetaData) {
+    if (isPlanning(orderPageMetaData!) && !orderPageMetaData.hasBranches!) {
+      bloc.add(const OrderEvent(status: OrderEventStatus.doAsync));
+      bloc.add(const OrderEvent(status: OrderEventStatus.fetchAll));
+    } else {
+      bloc.add(const OrderEvent(status: OrderEventStatus.doAsync));
+      bloc.add(const OrderEvent(status: OrderEventStatus.fetchUnaccepted));
+    }
+  } //
+
+  @override
   void navDetail(BuildContext context, int orderPk, OrderBlocBase<BaseOrderFormData> bloc) {
     Navigator.of(context).pop();
     Navigator.pushReplacement(context,

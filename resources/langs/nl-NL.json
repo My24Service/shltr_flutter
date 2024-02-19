@@ -38,12 +38,13 @@
     "header_documents": "Documenten",
     "header_workorder_documents": "Werkbon documenten",
     "header_status_history": "Status historie",
+    "app_bar_title_empty": "Geen opdrachten",
+    "app_bar_title_error": "Fout",
+    "button_documents": "Documenten",
 
     "list": {
       "model_name": "Opdracht",
       "notice_no_order": "Geen opdrachten gevonden.",
-      "app_bar_title_empty": "Geen opdrachten",
-      "app_bar_title_error": "Fout",
 
       "_page": "-------------------",
       "dialog_add_documents_title": "Documenten toevoegen?",
@@ -66,9 +67,7 @@
       "app_title_branch_employee_user": "Uw opdrachten",
 
       "delete_dialog_title": "Verwijder opdracht",
-      "delete_dialog_content": "Wilt u deze opdracht verwijderen?",
-
-      "button_documents": "Documenten"
+      "delete_dialog_content": "Wilt u deze opdracht verwijderen?"
     },
     "form": {
       "app_bar_title_insert": "Nieuwe opdracht",
@@ -274,7 +273,9 @@
     "button_open_document": "Open document",
     "button_no_workorder": "Geen werkbon",
     "button_submit": "Verstuur",
-    "button_new": "Nieuw"
+    "button_new": "Nieuw",
+    "button_cancel": "Annuleer",
+    "button_delete": "Verwijder"
   },
 
   "member_detail": {
@@ -307,12 +308,17 @@
     "app_bar_title_logged_in": "Home",
     "snackbar_logged_in": "Je bent nu ingelogd",
     "snackbar_error_logging_in": "Fout bij het inloggen",
+    "snackbar_soon": "Komt binnenkort!",
     "typeahead_label_search_company": "Zoek bedrijf",
     "username": "Gebruikersnaam",
     "password": "Wachtwoord",
     "button_login": "Login",
     "button_forgot_password": "Wachtwoord vergeten?",
-    "order_list": "Orders",
+    "order_list": "Opdrachten",
+    "order_not_accepted_list": "Opdrachten nog niet accepteerd",
+    "equipment_list": "Equipment",
+    "location_list": "Locaties",
+    "branch_list": "Vestigingen",
     "error_dialog_title_no_companycode": "Geen bedrijf",
     "error_dialog_content_no_companycode": "Voer een bedrijf in"
   },

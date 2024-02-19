@@ -30,7 +30,6 @@ class OrderBloc extends OrderBlocBase {
     final OrderTypes orderTypes = await api.fetchOrderTypes();
     OrderFormData orderFormData = OrderFormData.newFromOrderTypes(orderTypes);
     orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
-
     final String? submodel = await coreUtils.getUserSubmodel();
 
     // only fetch locations for select when we're not allowed to create them
