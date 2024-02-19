@@ -92,12 +92,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
       if (token != null) {
         await coreUtils.fetchSetInitialData();
-      }
-
-      emit(HomeLoggedInState(
+        emit(HomeLoggedInState(
           member: member!,
           user: user,
-      ));
+        ));
+      } else {
+        emit(HomeLoginErrorState(
+            error: "error logging user in",
+            member: member
+        ));
+      }
     } catch(e) {
       emit(HomeLoginErrorState(
         error: e.toString(),

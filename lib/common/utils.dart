@@ -57,7 +57,7 @@ class Utils with CoreApiMixin {
 
     // fetch member by company code
     try {
-      Member member = await memberByCompanycodeApi.detail(companycode);
+      Member member = await memberByCompanycodeApi.detail(companycode, needsAuth: false);
       await prefs.setString('memberData', member.toJson());
       await prefs.setString('companycode', member.companycode!);
 
@@ -128,7 +128,7 @@ class Utils with CoreApiMixin {
     }
 
     if (userInfoDataDecoded['submodel'] == 'employee_user') {
-      final EmployeeUser user = EmployeeUser.fromJson(userInfoDataDecoded['user'])
+      final EmployeeUser user = EmployeeUser.fromJson(userInfoDataDecoded['user']);
       prefs.setString('first_name', user.firstName!);
       return user;
     }

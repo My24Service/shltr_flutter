@@ -119,6 +119,13 @@ void main() async {
         )
     ).thenAnswer((_) async => http.Response(memberPublic, 200));
 
+    // initial data
+    when(
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/get-initial-data/'),
+          headers: anyNamed('headers'),
+        )
+    ).thenAnswer((_) async => http.Response(initialData, 200));
+
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: page))
     );
@@ -147,7 +154,7 @@ void main() async {
             headers: anyNamed('headers'),
             body: anyNamed('body')
         )
-    ).thenAnswer((_) async => http.Response(tokenData, 200));
+    ).thenAnswer((_) async => http.Response("{}", 400));
 
     when(
         client.get(Uri.parse('https://demo.my24service-dev.com/api/company/user-info-me/'),
@@ -199,6 +206,13 @@ void main() async {
         )
     ).thenAnswer((_) async => http.Response(memberPublic, 200));
 
+    // initial data
+    when(
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/get-initial-data/'),
+          headers: anyNamed('headers'),
+        )
+    ).thenAnswer((_) async => http.Response(initialData, 200));
+
     bloc.utils.httpClient = client;
     bloc.coreUtils.httpClient = client;
     bloc.utils.memberByCompanycodeApi.httpClient = client;
@@ -222,25 +236,25 @@ void main() async {
 
   });
 
-  testWidgets('login user not found', (tester) async {
+  testWidgets('login user error', (tester) async {
     final client = MockClient();
     final HomeBloc bloc = HomeBloc();
 
-    // return login request with a 200
+    // return login request with a 400
     when(
         client.post(Uri.parse('https://demo.my24service-dev.com/api/jwt-token/'),
             headers: anyNamed('headers'),
             body: anyNamed('body')
         )
-    ).thenAnswer((_) async => http.Response(tokenData, 200));
+    ).thenAnswer((_) async => http.Response("{}", 400));
 
-    // return token request with a 200
+    // return token request with a 400
     when(
         client.post(Uri.parse('https://demo.my24service-dev.com/api/jwt-token/refresh/'),
             headers: anyNamed('headers'),
             body: anyNamed('body')
         )
-    ).thenAnswer((_) async => http.Response(tokenData, 200));
+    ).thenAnswer((_) async => http.Response(tokenData, 400));
 
     // user info
     when(
@@ -267,6 +281,7 @@ void main() async {
     );
 
     LoginPage page = LoginPage(bloc: bloc, initialMode: "login", loginState: loginState);
+    page.coreUtils.httpClient = client;
 
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: page))

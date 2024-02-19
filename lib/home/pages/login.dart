@@ -16,6 +16,7 @@ class LoginPage extends StatelessWidget {
   final String? initialMode;
   final HomeDoLoginState? loginState;
   final Member? memberFromHome;
+  final CoreUtils coreUtils = CoreUtils();
 
   LoginPage({
     super.key,
@@ -102,7 +103,7 @@ class LoginPage extends StatelessWidget {
     if (state is HomeLoginErrorState) {
       return LoginWidget(
         user: null,
-        member: null,
+        member: state.member,
         i18n: i18n,
       );
     }

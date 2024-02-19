@@ -27,3 +27,4 @@ const String planningUser = '{"submodel": "planning_user", "user": {'
     '"id": 1, "email": "bla@bla.com", "username": "bla", "full_name": "", "first_name": "", "last_name": "",'
     '"planning_user": {}'
     '}}';
+const String initialData = '{}';

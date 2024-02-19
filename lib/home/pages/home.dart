@@ -127,7 +127,6 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     await sharedPrefs.setString('apiBaseUrl', config.apiBaseUrl);
     await sharedPrefs.setInt('pageSize', config.pageSize);
     await sharedPrefs.setString('apiProtocol', config.protocol);
-    print('protocol: ${config.protocol}');
 
     return true;
   }
