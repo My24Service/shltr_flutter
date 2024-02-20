@@ -14,7 +14,6 @@ import 'package:my24_flutter_core/utils.dart';
 
 import 'package:shltr_flutter/home/pages/login.dart';
 import 'package:shltr_flutter/common/utils.dart';
-import 'package:shltr_flutter/common/i18n_mixin.dart';
 import 'package:shltr_flutter/common/widgets.dart';
 
 import '../../app_config.dart';
@@ -29,7 +28,7 @@ class ShltrApp extends StatefulWidget {
   State<ShltrApp> createState() => _ShltrAppState();
 }
 
-class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin, i18nMixin {
+class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin {
   StreamSubscription? _sub;
   StreamSubscription<Map>? _streamSubscription;
   Member? member;
