@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import 'package:my24_flutter_orders/widgets/order/form.dart';
+import 'package:my24_flutter_orders/widgets/form/order.dart';
 
 import '../company/api/company_api.dart';
 

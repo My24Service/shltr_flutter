@@ -91,51 +91,62 @@
       "label_search_branch": "Search branch",
       "typeahead_label_search_branch": "Search",
 
-      "typeahead_label_search_equipment": "Search equipment",
-      "equipment_not_found": "No equipment found",
-      "create_new_equipment": "Add equipment",
-      "validator_equipment": "Equipment is required",
-      "adding_equipment": "Adding equipment...",
-
-      "typeahead_label_search_location": "Search location",
-      "location_not_found": "No location found",
-      "create_new_location": "Add location",
-      "validator_location": "Location is required",
-      "adding_location": "Adding location...",
-
       "button_order_update": "Update order",
       "button_order_insert": "Create order",
       "button_accept": "Update and accept",
       "button_reject": "Reject",
-      "button_add_orderline": "Add orderline",
-      "button_delete_orderline": "Delete orderline",
-      "button_add_infoline": "Add infoline",
-      "button_delete_infoline": "Delete infoline",
       "button_nav_orders": "Back to orders",
 
       "typeahead_label_search_customer": "Search",
 
-      "dialog_add_documents_title": "Add documents?",
-      "dialog_add_documents_content": "Directly add documents to this order?",
-
-      "dialog_add_documents_button_yes": "Add documents",
-      "dialog_add_documents_button_no": "No, continue",
-
       "dialog_content_error_loading_ordertypes": "Error fetching order types",
       "dialog_content_error_loading_customer": "Error fetching customer info",
-
-      "delete_dialog_title_orderline": "Delete orderline",
-      "delete_dialog_content_orderline": "Do you want to delete this orderline?",
-      "error_adding_orderline": "Error adding orderline",
-
-      "error_adding_infoline": "Error adding infoline",
-      "delete_dialog_title_infoline": "Delete infoline",
-      "delete_dialog_content_infoline": "Do you want to delete this infoline?",
 
       "validator_ordertype_dialog_title": "No order type",
       "validator_ordertype_dialog_content": "Please choose an order type",
 
-      "notification_order_date": "Please note that the final order date will be determined by dispatch"
+      "notification_order_date": "Please note that the final order date will be determined by dispatch",
+      "documents": {
+        "delete_dialog_title": "Delete document",
+        "delete_dialog_content": "Do you want to delete this document?",
+        "header": "Documents",
+        "header_new": "New",
+        "info_name": "Name",
+        "info_document": "Document",
+        "error_adding": "Error adding document",
+        "no_items": "No documents found",
+        "button_add": "Add document"
+      },
+      "orderlines": {
+        "delete_dialog_title": "Delete orderline",
+        "delete_dialog_content": "Do you want to delete this orderline?",
+        "error_adding": "Error adding orderline",
+        "header": "Orderlines",
+        "header_new": "New",
+        "no_items": "No orderlines found",
+        "button_add": "Add orderline",
+        "typeahead_label_search_equipment": "Search equipment",
+        "equipment_not_found": "No equipment found",
+        "create_new_equipment": "Add equipment",
+        "validator_equipment": "Equipment is required",
+        "adding_equipment": "Adding equipment...",
+        "typeahead_label_search_location": "Search location",
+        "location_not_found": "No location found",
+        "create_new_location": "Add location",
+        "validator_location": "Location is required",
+        "adding_location": "Adding location..."
+      },
+      "infolines": {
+        "error_adding": "Error adding infoline",
+        "delete_dialog_title": "Delete infoline",
+        "delete_dialog_content": "Do you want to delete this infoline?",
+        "header": "Infolines",
+        "header_new": "New",
+        "no_items": "No infolines found",
+        "button_add": "Add infoline",
+        "info_infoline": "Info",
+        "validator_infoline": "Info is required"
+      }
     },
     "unaccepted": {
       "model_name": "Order",

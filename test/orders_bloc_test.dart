@@ -105,7 +105,8 @@ void main() {
       orderId: '987654',
       serviceNumber: '132789654',
       orderLines: [],
-      infoLines: []
+      infoLines: [],
+      documents: []
     );
 
     // return token request with a 200
@@ -131,13 +132,15 @@ void main() {
 
     orderBloc.add(
         OrderEvent(
-            status: OrderEventStatus.update,
-            order: orderModel,
-            pk: 1,
-            infoLines: [],
-            orderLines: [],
-            deletedInfoLines: [],
-            deletedOrderLines: []
+          status: OrderEventStatus.update,
+          order: orderModel,
+          pk: 1,
+          infoLines: [],
+          orderLines: [],
+          documents: [],
+          deletedInfoLines: [],
+          deletedOrderLines: [],
+          deletedDocuments: []
         ));
   });
 

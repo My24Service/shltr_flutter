@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:my24_flutter_core/widgets/widgets.dart';
-import 'package:my24_flutter_orders/blocs/document_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/models/order/form_data.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
-
 import 'package:my24_flutter_orders/pages/list.dart';
+
 import 'package:shltr_flutter/orders/detail.dart';
-
 import '../common/drawers.dart';
-import 'documents.dart';
 import 'form_widget.dart';
-
 
 class OrderListPage<OrderBloc> extends BaseOrderListPage {
   OrderListPage({
@@ -25,19 +22,6 @@ class OrderListPage<OrderBloc> extends BaseOrderListPage {
   @override
   Future<Widget?> getDrawerForUserWithSubmodel(BuildContext context, String? submodel) async {
     return await getDrawerForUserWithSubmodelLocal(context, submodel);
-  }
-
-  @override
-  void navDocuments(BuildContext context, int orderPk) {
-    Navigator.of(context).pop();
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(
-            builder: (context) => OrderDocumentsPage(
-              orderId: orderPk,
-              bloc: OrderDocumentBloc(),
-            )
-        )
-    );
   }
 
   @override
@@ -56,20 +40,9 @@ class OrderListPage<OrderBloc> extends BaseOrderListPage {
   }
 
   @override
-  void handleCreateDocumentsCancel(BuildContext context, OrderPageMetaData? orderPageMetaData) {
-    if (isPlanning(orderPageMetaData!) && !orderPageMetaData.hasBranches!) {
-      bloc.add(const OrderEvent(status: OrderEventStatus.doAsync));
-      bloc.add(const OrderEvent(status: OrderEventStatus.fetchAll));
-    } else {
-      bloc.add(const OrderEvent(status: OrderEventStatus.doAsync));
-      bloc.add(const OrderEvent(status: OrderEventStatus.fetchUnaccepted));
-    }
-  } //
-
-  @override
   void navDetail(BuildContext context, int orderPk, OrderBlocBase<BaseOrderFormData> bloc) {
     Navigator.of(context).pop();
-    Navigator.pushReplacement(context,
+    Navigator.push(context,
         MaterialPageRoute(
             builder: (context) => OrderDetailPage(
               orderId: orderPk,

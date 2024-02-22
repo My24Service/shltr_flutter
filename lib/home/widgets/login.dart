@@ -292,25 +292,25 @@ class LoggedInButtons extends StatelessWidget {
             () { _navOrders(context); }
         ),
         if (isPlanning)
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
         if (isPlanning)
           createDefaultElevatedButton(
               i18n.$trans('order_not_accepted_list'),
               () { _navUnaccepted(context); }
           ),
         coreWidgets.getMy24Divider(context),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         createDefaultElevatedButton(
             i18n.$trans('equipment_list'),
             () { _soon(context); }
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         createDefaultElevatedButton(
             i18n.$trans('location_list'),
             () { _soon(context); }
         ),
         if (isPlanning)
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
         if (isPlanning)
           createDefaultElevatedButton(
               i18n.$trans('branch_list'),

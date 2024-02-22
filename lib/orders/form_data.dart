@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:my24_flutter_core/models/base_models.dart';
-import 'package:my24_flutter_orders/models/infoline/form_data.dart';
 
+import 'package:my24_flutter_core/models/base_models.dart';
 import 'package:my24_flutter_orders/models/order/form_data.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
-import 'package:my24_flutter_orders/models/orderline/form_data.dart';
 
 import '../company/models/models.dart';
 
@@ -17,8 +15,6 @@ class OrderFormData extends BaseOrderFormData {
     super.customerPk,
     super.customerId,
     super.branch,
-    super.orderlineFormData,
-    super.infolineFormData,
     super.orderCustomerIdController,
     super.orderNameController,
     super.orderAddressController,
@@ -35,6 +31,8 @@ class OrderFormData extends BaseOrderFormData {
     super.deletedOrderLines,
     super.infoLines,
     super.deletedInfoLines,
+    super.documents,
+    super.deletedDocuments,
 
     super.startDate,
     super.startTime,
@@ -45,7 +43,6 @@ class OrderFormData extends BaseOrderFormData {
     super.orderType,
     super.orderCountryCode,
     super.customerOrderAccepted,
-    super.locations,
     super.error,
     super.isCreatingEquipment,
     super.isCreatingLocation,
@@ -68,9 +65,6 @@ class OrderFormData extends BaseOrderFormData {
     final TextEditingController orderMobileController = TextEditingController();
     final TextEditingController orderReferenceController = TextEditingController();
     final TextEditingController customerRemarksController = TextEditingController();
-
-    final OrderlineFormData orderlineFormData = OrderlineFormData.createEmpty();
-    final InfolineFormData infolineFormData = InfolineFormData.createEmpty();
 
     return OrderFormData(
       id: null,
@@ -101,15 +95,12 @@ class OrderFormData extends BaseOrderFormData {
       changedEndDate: false,
       customerOrderAccepted: false,
 
-      orderlineFormData: orderlineFormData,
-      infolineFormData: infolineFormData,
-
       orderLines: [],
       infoLines: [],
       deletedOrderLines: [],
       deletedInfoLines: [],
-
-      locations: [],
+      documents: [],
+      deletedDocuments: [],
 
       isCreatingEquipment: false,
       isCreatingLocation: false,
@@ -167,9 +158,6 @@ class OrderFormData extends BaseOrderFormData {
     final TextEditingController customerRemarksController = TextEditingController();
     customerRemarksController.text = checkNull(order.customerRemarks);
 
-    final OrderlineFormData orderlineFormData = OrderlineFormData.createEmpty();
-    final InfolineFormData infolineFormData = InfolineFormData.createEmpty();
-
     DateTime? startTime;
     if (order.startTime != null) {
       startTime = DateFormat('d/M/yyyy H:m:s').parse(
@@ -210,15 +198,13 @@ class OrderFormData extends BaseOrderFormData {
       endTime: endTime,
       customerOrderAccepted: order.customerOrderAccepted,
 
-      orderlineFormData: orderlineFormData,
-      infolineFormData: infolineFormData,
-
       orderLines: order.orderLines,
       infoLines: order.infoLines,
+      documents: order.documents,
       deletedOrderLines: [],
       deletedInfoLines: [],
+      deletedDocuments: [],
 
-      locations: [],
       isCreatingEquipment: false,
       isCreatingLocation: false,
       quickCreateSettings: null,

@@ -9,10 +9,10 @@ import 'package:my24_flutter_core/tests/http_client.mocks.dart';
 import 'package:my24_flutter_core/dev_logging.dart';
 
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
-import 'package:my24_flutter_orders/widgets/order/detail.dart';
-import 'package:my24_flutter_orders/widgets/order/empty.dart';
-import 'package:my24_flutter_orders/widgets/order/error.dart';
-import 'package:my24_flutter_orders/widgets/order/list.dart';
+import 'package:my24_flutter_orders/widgets/detail.dart';
+import 'package:my24_flutter_orders/widgets/empty.dart';
+import 'package:my24_flutter_orders/widgets/error.dart';
+import 'package:my24_flutter_orders/widgets/list.dart';
 import 'package:shltr_flutter/orders/detail.dart';
 import 'package:shltr_flutter/orders/form_widget.dart';
 import 'package:shltr_flutter/orders/order_bloc.dart';
