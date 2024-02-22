@@ -101,7 +101,8 @@
         "info_document": "Document",
         "error_adding": "Fout bij het toevoegen van het document",
         "no_items": "Geen documenten gevonden",
-        "button_add": "Voeg document toe"
+        "button_add": "Voeg document toe",
+        "snackbar_added": "Document toegevoegd"
       },
       "orderlines": {
         "delete_dialog_title": "Verwijder opdrachtregel",
@@ -120,7 +121,8 @@
         "location_not_found": "Geen locatie gevonden",
         "create_new_location": "Voeg locatie toe",
         "validator_location": "Locatie is vereist",
-        "adding_location": "Locatie aan het toevoegen..."
+        "adding_location": "Locatie aan het toevoegen...",
+        "snackbar_added": "Opdrachtregel toegevoegd"
       },
       "infolines": {
         "error_adding": "Fout bij het toevoegen van de informatieregel",
@@ -131,7 +133,8 @@
         "no_items": "Geen inforegels gevonden",
         "button_add": "Voeg inforegel toe",
         "info_infoline": "Info",
-        "validator_infoline": "Info is vereist"
+        "validator_infoline": "Info is vereist",
+        "snackbar_added": "Infoline toegevoegd"
       }
     },
     "unaccepted": {

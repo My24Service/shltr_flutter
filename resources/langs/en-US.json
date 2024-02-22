@@ -115,7 +115,8 @@
         "info_document": "Document",
         "error_adding": "Error adding document",
         "no_items": "No documents found",
-        "button_add": "Add document"
+        "button_add": "Add document",
+        "snackbar_added": "Document added"
       },
       "orderlines": {
         "delete_dialog_title": "Delete orderline",
@@ -134,7 +135,8 @@
         "location_not_found": "No location found",
         "create_new_location": "Add location",
         "validator_location": "Location is required",
-        "adding_location": "Adding location..."
+        "adding_location": "Adding location...",
+        "snackbar_added": "Orderline added"
       },
       "infolines": {
         "error_adding": "Error adding infoline",
@@ -145,7 +147,8 @@
         "no_items": "No infolines found",
         "button_add": "Add infoline",
         "info_infoline": "Info",
-        "validator_infoline": "Info is required"
+        "validator_infoline": "Info is required",
+        "snackbar_added": "Infoline added"
       }
     },
     "unaccepted": {
