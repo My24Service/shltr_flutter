@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -15,6 +16,7 @@ import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/common/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
+import 'package:shltr_flutter/home/pages/home.dart';
 
 import '../../company/models/models.dart';
 import '../../orders/order_bloc.dart';
@@ -29,12 +31,14 @@ class LoginWidget extends StatefulWidget {
   final BaseUser? user;
   final My24i18n i18n;
   final memberApi = MemberListPublicBranchesApi();
+  final String languageCode;
 
   LoginWidget({
     super.key,
     required this.member,
     required this.user,
-    required this.i18n
+    required this.i18n,
+    required this.languageCode
   });
 
   @override
@@ -73,6 +77,9 @@ class _LoginWidgetState extends State<LoginWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           _buildMemberSection(),
+          LanguageChooser(
+            currentLanguage: widget.languageCode,
+          ),
           LoginTextFields(
             usernameController: _usernameController,
             passwordController: _passwordController,
@@ -396,4 +403,75 @@ class LoginButtons extends StatelessWidget {
       ));
     }
   }
+}
+
+class LanguageChooser extends StatelessWidget {
+  final String currentLanguage;
+  final List<Map<String, String>> languages = [
+    {
+      'lang': 'en',
+      'text': 'English',
+      'img': 'langs/en.png'
+    },
+    {
+      'lang': 'nl',
+      'text': 'Nederlands',
+      'img': 'langs/nl.png'
+    }
+  ];
+
+  LanguageChooser({
+    super.key,
+    required this.currentLanguage
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonHideUnderline(
+        child:ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton(
+            hint: const Text("Select language"),
+            value: currentLanguage,
+            onChanged: (newValue) async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setString('preferred_language_code', newValue!);
+              if (context.mounted) {
+                context.setLocale(coreUtils.lang2locale(newValue)!);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const ShltrApp())
+                );
+              }
+            },
+            items: [
+              DropdownMenuItem(
+                value: 'en',
+                child: Row(
+                  children: [
+                    Image.asset("assets/langs/en.png", width: 25),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: const Text("English"),
+                    )
+                  ],
+                )
+              ),
+              DropdownMenuItem(
+                value: 'nl',
+                child: Row(
+                  children: [
+                    Image.asset("assets/langs/nl.png", width: 25),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10),
+                      child: const Text("Nederlands"),
+                    )
+                  ],
+                )
+              )
+            ]
+          ),
+        )
+    );
+  }
+
 }

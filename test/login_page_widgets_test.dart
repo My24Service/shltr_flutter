@@ -54,7 +54,8 @@ void main() async {
     bloc.coreUtils.httpClient = client;
 
     LoginPage page = LoginPage(
-      bloc: bloc
+      bloc: bloc,
+      languageCode: 'nl',
     );
 
     // return token request with a 200
@@ -95,7 +96,8 @@ void main() async {
     });
 
     LoginPage page = LoginPage(
-        bloc: bloc
+      bloc: bloc,
+      languageCode: 'nl',
     );
 
     // return token request with a 200
@@ -146,6 +148,7 @@ void main() async {
     LoginPage page = LoginPage(
       bloc: bloc,
       memberFromHome: demoMember,
+      languageCode: 'nl',
     );
 
     // return token request with a 200
@@ -223,7 +226,12 @@ void main() async {
         password: "test"
     );
 
-    LoginPage page = LoginPage(bloc: bloc, initialMode: "login", loginState: loginState);
+    LoginPage page = LoginPage(
+      bloc: bloc,
+      initialMode: "login",
+      loginState: loginState,
+      languageCode: 'nl',
+    );
 
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: page))
@@ -280,7 +288,12 @@ void main() async {
         password: "test"
     );
 
-    LoginPage page = LoginPage(bloc: bloc, initialMode: "login", loginState: loginState);
+    LoginPage page = LoginPage(
+      bloc: bloc,
+      initialMode: "login",
+      loginState: loginState,
+      languageCode: 'nl',
+    );
     page.coreUtils.httpClient = client;
 
     await mockNetworkImagesFor(() async => await tester.pumpWidget(

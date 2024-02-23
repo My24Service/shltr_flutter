@@ -136,7 +136,8 @@
         "create_new_location": "Add location",
         "validator_location": "Location is required",
         "adding_location": "Adding location...",
-        "snackbar_added": "Orderline added"
+        "snackbar_added": "Orderline added",
+        "info_save_location_to_equipment": "Save this location for this equipment?"
       },
       "infolines": {
         "error_adding": "Error adding infoline",

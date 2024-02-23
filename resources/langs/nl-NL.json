@@ -122,7 +122,8 @@
         "create_new_location": "Voeg locatie toe",
         "validator_location": "Locatie is vereist",
         "adding_location": "Locatie aan het toevoegen...",
-        "snackbar_added": "Opdrachtregel toegevoegd"
+        "snackbar_added": "Opdrachtregel toegevoegd",
+        "info_save_location_to_equipment": "Deze locatie opslaan bij deze apparatuur?"
       },
       "infolines": {
         "error_adding": "Fout bij het toevoegen van de informatieregel",

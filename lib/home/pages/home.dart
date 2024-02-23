@@ -155,6 +155,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
             return loadingNotice();
           }
 
+          String languageCode = snapshot.data;
           Locale? locale = coreUtils.lang2locale(snapshot.data);
 
           return MaterialApp(
@@ -178,6 +179,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
               ),
               home: Scaffold(
                 body: LoginPage(
+                  languageCode: languageCode,
                   bloc: HomeBloc(),
                   memberFromHome: member,
                 ),

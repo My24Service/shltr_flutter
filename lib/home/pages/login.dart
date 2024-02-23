@@ -17,13 +17,15 @@ class LoginPage extends StatelessWidget {
   final HomeDoLoginState? loginState;
   final Member? memberFromHome;
   final CoreUtils coreUtils = CoreUtils();
+  final String languageCode;
 
   LoginPage({
     super.key,
     required this.bloc,
     this.initialMode,
     this.loginState,
-    this.memberFromHome
+    this.memberFromHome,
+    required this.languageCode
   });
 
   HomeBloc _initialCall() {
@@ -101,6 +103,7 @@ class LoginPage extends StatelessWidget {
         user: state.user,
         member: state.member,
         i18n: i18n,
+        languageCode: languageCode
       );
     }
 
@@ -109,6 +112,7 @@ class LoginPage extends StatelessWidget {
         user: null,
         member: state.member,
         i18n: i18n,
+        languageCode: languageCode
       );
     }
 
