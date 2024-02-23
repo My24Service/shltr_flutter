@@ -44,8 +44,6 @@ class OrderFormData extends BaseOrderFormData {
     super.orderCountryCode,
     super.customerOrderAccepted,
     super.error,
-    super.isCreatingEquipment,
-    super.isCreatingLocation,
     super.quickCreateSettings,
     super.customerBranchId
   });
@@ -102,8 +100,6 @@ class OrderFormData extends BaseOrderFormData {
       documents: [],
       deletedDocuments: [],
 
-      isCreatingEquipment: false,
-      isCreatingLocation: false,
       quickCreateSettings: null,
     );
   }
@@ -205,8 +201,6 @@ class OrderFormData extends BaseOrderFormData {
       deletedInfoLines: [],
       deletedDocuments: [],
 
-      isCreatingEquipment: false,
-      isCreatingLocation: false,
       quickCreateSettings: null,
     );
   }
