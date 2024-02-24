@@ -123,7 +123,13 @@
         "validator_location": "Locatie is vereist",
         "adding_location": "Locatie aan het toevoegen...",
         "snackbar_added": "Opdrachtregel toegevoegd",
-        "info_save_location_to_equipment": "Deze locatie opslaan bij deze apparatuur?"
+        "info_save_location_to_equipment": "Deze locatie opslaan bij deze apparatuur?",
+        "dialog_title_create_equipment": "Apparatuur aanmaken?",
+        "dialog_content_create_equipment": "Nieuwe apparatuur wordt aangemaakt met naam: {name}",
+        "dialog_button_create_equipment": "Maak aan",
+        "dialog_title_create_location": "Locatie aanmaken?",
+        "dialog_content_create_location": "Een nieuw locatie wordt aangemaakt met naam: {name}",
+        "dialog_button_create_location": "Maak aan"
       },
       "infolines": {
         "error_adding": "Fout bij het toevoegen van de informatieregel",

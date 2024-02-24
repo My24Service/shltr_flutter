@@ -746,7 +746,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d6b11844f5b0213bd3a4f5fa970421eaca7320ba
+      resolved-ref: d92722cca4b7f41cc4f06d145412e88706b9f123
       url: "https://github.com/My24Service/my24_flutter_core.git"
     source: git
     version: "0.0.4"
@@ -771,11 +771,9 @@ packages:
   my24_flutter_orders:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "0dc6d19fc883def5f78391cd654c7c24ce9f8fba"
-      url: "https://github.com/My24Service/my24_flutter_orders.git"
-    source: git
+      path: "../my24_flutter_orders"
+      relative: true
+    source: path
     version: "0.1.0"
   nested:
     dependency: transitive
