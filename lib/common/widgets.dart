@@ -27,7 +27,7 @@ ElevatedButton createElevatedButtonColored(String text, Function callback,
 }
 
 Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
-  height: 200,
+  height: 160,
   width: 300,
   child: Center(
     child: Column(

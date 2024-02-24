@@ -26,14 +26,13 @@ import '../../orders/page.dart';
 // - not logged in, no member
 // - not logged in, member
 // - logged in
-class LoginWidget extends StatefulWidget {
+class LoginWidget extends StatelessWidget {
   final Member? member;
   final BaseUser? user;
   final My24i18n i18n;
-  final memberApi = MemberListPublicBranchesApi();
   final String languageCode;
 
-  LoginWidget({
+  const LoginWidget({
     super.key,
     required this.member,
     required this.user,
@@ -42,122 +41,32 @@ class LoginWidget extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _LoginWidgetState();
-}
-
-class _LoginWidgetState extends State<LoginWidget> {
-  final TextEditingController _companycodeController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final CoreWidgets coreWidgets = CoreWidgets();
-
-  @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 600.0,
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: _buildBodyColumn(context),
-        ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _companycodeController.dispose();
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Widget _buildBodyColumn(BuildContext context) {
-    if (widget.user == null) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          _buildMemberSection(),
-          LanguageChooser(
-            currentLanguage: widget.languageCode,
-          ),
-          LoginTextFields(
-            usernameController: _usernameController,
-            passwordController: _passwordController,
-            i18n: widget.i18n
-          ),
-          const SizedBox(height: 10),
-          LoginButtons(
-            i18n: widget.i18n,
-            usernameController: _usernameController,
-            member: widget.member,
-            passwordController: _passwordController,
-            companycodeController: _companycodeController
-          ),
-        ],
-      );
-    }
-
-    return Column(
-      children: <Widget>[
-        _buildMemberSection(),
-        const Divider(),
-        LoggedInButtons(
-          i18n: widget.i18n,
-          isPlanning: widget.user is PlanningUser,
-          user: widget.user,
-          member: widget.member,
-        )
-      ],
-    );
-  }
-
-  Widget _buildMemberSection() {
-    // member logo and info when entering the app with member data
-    if (widget.member != null) {
-      return Column(
-        children: [
-          CompanyLogo(memberPicture: checkNull(widget.member!.companylogoUrl)),
-          Center(child: buildMemberInfoCard(context, widget.member)),
-        ]
-      );
-    }
-
-    // return manual entry else
-    return Center(
+    return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const ShltrLogo(),
-          TypeAheadFormField<Member>(
-            debounceDuration: const Duration(seconds: 1),
-            minCharsForSuggestions: 2,
-            textFieldConfiguration: TextFieldConfiguration(
-              controller: _companycodeController,
-              decoration: InputDecoration(
-                  labelText: widget.i18n.$trans('typeahead_label_search_company')
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              LanguageChooser(
+                currentLanguage: languageCode,
               ),
-            ),
-            suggestionsCallback: (pattern) async {
-              return await widget.memberApi.search(pattern);
-            },
-            itemBuilder: (context, Member suggestion) {
-              return ListTile(
-                title: Text(suggestion.companycode!),
-              );
-            },
-            transitionBuilder: (context, suggestionsBox, controller) {
-              return suggestionsBox;
-            },
-            onSuggestionSelected: (member) async {
-              _companycodeController.text = member.companycode!;
-            },
-            validator: (value) {
-              return null;
-            },
-            onSaved: (value) => {
-            },
+            ],
           ),
+          Center(
+              child: Container(
+                width: 360.0,
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: BodyColumn(
+                    member: member,
+                    user: user,
+                    i18n: i18n,
+                    languageCode: languageCode,
+                  ),
+                ),
+              )
+          )
         ],
       )
     );
@@ -240,7 +149,6 @@ class LoginTextFields extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class LoggedInButtons extends StatelessWidget {
@@ -473,5 +381,154 @@ class LanguageChooser extends StatelessWidget {
         )
     );
   }
+}
 
+class MemberSection extends StatelessWidget {
+  final Member? member;
+  final TextEditingController companycodeController;
+  final My24i18n i18n;
+  final memberApi = MemberListPublicBranchesApi();
+  final String languageCode;
+
+  MemberSection({
+    super.key,
+    required this.member,
+    required this.companycodeController,
+    required this.i18n,
+    required this.languageCode
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // member logo and info when entering the app with member data
+    if (member != null) {
+      return Column(
+          children: [
+            CompanyLogo(memberPicture: checkNull(member!.companylogoUrl)),
+            const SizedBox(height: 10),
+            Center(child: buildMemberInfoCard(context, member)),
+          ]
+      );
+    }
+
+    // return manual entry else
+    return Center(
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const ShltrLogo(),
+            TypeAheadFormField<Member>(
+              debounceDuration: const Duration(seconds: 1),
+              minCharsForSuggestions: 2,
+              textFieldConfiguration: TextFieldConfiguration(
+                controller: companycodeController,
+                decoration: InputDecoration(
+                    labelText: i18n.$trans('typeahead_label_search_company')
+                ),
+              ),
+              suggestionsCallback: (pattern) async {
+                return await memberApi.search(pattern);
+              },
+              itemBuilder: (context, Member suggestion) {
+                return ListTile(
+                  title: Text(suggestion.companycode!),
+                );
+              },
+              transitionBuilder: (context, suggestionsBox, controller) {
+                return suggestionsBox;
+              },
+              onSuggestionSelected: (member) async {
+                companycodeController.text = member.companycode!;
+              },
+              validator: (value) {
+                return null;
+              },
+              onSaved: (value) => {
+              },
+            ),
+          ],
+        )
+    );
+  }
+}
+
+class BodyColumn extends StatefulWidget {
+  final Member? member;
+  final My24i18n i18n;
+  final BaseUser? user;
+  final String languageCode;
+
+  const BodyColumn({
+    super.key,
+    required this.member,
+    required this.i18n,
+    required this.user,
+    required this.languageCode
+  });
+
+  @override
+  State<StatefulWidget> createState() => _BodyColumnState();
+}
+
+class _BodyColumnState extends State<BodyColumn> {
+  final TextEditingController companycodeController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final CoreWidgets coreWidgets = CoreWidgets();
+
+  @override
+  void dispose() {
+    companycodeController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.user == null) {
+      return Column(
+        children: <Widget>[
+          MemberSection(
+            member: widget.member,
+            companycodeController: companycodeController,
+            i18n: widget.i18n,
+            languageCode: widget.languageCode,
+          ),
+          LoginTextFields(
+              usernameController: usernameController,
+              passwordController: passwordController,
+              i18n: widget.i18n
+          ),
+          const SizedBox(height: 10),
+          LoginButtons(
+              i18n: widget.i18n,
+              usernameController: usernameController,
+              member: widget.member,
+              passwordController: passwordController,
+              companycodeController: companycodeController
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      children: <Widget>[
+        MemberSection(
+          member: widget.member,
+          companycodeController: companycodeController,
+          i18n: widget.i18n,
+          languageCode: widget.languageCode,
+        ),
+        const Divider(),
+        LoggedInButtons(
+          i18n: widget.i18n,
+          isPlanning: widget.user is PlanningUser,
+          user: widget.user,
+          member: widget.member,
+        )
+      ],
+    );
+  }
 }

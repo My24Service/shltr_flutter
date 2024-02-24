@@ -753,11 +753,9 @@ packages:
   my24_flutter_equipment:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "652c0eef63271f2c0089b77fa94a5b4e81debc42"
-      url: "https://github.com/My24Service/my24_flutter_equipment.git"
-    source: git
+      path: "../my24_flutter_equipment"
+      relative: true
+    source: path
     version: "0.0.1"
   my24_flutter_member_models:
     dependency: "direct main"
@@ -771,11 +769,9 @@ packages:
   my24_flutter_orders:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "8a1455763fa8c66402c93d54771f04acf7a38ae7"
-      url: "https://github.com/My24Service/my24_flutter_orders.git"
-    source: git
+      path: "../my24_flutter_orders"
+      relative: true
+    source: path
     version: "0.0.1"
   nested:
     dependency: transitive
@@ -1186,10 +1182,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: c512655380d241a337521703af62d2c122bf7b77a46ff7dd750092aa9433499c
+      sha256: "0ecc004c62fd3ed36a2ffcbe0dd9700aee63bd7532d0b642a488b1ec310f492e"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.4"
+    version: "6.2.5"
   url_launcher_android:
     dependency: transitive
     description:
