@@ -2,15 +2,49 @@ PODS:
   - BranchSDK (3.0.1)
   - device_info_plus (0.0.1):
     - Flutter
+  - DKImagePickerController/Core (4.3.4):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.4)
+  - DKImagePickerController/PhotoGallery (4.3.4):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.4)
+  - DKPhotoGallery (0.0.17):
+    - DKPhotoGallery/Core (= 0.0.17)
+    - DKPhotoGallery/Model (= 0.0.17)
+    - DKPhotoGallery/Preview (= 0.0.17)
+    - DKPhotoGallery/Resource (= 0.0.17)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
+    - Flutter
   - Firebase/CoreOnly (10.20.0):
     - FirebaseCore (= 10.20.0)
   - Firebase/Messaging (10.20.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 10.20.0)
-  - firebase_core (2.25.1):
+  - firebase_core (2.25.4):
     - Firebase/CoreOnly (= 10.20.0)
     - Flutter
-  - firebase_messaging (14.7.12):
+  - firebase_messaging (14.7.16):
     - Firebase/Messaging (= 10.20.0)
     - firebase_core
     - Flutter
@@ -35,8 +69,12 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.8)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - Flutter (1.0.0)
-  - flutter_branch_sdk (7.0.2):
+  - flutter_branch_sdk (7.0.4):
     - BranchSDK (~> 3.0.0)
+    - Flutter
+  - flutter_keyboard_visibility (0.0.1):
+    - Flutter
+  - geolocator_apple (1.2.0):
     - Flutter
   - GoogleDataTransport (9.3.0):
     - GoogleUtilities/Environment (~> 7.7)
@@ -59,6 +97,8 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
+  - image_picker_ios (0.0.1):
+    - Flutter
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
     - nanopb/encode (= 2.30909.1)
@@ -72,12 +112,23 @@ PODS:
     - Flutter
     - FlutterMacOS
   - PromisesObjC (2.3.1)
+  - SDWebImage (5.18.10):
+    - SDWebImage/Core (= 5.18.10)
+  - SDWebImage/Core (5.18.10)
+  - Sentry/HybridSDK (8.20.0):
+    - SentryPrivate (= 8.20.0)
+  - sentry_flutter (0.0.1):
+    - Flutter
+    - FlutterMacOS
+    - Sentry/HybridSDK (= 8.20.0)
+  - SentryPrivate (8.20.0)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
   - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
+  - SwiftyGif (5.4.4)
   - uni_links (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
@@ -85,13 +136,18 @@ PODS:
 
 DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_branch_sdk (from `.symlinks/plugins/flutter_branch_sdk/ios`)
+  - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - open_filex (from `.symlinks/plugins/open_filex/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
   - uni_links (from `.symlinks/plugins/uni_links/ios`)
@@ -100,6 +156,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - BranchSDK
+    - DKImagePickerController
+    - DKPhotoGallery
     - Firebase
     - FirebaseCore
     - FirebaseCoreInternal
@@ -109,10 +167,16 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - PromisesObjC
+    - SDWebImage
+    - Sentry
+    - SentryPrivate
+    - SwiftyGif
 
 EXTERNAL SOURCES:
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
@@ -121,12 +185,20 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_branch_sdk:
     :path: ".symlinks/plugins/flutter_branch_sdk/ios"
+  flutter_keyboard_visibility:
+    :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
   open_filex:
     :path: ".symlinks/plugins/open_filex/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sentry_flutter:
+    :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
   sqflite:
@@ -139,24 +211,35 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   BranchSDK: e268bcf41469051c9e83efcd6fd85d0ba91d1d0f
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
+  DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
+  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
+  file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
-  firebase_core: e1ec68d12510bacdbbd82c3288f2c8f215a17bb1
-  firebase_messaging: fb0269844f3b0a0358003cec581803a77c13ea12
+  firebase_core: a46c312d8bae4defa3d009b2aa7b5b413aeb394e
+  firebase_messaging: e7062cef946e12f93b42abea96937004f8d914d6
   FirebaseCore: 28045c1560a2600d284b9c45a904fe322dc890b6
   FirebaseCoreInternal: efeeb171ac02d623bdaefe121539939821e10811
   FirebaseInstallations: 558b1da7d65afeb996fd5c814332f013234ece4e
   FirebaseMessaging: 06c414a21b122396a26847c523d5c370f8325df5
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_branch_sdk: 074b3a7e9c8214c3f19c1b72840c114abb641b06
+  flutter_branch_sdk: a7d5ba2bb9839d8c7ed6d51e14857962a846b8f7
+  flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
+  geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
+  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   open_filex: 6e26e659846ec990262224a12ef1c528bb4edbe4
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  SDWebImage: fc8f2d48bbfd72ef39d70e981bd24a3f3be53fec
+  Sentry: a8d7b373b9f9868442b02a0c425192f693103cbf
+  sentry_flutter: 03e7660857a8cdb236e71456a7e8447b65c8a788
+  SentryPrivate: 006b24af16828441f70e2ab6adf241bd0a8ad130
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
 

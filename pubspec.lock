@@ -753,9 +753,11 @@ packages:
   my24_flutter_equipment:
     dependency: "direct main"
     description:
-      path: "../my24_flutter_equipment"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: e86affedf0f4dafd2ee45911b72cdb6824321d67
+      url: "https://github.com/My24Service/my24_flutter_equipment.git"
+    source: git
     version: "0.0.1"
   my24_flutter_member_models:
     dependency: "direct main"
@@ -769,10 +771,12 @@ packages:
   my24_flutter_orders:
     dependency: "direct main"
     description:
-      path: "../my24_flutter_orders"
-      relative: true
-    source: path
-    version: "0.0.1"
+      path: "."
+      ref: HEAD
+      resolved-ref: "0dc6d19fc883def5f78391cd654c7c24ce9f8fba"
+      url: "https://github.com/My24Service/my24_flutter_orders.git"
+    source: git
+    version: "0.1.0"
   nested:
     dependency: transitive
     description:
