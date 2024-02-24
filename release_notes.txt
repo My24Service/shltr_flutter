@@ -1,1 +1,3 @@
-Test build, works on the dev environment
+Test build, works on the dev environment.
+
+Contains orders functionality, only tested with a planning account.
