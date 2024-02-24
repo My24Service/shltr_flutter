@@ -121,8 +121,8 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   Future<bool> _setBasePrefs() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
 
-    AppConfig config = kDebugMode ? AppConfig(protocol: "http") : AppConfig();
-
+    // AppConfig config = kDebugMode ? AppConfig(protocol: "http") : AppConfig();
+    AppConfig config = AppConfig();
     await sharedPrefs.setString('apiBaseUrl', config.apiBaseUrl);
     await sharedPrefs.setInt('pageSize', config.pageSize);
     await sharedPrefs.setString('apiProtocol', config.protocol);
