@@ -406,7 +406,7 @@ class MemberSection extends StatelessWidget {
           children: [
             CompanyLogo(memberPicture: checkNull(member!.companylogoUrl)),
             const SizedBox(height: 10),
-            Center(child: buildMemberInfoCard(context, member)),
+            Center(child: MemberInfoCard(member: member!)),
           ]
       );
     }

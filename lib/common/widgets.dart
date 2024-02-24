@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:my24_flutter_core/utils.dart';
+import 'package:my24_flutter_member_models/public/models.dart';
 
 Widget loadingNotice() {
   return const Center(child: CircularProgressIndicator());
@@ -78,4 +79,47 @@ createSnackBar(BuildContext context, String content) {
   // Find the ScaffoldMessenger in the widget tree
   // and use it to show a SnackBar.
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+class MemberInfoCard extends StatelessWidget {
+  final Member member;
+  const MemberInfoCard({
+    super.key,
+    required this.member
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ListTile(
+            title: Text('${member.name}',
+                style: const TextStyle(fontWeight: FontWeight.w500)),
+            subtitle: Text(
+                '${member.address}\n${member.countryCode}-${member.postal}\n${member.city}'),
+            leading: Icon(
+              Icons.home,
+              color: Colors.blue[500],
+            ),
+          ),
+          ListTile(
+            title: Text('${member.tel}',
+                style: const TextStyle(fontWeight: FontWeight.w500)),
+            leading: Icon(
+              Icons.contact_phone,
+              color: Colors.blue[500],
+            ),
+            onTap: () {
+              if (member.tel != '' && member.tel != null) {
+                coreUtils.launchURL("tel://${member.tel}");
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
 }
