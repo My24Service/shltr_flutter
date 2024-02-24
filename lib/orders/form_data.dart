@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:my24_flutter_core/models/base_models.dart';
+import 'package:my24_flutter_orders/models/infoline/form_data.dart';
 import 'package:my24_flutter_orders/models/order/form_data.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
+import 'package:my24_flutter_orders/models/orderline/form_data.dart';
 
 import '../company/models/models.dart';
 
@@ -46,7 +48,10 @@ class OrderFormData extends BaseOrderFormData {
     super.error,
     super.quickCreateSettings,
     super.customerBranchId,
-    super.equipmentLocationUpdates
+    super.equipmentLocationUpdates,
+
+    super.orderlineFormData,
+    super.infolineFormData
   });
 
   factory OrderFormData.newFromOrderTypes(OrderTypes orderTypes) {
@@ -102,7 +107,10 @@ class OrderFormData extends BaseOrderFormData {
       deletedDocuments: [],
 
       quickCreateSettings: null,
-      equipmentLocationUpdates: []
+      equipmentLocationUpdates: [],
+
+      orderlineFormData: OrderlineFormData.createEmpty(null),
+      infolineFormData: InfolineFormData.createEmpty(null)
     );
   }
 
@@ -204,7 +212,9 @@ class OrderFormData extends BaseOrderFormData {
       deletedDocuments: [],
 
       quickCreateSettings: null,
-      equipmentLocationUpdates: []
+      equipmentLocationUpdates: [],
+      orderlineFormData: OrderlineFormData.createEmpty(null),
+      infolineFormData: InfolineFormData.createEmpty(null)
     );
   }
 }

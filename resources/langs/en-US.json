@@ -137,7 +137,13 @@
         "validator_location": "Location is required",
         "adding_location": "Adding location...",
         "snackbar_added": "Orderline added",
-        "info_save_location_to_equipment": "Save this location for this equipment?"
+        "info_save_location_to_equipment": "Save this location for this equipment?",
+        "dialog_title_create_equipment": "Create equipment?",
+        "dialog_content_create_equipment": "New equipment will be created with name: {name}",
+        "dialog_button_create_equipment": "Create",
+        "dialog_title_create_location": "Create location?",
+        "dialog_content_create_location": "A new location will be created with name: {name}",
+        "dialog_button_create_location": "Create"
       },
       "infolines": {
         "error_adding": "Error adding infoline",
