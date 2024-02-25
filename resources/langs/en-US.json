@@ -75,7 +75,16 @@
       "app_title_branch_employee_user": "Your orders",
 
       "delete_dialog_title": "Delete order",
-      "delete_dialog_content": "Do you want to delete this order?"
+      "delete_dialog_content": "Do you want to delete this order?",
+
+      "snackbar_orderline_added": "Orderline added",
+      "snackbar_orderline_removed": "Orderline removed",
+
+      "snackbar_infoline_added": "Infoline added",
+      "snackbar_infoline_removed": "Infoline removed",
+
+      "snackbar_document_added": "Document added",
+      "snackbar_document_removed": "Document removed"
     },
     "form": {
       "app_bar_title_insert": "New order",
@@ -115,8 +124,7 @@
         "info_document": "Document",
         "error_adding": "Error adding document",
         "no_items": "No documents found",
-        "button_add": "Add document",
-        "snackbar_added": "Document added"
+        "button_add": "Add document"
       },
       "orderlines": {
         "delete_dialog_title": "Delete orderline",
@@ -136,7 +144,6 @@
         "create_new_location": "Add location",
         "validator_location": "Location is required",
         "adding_location": "Adding location...",
-        "snackbar_added": "Orderline added",
         "info_save_location_to_equipment": "Save this location for this equipment?",
         "dialog_title_create_equipment": "Create equipment?",
         "dialog_content_create_equipment": "New equipment will be created with name: {name}",
@@ -156,8 +163,7 @@
         "no_items": "No infolines found",
         "button_add": "Add infoline",
         "info_infoline": "Info",
-        "validator_infoline": "Info is required",
-        "snackbar_added": "Infoline added"
+        "validator_infoline": "Info is required"
       }
     },
     "unaccepted": {
