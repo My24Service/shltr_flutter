@@ -50,7 +50,6 @@ class OrderFormData extends BaseOrderFormData {
     super.customerBranchId,
     super.equipmentLocationUpdates,
 
-    super.orderlineFormData,
     super.infolineFormData
   });
 
@@ -109,7 +108,6 @@ class OrderFormData extends BaseOrderFormData {
       quickCreateSettings: null,
       equipmentLocationUpdates: [],
 
-      orderlineFormData: OrderlineFormData.createEmpty(null),
       infolineFormData: InfolineFormData.createEmpty(null)
     );
   }
@@ -213,7 +211,6 @@ class OrderFormData extends BaseOrderFormData {
 
       quickCreateSettings: null,
       equipmentLocationUpdates: [],
-      orderlineFormData: OrderlineFormData.createEmpty(null),
       infolineFormData: InfolineFormData.createEmpty(null)
     );
   }

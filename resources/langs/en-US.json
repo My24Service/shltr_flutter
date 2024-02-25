@@ -143,7 +143,9 @@
         "dialog_button_create_equipment": "Create",
         "dialog_title_create_location": "Create location?",
         "dialog_content_create_location": "A new location will be created with name: {name}",
-        "dialog_button_create_location": "Create"
+        "dialog_button_create_location": "Create",
+        "equipment_created": "Equipment created",
+        "location_created": "Location created"
       },
       "infolines": {
         "error_adding": "Error adding infoline",

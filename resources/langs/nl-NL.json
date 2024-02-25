@@ -129,7 +129,9 @@
         "dialog_button_create_equipment": "Maak aan",
         "dialog_title_create_location": "Locatie aanmaken?",
         "dialog_content_create_location": "Een nieuw locatie wordt aangemaakt met naam: {name}",
-        "dialog_button_create_location": "Maak aan"
+        "dialog_button_create_location": "Maak aan",
+        "equipment_created": "Apparatuur aangemaakt",
+        "location_created": "Locatie aangemaakt"
       },
       "infolines": {
         "error_adding": "Fout bij het toevoegen van de informatieregel",
