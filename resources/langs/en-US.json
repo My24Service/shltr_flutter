@@ -342,6 +342,10 @@
     "drawer_planning_quotations": "Quotations",
     "drawer_planning_quotations_unaccepted": "Quotations unaccepted",
 
+    "drawer_employee_orders": "Orders",
+    "drawer_employee_orders_past": "Past orders",
+    "drawer_employee_orders_unaccepted": "Orders unaccepted",
+
     "button_cancel": "Cancel",
     "button_delete": "Delete"
   },

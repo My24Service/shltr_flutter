@@ -46,7 +46,7 @@ dependencies:
 #        path: ../my24_flutter_orders
     git:
       url: https://github.com/My24Service/my24_flutter_orders.git
-
+      ref: develop
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

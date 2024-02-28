@@ -235,7 +235,7 @@ void main() async {
     expect(find.byType(OrderFormWidget), findsOneWidget);
   });
 
-  testWidgets('loads form new', (tester) async {
+  testWidgets('loads form new planning', (tester) async {
     final client = MockClient();
     final orderBloc = OrderBloc();
     orderBloc.api.httpClient = client;
@@ -261,6 +261,52 @@ void main() async {
     // return member settings data with a 200
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
+
+    OrderListPage widget = OrderListPage(
+        bloc: orderBloc,
+        initialMode: 'new',
+        fetchMode: OrderEventStatus.fetchAll
+    );
+    widget.utils.httpClient = client;
+    await mockNetworkImagesFor(() async => await tester.pumpWidget(
+        createWidget(child: widget))
+    );
+    await mockNetworkImagesFor(() async => await tester.pumpAndSettle());
+
+    expect(find.byType(OrderFormWidget), findsOneWidget);
+  });
+
+  testWidgets('loads form new employee', (tester) async {
+    final client = MockClient();
+    final orderBloc = OrderBloc();
+    orderBloc.api.httpClient = client;
+    orderBloc.privateMemberApi.httpClient = client;
+    orderBloc.companyApi.httpClient = client;
+
+    SharedPreferences.setMockInitialValues({
+      'member_has_branches': false,
+      'submodel': 'branch_employee_user'
+    });
+
+    // return token request with a 200
+    when(
+        client.post(Uri.parse('https://demo.my24service-dev.com/api/jwt-token/refresh/'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body')
+        )
+    ).thenAnswer((_) async => http.Response(tokenData, 200));
+
+    // return order types data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/order_types/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(orderTypes, 200));
+
+    // return member settings data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(memberSettings, 200));
+
+    // return my branch data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/company/branch-my/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(myBranchData, 200));
 
     OrderListPage widget = OrderListPage(
         bloc: orderBloc,

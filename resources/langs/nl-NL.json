@@ -293,6 +293,10 @@
     "drawer_planning_quotations": "Offertes",
     "drawer_planning_quotations_unaccepted": "Niet geaccepteerde offertes",
 
+    "drawer_employee_orders": "Opdrachten",
+    "drawer_employee_orders_past": "Opdrachten in het verleden",
+    "drawer_employee_orders_unaccepted": "Niet geaccepteerde opdrachten",
+
     "button_cancel": "Annuleer",
     "button_delete": "Verwijder"
   },

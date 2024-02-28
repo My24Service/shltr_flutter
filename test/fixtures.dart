@@ -28,3 +28,4 @@ const String planningUser = '{"submodel": "planning_user", "user": {'
     '"planning_user": {}'
     '}}';
 const String initialData = '{}';
+const String myBranchData = '{"id":4,"name":"SHLTR group","address":"Metaalweg 4","postal":"3751LS","city":"Bunschoten-Spakenburg","country_code":"NL","tel":"033-2474020","email":"info@shltr-group.com","contact":"Wesley Buitenhuis","mobile":"","created":"24/02/2024 11:53","modified":"24/02/2024 11:53","num_orders":null}';
