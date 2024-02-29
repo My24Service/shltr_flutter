@@ -10,14 +10,15 @@ import 'package:my24_flutter_core/dev_logging.dart';
 
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/widgets/detail.dart';
-import 'package:my24_flutter_orders/widgets/empty.dart';
 import 'package:my24_flutter_orders/widgets/error.dart';
-import 'package:my24_flutter_orders/widgets/list.dart';
+
 import 'package:shltr_flutter/orders/pages/detail.dart';
 import 'package:shltr_flutter/orders/pages/form.dart';
+import 'package:shltr_flutter/orders/widgets/empty.dart';
 import 'package:shltr_flutter/orders/widgets/form.dart';
 import 'package:shltr_flutter/orders/blocs/order_form_bloc.dart';
 import 'package:shltr_flutter/orders/pages/list.dart';
+import 'package:shltr_flutter/orders/widgets/list.dart';
 import 'fixtures.dart';
 
 Widget createWidget({Widget? child}) {
