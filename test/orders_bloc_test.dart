@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
+import 'package:my24_flutter_orders/blocs/order_form_states.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
@@ -9,8 +11,8 @@ import 'package:my24_flutter_core/dev_logging.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
-import 'package:shltr_flutter/orders/form_data.dart';
-import 'package:shltr_flutter/orders/order_bloc.dart';
+import 'package:shltr_flutter/orders/models/form_data.dart';
+import 'package:shltr_flutter/orders/blocs/order_form_bloc.dart';
 import 'fixtures.dart';
 
 void main() {
@@ -20,11 +22,11 @@ void main() {
 
   test('Test fetch order detail', () async {
     final client = MockClient();
-    final OrderBloc orderBloc = OrderBloc();
-    orderBloc.api.httpClient = client;
-    orderBloc.locationApi.httpClient = client;
-    orderBloc.equipmentApi.httpClient = client;
-    orderBloc.privateMemberApi.httpClient = client;
+    final OrderFormBloc orderFormBloc = OrderFormBloc();
+    orderFormBloc.api.httpClient = client;
+    orderFormBloc.locationApi.httpClient = client;
+    orderFormBloc.equipmentApi.httpClient = client;
+    orderFormBloc.privateMemberApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -47,18 +49,18 @@ void main() {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
-    orderBloc.stream.listen(
+    orderFormBloc.stream.listen(
       expectAsync1((event) {
         expect(event, isA<OrderLoadedState>());
         expect(event.props[0], isA<OrderFormData>());
       })
     );
 
-    expectLater(orderBloc.stream, emits(isA<OrderLoadedState>()));
+    expectLater(orderFormBloc.stream, emits(isA<OrderLoadedState>()));
 
-    orderBloc.add(
-        const OrderEvent(
-            status: OrderEventStatus.fetchDetail,
+    orderFormBloc.add(
+        const OrderFormEvent(
+            status: OrderFormEventStatus.fetchDetail,
             pk: 1
         ));
   });
@@ -92,12 +94,12 @@ void main() {
 
   test('Test order edit', () async {
     final client = MockClient();
-    final orderBloc = OrderBloc();
-    orderBloc.api.httpClient = client;
+    final orderFormBloc = OrderFormBloc();
+    orderFormBloc.api.httpClient = client;
     // orderBloc.customerApi.httpClient = client;
     // orderBloc.locationApi.httpClient = client;
     // orderBloc.equipmentApi.httpClient = client;
-    orderBloc.privateMemberApi.httpClient = client;
+    orderFormBloc.privateMemberApi.httpClient = client;
 
     Order orderModel = Order(
       id: 1,
@@ -121,18 +123,18 @@ void main() {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
-    orderBloc.stream.listen(
+    orderFormBloc.stream.listen(
       expectAsync1((event) {
         expect(event, isA<OrderUpdatedState>());
         expect(event.props[0], isA<Order>());
       })
     );
 
-    expectLater(orderBloc.stream, emits(isA<OrderUpdatedState>()));
+    expectLater(orderFormBloc.stream, emits(isA<OrderUpdatedState>()));
 
-    orderBloc.add(
-        OrderEvent(
-          status: OrderEventStatus.update,
+    orderFormBloc.add(
+        OrderFormEvent(
+          status: OrderFormEventStatus.update,
           order: orderModel,
           pk: 1,
           infoLines: [],

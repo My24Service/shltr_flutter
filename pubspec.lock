@@ -746,7 +746,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d92722cca4b7f41cc4f06d145412e88706b9f123
+      resolved-ref: "09fb5d89581b22c8409156fd8b73597d0a451734"
       url: "https://github.com/My24Service/my24_flutter_core.git"
     source: git
     version: "0.0.4"
@@ -772,8 +772,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "5c7097f9a6ab743a1f62c4375a2ca7eec96ac415"
+      ref: develop
+      resolved-ref: "5a20e06f4822f8c11a5995ef5b5483911550f383"
       url: "https://github.com/My24Service/my24_flutter_orders.git"
     source: git
     version: "0.1.0"
@@ -1202,10 +1202,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: "75bb6fe3f60070407704282a2d295630cab232991eb52542b18347a8a941df03"
+      sha256: "9149d493b075ed740901f3ee844a38a00b33116c7c5c10d7fb27df8987fb51d5"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.4"
+    version: "6.2.5"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -1328,4 +1328,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.2.6 <4.0.0"
-  flutter: ">=3.16.0"
+  flutter: ">=3.16.6"

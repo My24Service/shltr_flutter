@@ -10,13 +10,15 @@ import 'package:my24_flutter_core/dev_logging.dart';
 
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/widgets/detail.dart';
-import 'package:my24_flutter_orders/widgets/empty.dart';
 import 'package:my24_flutter_orders/widgets/error.dart';
-import 'package:my24_flutter_orders/widgets/list.dart';
-import 'package:shltr_flutter/orders/detail.dart';
-import 'package:shltr_flutter/orders/form_widget.dart';
-import 'package:shltr_flutter/orders/order_bloc.dart';
-import 'package:shltr_flutter/orders/page.dart';
+
+import 'package:shltr_flutter/orders/pages/detail.dart';
+import 'package:shltr_flutter/orders/pages/form.dart';
+import 'package:shltr_flutter/orders/widgets/empty.dart';
+import 'package:shltr_flutter/orders/widgets/form.dart';
+import 'package:shltr_flutter/orders/blocs/order_form_bloc.dart';
+import 'package:shltr_flutter/orders/pages/list.dart';
+import 'package:shltr_flutter/orders/widgets/list.dart';
 import 'fixtures.dart';
 
 Widget createWidget({Widget? child}) {
@@ -152,7 +154,6 @@ void main() async {
     final client = MockClient();
     final orderBloc = OrderBloc();
     orderBloc.api.httpClient = client;
-    orderBloc.privateMemberApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -189,9 +190,9 @@ void main() async {
 
   testWidgets('loads form edit', (tester) async {
     final client = MockClient();
-    final orderBloc = OrderBloc();
-    orderBloc.api.httpClient = client;
-    orderBloc.privateMemberApi.httpClient = client;
+    final orderFormBloc = OrderFormBloc();
+    orderFormBloc.api.httpClient = client;
+    orderFormBloc.privateMemberApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -221,10 +222,10 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
-    OrderListPage widget = OrderListPage(
+    OrderFormPage widget = OrderFormPage(
       pk: 1,
-      bloc: orderBloc,
-      initialMode: 'form', fetchMode: OrderEventStatus.fetchAll
+      bloc: orderFormBloc,
+      fetchMode: OrderEventStatus.fetchAll
     );
     widget.utils.httpClient = client;
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
@@ -235,11 +236,11 @@ void main() async {
     expect(find.byType(OrderFormWidget), findsOneWidget);
   });
 
-  testWidgets('loads form new', (tester) async {
+  testWidgets('loads form new planning', (tester) async {
     final client = MockClient();
-    final orderBloc = OrderBloc();
-    orderBloc.api.httpClient = client;
-    orderBloc.privateMemberApi.httpClient = client;
+    final orderFormBloc = OrderFormBloc();
+    orderFormBloc.api.httpClient = client;
+    orderFormBloc.privateMemberApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -262,9 +263,55 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
-    OrderListPage widget = OrderListPage(
-        bloc: orderBloc,
-        initialMode: 'new',
+    OrderFormPage widget = OrderFormPage(
+        bloc: orderFormBloc,
+        pk: null,
+        fetchMode: OrderEventStatus.fetchAll
+    );
+    widget.utils.httpClient = client;
+    await mockNetworkImagesFor(() async => await tester.pumpWidget(
+        createWidget(child: widget))
+    );
+    await mockNetworkImagesFor(() async => await tester.pumpAndSettle());
+
+    expect(find.byType(OrderFormWidget), findsOneWidget);
+  });
+
+  testWidgets('loads form new employee', (tester) async {
+    final client = MockClient();
+    final orderFormBloc = OrderFormBloc();
+    orderFormBloc.api.httpClient = client;
+    orderFormBloc.privateMemberApi.httpClient = client;
+    orderFormBloc.companyApi.httpClient = client;
+
+    SharedPreferences.setMockInitialValues({
+      'member_has_branches': false,
+      'submodel': 'branch_employee_user'
+    });
+
+    // return token request with a 200
+    when(
+        client.post(Uri.parse('https://demo.my24service-dev.com/api/jwt-token/refresh/'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body')
+        )
+    ).thenAnswer((_) async => http.Response(tokenData, 200));
+
+    // return order types data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/order_types/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(orderTypes, 200));
+
+    // return member settings data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(memberSettings, 200));
+
+    // return my branch data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/company/branch-my/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(myBranchData, 200));
+
+    OrderFormPage widget = OrderFormPage(
+        bloc: orderFormBloc,
+        pk: null,
         fetchMode: OrderEventStatus.fetchAll
     );
     widget.utils.httpClient = client;

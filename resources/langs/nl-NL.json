@@ -67,7 +67,16 @@
       "app_title_branch_employee_user": "Uw opdrachten",
 
       "delete_dialog_title": "Verwijder opdracht",
-      "delete_dialog_content": "Wilt u deze opdracht verwijderen?"
+      "delete_dialog_content": "Wilt u deze opdracht verwijderen?",
+
+      "snackbar_orderline_added": "Opdrachtregel toegevoegd",
+      "snackbar_orderline_removed": "Opdrachtregel verwijderd",
+
+      "snackbar_infoline_added": "Inforegel toegevoegd",
+      "snackbar_infoline_removed": "Inforegel verwijderd",
+
+      "snackbar_document_added": "Document toegevoegd",
+      "snackbar_document_removed": "Document verwijderd"
     },
     "form": {
       "app_bar_title_insert": "Nieuwe opdracht",
@@ -101,13 +110,12 @@
         "info_document": "Document",
         "error_adding": "Fout bij het toevoegen van het document",
         "no_items": "Geen documenten gevonden",
-        "button_add": "Voeg document toe",
-        "snackbar_added": "Document toegevoegd"
+        "button_add": "Voeg document toe"
       },
       "orderlines": {
         "delete_dialog_title": "Verwijder opdrachtregel",
         "delete_dialog_content": "Wilt u deze opdrachtregel verwijderen?",
-        "error_adding": "Fout bij het verwijderen van de opdrachtregel",
+        "error_adding": "Fout bij het toevoegen van de opdrachtregel",
         "header": "Opdrachtregels",
         "header_new": "Nieuw",
         "no_items": "Geen opdrachtregels gevonden",
@@ -122,14 +130,15 @@
         "create_new_location": "Voeg locatie toe",
         "validator_location": "Locatie is vereist",
         "adding_location": "Locatie aan het toevoegen...",
-        "snackbar_added": "Opdrachtregel toegevoegd",
         "info_save_location_to_equipment": "Deze locatie opslaan bij deze apparatuur?",
         "dialog_title_create_equipment": "Apparatuur aanmaken?",
         "dialog_content_create_equipment": "Nieuwe apparatuur wordt aangemaakt met naam: {name}",
         "dialog_button_create_equipment": "Maak aan",
         "dialog_title_create_location": "Locatie aanmaken?",
         "dialog_content_create_location": "Een nieuw locatie wordt aangemaakt met naam: {name}",
-        "dialog_button_create_location": "Maak aan"
+        "dialog_button_create_location": "Maak aan",
+        "equipment_created": "Apparatuur aangemaakt",
+        "location_created": "Locatie aangemaakt"
       },
       "infolines": {
         "error_adding": "Fout bij het toevoegen van de informatieregel",
@@ -283,6 +292,10 @@
     "drawer_planning_branches": "Branches",
     "drawer_planning_quotations": "Offertes",
     "drawer_planning_quotations_unaccepted": "Niet geaccepteerde offertes",
+
+    "drawer_employee_orders": "Opdrachten",
+    "drawer_employee_orders_past": "Opdrachten in het verleden",
+    "drawer_employee_orders_unaccepted": "Niet geaccepteerde opdrachten",
 
     "button_cancel": "Annuleer",
     "button_delete": "Verwijder"

@@ -5,9 +5,8 @@ import 'package:my24_flutter_core/models/base_models.dart';
 import 'package:my24_flutter_orders/models/infoline/form_data.dart';
 import 'package:my24_flutter_orders/models/order/form_data.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
-import 'package:my24_flutter_orders/models/orderline/form_data.dart';
 
-import '../company/models/models.dart';
+import '../../company/models/models.dart';
 
 class OrderFormData extends BaseOrderFormData {
   OrderFormData({
@@ -50,7 +49,6 @@ class OrderFormData extends BaseOrderFormData {
     super.customerBranchId,
     super.equipmentLocationUpdates,
 
-    super.orderlineFormData,
     super.infolineFormData
   });
 
@@ -109,7 +107,6 @@ class OrderFormData extends BaseOrderFormData {
       quickCreateSettings: null,
       equipmentLocationUpdates: [],
 
-      orderlineFormData: OrderlineFormData.createEmpty(null),
       infolineFormData: InfolineFormData.createEmpty(null)
     );
   }
@@ -213,7 +210,6 @@ class OrderFormData extends BaseOrderFormData {
 
       quickCreateSettings: null,
       equipmentLocationUpdates: [],
-      orderlineFormData: OrderlineFormData.createEmpty(null),
       infolineFormData: InfolineFormData.createEmpty(null)
     );
   }

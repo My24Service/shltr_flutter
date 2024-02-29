@@ -19,8 +19,7 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
 
 import '../../company/models/models.dart';
-import '../../orders/order_bloc.dart';
-import '../../orders/page.dart';
+import '../../orders/pages/list.dart';
 
 // we have three modes of entry:
 // - not logged in, no member

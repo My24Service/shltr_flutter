@@ -1,7 +1,7 @@
 name: shltr_flutter
-description: SHLTR flutter app
+description: SHLTR-Group app
 publish_to: 'none'
-version: 0.2.1+12
+version: 0.2.3+14
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -46,7 +46,7 @@ dependencies:
 #        path: ../my24_flutter_orders
     git:
       url: https://github.com/My24Service/my24_flutter_orders.git
-
+      ref: develop
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

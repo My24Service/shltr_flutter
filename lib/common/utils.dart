@@ -119,17 +119,18 @@ class Utils with CoreApiMixin {
     }
 
     var userInfoDataDecoded = json.decode(userInfoData);
-    prefs.setString('submodel', userInfoDataDecoded['submodel']);
 
     if (userInfoDataDecoded['submodel'] == 'planning_user') {
       final user = PlanningUser.fromJson(userInfoDataDecoded['user']);
       prefs.setString('first_name', user.firstName!);
+      prefs.setString('submodel', 'planning_user');
       return user;
     }
 
     if (userInfoDataDecoded['submodel'] == 'employee_user') {
       final EmployeeUser user = EmployeeUser.fromJson(userInfoDataDecoded['user']);
       prefs.setString('first_name', user.firstName!);
+      prefs.setString('submodel', 'branch_employee_user');
       return user;
     }
 

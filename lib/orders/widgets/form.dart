@@ -3,9 +3,11 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:my24_flutter_orders/widgets/form/order.dart';
 
-import '../company/api/company_api.dart';
+import '../../company/api/company_api.dart';
 
 class OrderFormWidget<OrderBloc, OrderFormData> extends BaseOrderFormWidget {
+  final CompanyApi companyApi = CompanyApi();
+
   OrderFormWidget({
     super.key,
     required super.orderPageMetaData,

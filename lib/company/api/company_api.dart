@@ -68,5 +68,3 @@ class CompanyApi with CoreApiMixin {
     return [];
   }
 }
-
-CompanyApi companyApi = CompanyApi();
