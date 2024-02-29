@@ -7,8 +7,7 @@ import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 
 import 'package:shltr_flutter/common/utils.dart';
 import '../home/pages/home.dart';
-import '../orders/order_bloc.dart';
-import '../orders/page.dart';
+import '../orders/pages/list.dart';
 
 // Drawers
 Widget createDrawerHeader() {

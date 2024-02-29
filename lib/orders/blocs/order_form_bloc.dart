@@ -2,21 +2,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 import 'package:my24_flutter_core/utils.dart';
-import 'package:my24_flutter_orders/blocs/order_bloc.dart';
-import 'package:my24_flutter_orders/blocs/order_states.dart';
+import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
+import 'package:my24_flutter_orders/blocs/order_form_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
 
-import '../company/api/company_api.dart';
-import '../company/models/models.dart';
-import 'form_data.dart';
+import '../../company/api/company_api.dart';
+import '../../company/models/models.dart';
+import '../models/form_data.dart';
 
-class OrderBloc extends OrderBlocBase {
+class OrderFormBloc extends OrderFormBlocBase {
   final CoreUtils coreUtils = CoreUtils();
   final CompanyApi companyApi = CompanyApi();
 
-  OrderBloc() : super(OrderInitialState()) {
-    on<OrderEvent>((event, emit) async {
-      if (event.status == OrderEventStatus.newOrder) {
+  OrderFormBloc() : super(OrderFormInitialState()) {
+    on<OrderFormEvent>((event, emit) async {
+      if (event.status == OrderFormEventStatus.newOrder) {
         await _handleNewFormDataState(event, emit);
       } else {
         await handleEvent(event, emit);
@@ -30,7 +30,7 @@ class OrderBloc extends OrderBlocBase {
     return OrderFormData.createFromModel(order, orderTypes);
   }
 
-  Future<void> _handleNewFormDataState(OrderEvent event, Emitter<OrderState> emit) async {
+  Future<void> _handleNewFormDataState(OrderFormEvent event, Emitter<OrderFormState> emit) async {
     final OrderTypes orderTypes = await api.fetchOrderTypes();
     String? submodel = await coreUtils.getUserSubmodel();
     OrderFormData orderFormData = OrderFormData.newFromOrderTypes(orderTypes);
