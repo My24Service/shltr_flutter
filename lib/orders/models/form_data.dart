@@ -6,7 +6,7 @@ import 'package:my24_flutter_orders/models/infoline/form_data.dart';
 import 'package:my24_flutter_orders/models/order/form_data.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
 
-import '../../company/models/models.dart';
+import '../../company/models/branch/models.dart';
 
 class OrderFormData extends BaseOrderFormData {
   OrderFormData({

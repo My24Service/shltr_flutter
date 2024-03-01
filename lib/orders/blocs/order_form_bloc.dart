@@ -6,13 +6,13 @@ import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_form_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
 
-import '../../company/api/company_api.dart';
-import '../../company/models/models.dart';
+import '../../company/models/branch/api.dart';
+import '../../company/models/branch/models.dart';
 import '../models/form_data.dart';
 
 class OrderFormBloc extends OrderFormBlocBase {
   final CoreUtils coreUtils = CoreUtils();
-  final CompanyApi companyApi = CompanyApi();
+  final MyBranchApi branchApi = MyBranchApi();
 
   OrderFormBloc() : super(OrderFormInitialState()) {
     on<OrderFormEvent>((event, emit) async {
@@ -37,7 +37,7 @@ class OrderFormBloc extends OrderFormBlocBase {
     orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
 
     if (submodel == 'branch_employee_user') {
-      final Branch branch = await companyApi.fetchMyBranch();
+      final Branch branch = await branchApi.fetchMyBranch();
       orderFormData.fillFromBranch(branch);
     }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:my24_flutter_orders/widgets/empty.dart';
+import 'package:my24_flutter_orders/widgets/list.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,11 +16,9 @@ import 'package:my24_flutter_orders/widgets/error.dart';
 
 import 'package:shltr_flutter/orders/pages/detail.dart';
 import 'package:shltr_flutter/orders/pages/form.dart';
-import 'package:shltr_flutter/orders/widgets/empty.dart';
 import 'package:shltr_flutter/orders/widgets/form.dart';
 import 'package:shltr_flutter/orders/blocs/order_form_bloc.dart';
 import 'package:shltr_flutter/orders/pages/list.dart';
-import 'package:shltr_flutter/orders/widgets/list.dart';
 import 'fixtures.dart';
 
 Widget createWidget({Widget? child}) {
@@ -282,7 +282,7 @@ void main() async {
     final orderFormBloc = OrderFormBloc();
     orderFormBloc.api.httpClient = client;
     orderFormBloc.privateMemberApi.httpClient = client;
-    orderFormBloc.companyApi.httpClient = client;
+    orderFormBloc.branchApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
