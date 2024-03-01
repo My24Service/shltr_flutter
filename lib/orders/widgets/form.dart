@@ -3,10 +3,10 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:my24_flutter_orders/widgets/form/order.dart';
 
-import '../../company/api/company_api.dart';
+import '../../company/models/branch/api.dart';
 
 class OrderFormWidget<OrderBloc, OrderFormData> extends BaseOrderFormWidget {
-  final CompanyApi companyApi = CompanyApi();
+  final BranchApi branchApi = BranchApi();
 
   OrderFormWidget({
     super.key,
@@ -33,7 +33,7 @@ class OrderFormWidget<OrderBloc, OrderFormData> extends BaseOrderFormWidget {
               ),
             ),
             suggestionsCallback: (pattern) async {
-              return await companyApi.branchTypeAhead(pattern);
+              return await branchApi.typeAhead(pattern);
             },
             itemBuilder: (context, dynamic suggestion) {
               return ListTile(

@@ -5,8 +5,8 @@ import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
 import 'package:my24_flutter_orders/pages/form.dart';
 
-import 'package:shltr_flutter/orders/pages/list.dart';
 import '../widgets/form.dart';
+import './function_types.dart';
 
 class OrderFormPage<OrderFormBloc> extends BaseOrderFormPage {
   OrderFormPage({
@@ -14,7 +14,9 @@ class OrderFormPage<OrderFormBloc> extends BaseOrderFormPage {
     super.bloc,
     required super.fetchMode,
     required super.pk
-  });
+  }) : super(
+      navListFunction: navListFunction
+  );
 
   @override
   Widget getOrderFormWidget(
@@ -32,17 +34,4 @@ class OrderFormPage<OrderFormBloc> extends BaseOrderFormPage {
       widgetsIn: widgets,
     );
   }
-
-  @override
-  void navList(BuildContext context, OrderEventStatus fetchMode) {
-    Navigator.push(context,
-        MaterialPageRoute(
-            builder: (context) => OrderListPage(
-              fetchMode: fetchMode,
-              bloc: OrderBloc(),
-            )
-        )
-    );
-  }
-
 }
