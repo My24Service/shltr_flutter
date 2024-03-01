@@ -1,3 +1,4 @@
 Test build, works on the dev environment. Contains orders functionality, only tested with a planning account.
 
 - bugfix in order form equipment / locations
+- better navigation in creating/editing orders and order detail
