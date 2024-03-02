@@ -30,13 +30,15 @@ class LoginWidget extends StatelessWidget {
   final BaseUser? user;
   final My24i18n i18n;
   final String languageCode;
+  final String? equipmentUuid;
 
   const LoginWidget({
     super.key,
     required this.member,
     required this.user,
     required this.i18n,
-    required this.languageCode
+    required this.languageCode,
+    this.equipmentUuid
   });
 
   @override
@@ -62,6 +64,7 @@ class LoginWidget extends StatelessWidget {
                     user: user,
                     i18n: i18n,
                     languageCode: languageCode,
+                    equipmentUuid: equipmentUuid,
                   ),
                 ),
               )
@@ -259,7 +262,7 @@ class LoginButtons extends StatelessWidget {
             i18n.$trans('button_login'),
             () async { _loginPressed(context); }
         ),
-        const SizedBox(height: 30),
+        const SizedBox(height: 10),
         createElevatedButtonColored(
             i18n.$trans('button_forgot_password'),
             _passwordReset
@@ -457,13 +460,15 @@ class BodyColumn extends StatefulWidget {
   final My24i18n i18n;
   final BaseUser? user;
   final String languageCode;
+  final String? equipmentUuid;
 
   const BodyColumn({
     super.key,
     required this.member,
     required this.i18n,
     required this.user,
-    required this.languageCode
+    required this.languageCode,
+    required this.equipmentUuid
   });
 
   @override
@@ -495,6 +500,10 @@ class _BodyColumnState extends State<BodyColumn> {
             i18n: widget.i18n,
             languageCode: widget.languageCode,
           ),
+          if (widget.equipmentUuid != null)
+            EquipmentNotice(
+              i18n: widget.i18n,
+            ),
           LoginTextFields(
               usernameController: usernameController,
               passwordController: passwordController,
@@ -530,4 +539,24 @@ class _BodyColumnState extends State<BodyColumn> {
       ],
     );
   }
+}
+
+class EquipmentNotice extends StatelessWidget {
+  final My24i18n i18n;
+
+  const EquipmentNotice({
+    super.key,
+    required this.i18n
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        Text(i18n.$trans('equipment_login_notice'))
+      ],
+    );
+  }
+
 }

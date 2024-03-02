@@ -5,9 +5,9 @@ import 'package:shltr_flutter/orders/pages/function_types.dart';
 class EquipmentDetailPage extends BaseEquipmentDetailPage {
   EquipmentDetailPage({
     super.key,
+    super.pk,
+    super.uuid,
     required super.bloc,
-    required super.pk,
-    required super.uuid,
   }) : super(
       navDetailFunction: navDetailFunction
   );
