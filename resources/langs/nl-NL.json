@@ -318,7 +318,8 @@
     "location_list": "Locaties",
     "branch_list": "Vestigingen",
     "error_dialog_title_no_companycode": "Geen bedrijf",
-    "error_dialog_content_no_companycode": "Voer een bedrijf in"
+    "error_dialog_content_no_companycode": "Voer een bedrijf in",
+    "equipment_login_notice" : "Log eerst in om door te gaan naar de apparatuur"
   },
 
   "interact": {

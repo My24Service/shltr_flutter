@@ -32,6 +32,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   StreamSubscription? _sub;
   StreamSubscription<Map>? _streamSubscription;
   Member? member;
+  String? equipmentUuid;
 
   @override
   void initState() {
@@ -60,6 +61,11 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         }
         log.info('Company code: ${data["cc"]}');
         member = await utils.fetchMember(companycode: data['cc']);
+
+        if (data.containsKey('equipment')) {
+          equipmentUuid = data['equipment'];
+        }
+
         setState(() {});
         // _streamSubscription?.cancel();
       }
@@ -182,6 +188,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   languageCode: languageCode,
                   bloc: HomeBloc(),
                   memberFromHome: member,
+                  equipmentUuid: equipmentUuid,
                 ),
               )
           );

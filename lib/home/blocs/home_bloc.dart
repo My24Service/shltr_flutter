@@ -18,7 +18,7 @@ enum HomeEventStatus {
   soon
 }
 
-final log = Logger('HomeBloc');
+final log = Logger('home.blocs.home_bloc');
 
 class HomeEvent {
   final String? value;

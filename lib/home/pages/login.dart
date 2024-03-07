@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/utils.dart';
+import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 
 import 'package:shltr_flutter/home/widgets/login.dart';
 import 'package:shltr_flutter/common/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
+
+import '../../equipment/pages/detail.dart';
 
 class LoginPage extends StatelessWidget {
   final My24i18n i18n = My24i18n(basePath: "login");
@@ -18,6 +21,8 @@ class LoginPage extends StatelessWidget {
   final Member? memberFromHome;
   final CoreUtils coreUtils = CoreUtils();
   final String languageCode;
+  final String? equipmentUuid;
+  final EquipmentBloc? equipmentBloc; // only here for testability
 
   LoginPage({
     super.key,
@@ -25,7 +30,9 @@ class LoginPage extends StatelessWidget {
     this.initialMode,
     this.loginState,
     this.memberFromHome,
-    required this.languageCode
+    required this.languageCode,
+    this.equipmentUuid,
+    this.equipmentBloc
   });
 
   HomeBloc _initialCall() {
@@ -39,7 +46,6 @@ class LoginPage extends StatelessWidget {
           status: HomeEventStatus.doLogin,
           doLoginState: loginState
       ));
-
     }
 
     return bloc;
@@ -98,12 +104,20 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _getBody(context, state) {
+    if (((state is HomeLoggedInState) || (state is HomeState && state.user != null)) && equipmentUuid != null) {
+      return EquipmentDetailPage(
+        bloc: equipmentBloc != null ? equipmentBloc! : EquipmentBloc(),
+        uuid: equipmentUuid,
+      );
+    }
+
     if (state is HomeState || state is HomeLoggedInState || state is HomeSoonState) {
       return LoginWidget(
         user: state.user,
         member: state.member,
         i18n: i18n,
-        languageCode: languageCode
+        languageCode: languageCode,
+        equipmentUuid: equipmentUuid,
       );
     }
 
@@ -112,7 +126,8 @@ class LoginPage extends StatelessWidget {
         user: null,
         member: state.member,
         i18n: i18n,
-        languageCode: languageCode
+        languageCode: languageCode,
+        equipmentUuid: equipmentUuid,
       );
     }
 

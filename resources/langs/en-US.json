@@ -367,7 +367,8 @@
     "location_list": "Locations",
     "branch_list": "Branches",
     "error_dialog_title_no_companycode": "No company",
-    "error_dialog_content_no_companycode": "Please enter a company"
+    "error_dialog_content_no_companycode": "Please enter a company",
+    "equipment_login_notice" : "Please log in to continue to equipment"
   },
 
   "interact": {
