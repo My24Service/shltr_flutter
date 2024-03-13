@@ -378,6 +378,13 @@
       "button_save": "Save preferences",
       "snackbar_updated": "Preferences saved"
     }
+  },
+
+  "equipment": {
+    "detail": {
+      "model_name": "Equipment",
+      "app_bar_title": "Equipment detail"
+    }
   }
 
 }

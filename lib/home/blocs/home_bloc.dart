@@ -86,8 +86,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
       }
 
       emit(HomeState(
-          member: member,
-          user: user,
+        member: member,
+        user: user,
       ));
     } catch(e) {
       emit(HomeLoginErrorState(
