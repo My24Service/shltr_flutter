@@ -1,1 +1,1 @@
-Initial live build
+Open equipment details after QR scan with camera
