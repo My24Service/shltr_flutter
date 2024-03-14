@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/services.dart' show PlatformException;
+import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
@@ -17,6 +18,7 @@ import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/common/widgets.dart';
 
 import '../../app_config.dart';
+import '../../equipment/pages/detail.dart';
 import '../blocs/home_bloc.dart';
 
 final log = Logger('ShltrApp');
@@ -26,6 +28,17 @@ class ShltrApp extends StatefulWidget {
 
   @override
   State<ShltrApp> createState() => _ShltrAppState();
+}
+
+class HomePageData {
+  final Widget loadWidget;
+  final Locale? locale;
+
+  HomePageData({
+    required this.loadWidget,
+    required this.locale,
+  });
+
 }
 
 class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin {
@@ -59,7 +72,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         if (data['cc'] == 'open') {
           return;
         }
-        log.info('Company code: ${data["cc"]}');
+        log.info('_listenDynamicLinks: Company code: ${data["cc"]}');
         member = await utils.fetchMember(companycode: data['cc']);
 
         if (data.containsKey('equipment')) {
@@ -136,6 +149,36 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     return true;
   }
 
+  Future<HomePageData?> _getPageData(BuildContext context, Member? memberIn) async {
+    final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
+    String? languageCode;
+    if (context.mounted) {
+      languageCode = await utils.getLanguageCode(context.deviceLocale.languageCode);
+    } else {
+      languageCode = await utils.getLanguageCode(null);
+    }
+
+    Locale? locale = coreUtils.lang2locale(languageCode);
+
+    Widget initialPage;
+
+    if (isLoggedIn && equipmentUuid != null) {
+      initialPage = EquipmentDetailPage(
+        bloc: EquipmentBloc(),
+        uuid: equipmentUuid,
+      );
+    } else {
+      initialPage = LoginPage(
+        languageCode: languageCode!,
+        bloc: HomeBloc(),
+        memberFromHome: memberIn,
+        equipmentUuid: equipmentUuid,
+      );
+    }
+
+    return HomePageData(loadWidget: initialPage, locale: locale);
+  }
+
   @override
   Widget build(BuildContext context) {
     const themeColor = Color.fromARGB(255, 48, 191, 191);
@@ -154,15 +197,14 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
     MaterialColor colorCustom = MaterialColor(0xFF30BFBF, color);
 
-    return FutureBuilder<String?>(
-      future: utils.getLanguageCode(context.deviceLocale.languageCode),
+    return FutureBuilder<HomePageData?>(
+      future: _getPageData(context, member),
       builder: (context, dynamic snapshot) {
           if (!snapshot.hasData) {
             return loadingNotice();
           }
 
-          String languageCode = snapshot.data;
-          Locale? locale = coreUtils.lang2locale(snapshot.data);
+          HomePageData pageData = snapshot.data;
 
           return MaterialApp(
               debugShowCheckedModeBanner: false,
@@ -174,7 +216,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                         alwaysUse24HourFormat: true),
                       child: child!
                   ),
-              locale: locale,
+              locale: pageData.locale,
               theme: ThemeData(
                   colorScheme: ColorScheme.fromSeed(
                     seedColor: colorCustom,
@@ -184,12 +226,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
               home: Scaffold(
-                body: LoginPage(
-                  languageCode: languageCode,
-                  bloc: HomeBloc(),
-                  memberFromHome: member,
-                  equipmentUuid: equipmentUuid,
-                ),
+                body: pageData.loadWidget,
               )
           );
         },

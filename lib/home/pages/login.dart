@@ -11,7 +11,22 @@ import 'package:shltr_flutter/common/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 
+import '../../common/utils.dart';
+import '../../company/models/models.dart';
 import '../../equipment/pages/detail.dart';
+
+class PageData {
+  final BaseUser? user;
+  final Member? member;
+  final String title;
+
+  PageData({
+    required this.user,
+    required this.member,
+    required this.title
+  });
+
+}
 
 class LoginPage extends StatelessWidget {
   final My24i18n i18n = My24i18n(basePath: "login");
@@ -20,6 +35,7 @@ class LoginPage extends StatelessWidget {
   final HomeDoLoginState? loginState;
   final Member? memberFromHome;
   final CoreUtils coreUtils = CoreUtils();
+  final Utils utils = Utils();
   final String languageCode;
   final String? equipmentUuid;
   final EquipmentBloc? equipmentBloc; // only here for testability
@@ -51,22 +67,25 @@ class LoginPage extends StatelessWidget {
     return bloc;
   }
 
-  Future<String> getTitle() async {
+  Future<PageData> getPageData() async {
     final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
     final title = isLoggedIn ? i18n.$trans('app_bar_title_logged_in') : i18n.$trans('app_bar_title');
-    return title;
+    final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
+    Member? member = memberFromHome != null ? memberFromHome! : await utils.fetchMember();
+
+    return PageData(user: user, member: member, title: title);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-        future: getTitle(),
+    return FutureBuilder<PageData>(
+        future: getPageData(),
         builder: (context, dynamic snapshot) {
           if (!snapshot.hasData) {
             return loadingNotice();
           }
 
-          String title = snapshot.data;
+          PageData pageData = snapshot.data;
 
           return BlocProvider<HomeBloc>(
             create: (context) => _initialCall(),
@@ -77,10 +96,10 @@ class LoginPage extends StatelessWidget {
                 builder: (context, state) {
                   return Scaffold(
                     appBar: AppBar(
-                      title: Text(title),
+                      title: Text(pageData.title),
                       centerTitle: true,
                     ),
-                    body: _getBody(context, state),
+                    body: _getBody(context, state, pageData),
                   );
                 }
             )
@@ -90,8 +109,18 @@ class LoginPage extends StatelessWidget {
   }
 
   void _handleListeners(BuildContext context, state) {
-    if (state is HomeLoggedInState) {
+    if (state is HomeLoggedInState && equipmentUuid != null) {
       createSnackBar(context, i18n.$trans('snackbar_logged_in'));
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) =>
+              EquipmentDetailPage(
+                bloc: equipmentBloc != null ? equipmentBloc! : EquipmentBloc(),
+                uuid: equipmentUuid,
+              )
+          )
+      );
     }
 
     if (state is HomeLoginErrorState) {
@@ -103,15 +132,18 @@ class LoginPage extends StatelessWidget {
     }
   }
 
-  Widget _getBody(context, state) {
-    if (((state is HomeLoggedInState) || (state is HomeState && state.user != null)) && equipmentUuid != null) {
-      return EquipmentDetailPage(
-        bloc: equipmentBloc != null ? equipmentBloc! : EquipmentBloc(),
-        uuid: equipmentUuid,
+  Widget _getBody(context, state, PageData pageData) {
+    if (state is HomeState) {
+      return LoginWidget(
+        user: pageData.user,
+        member: pageData.member,
+        i18n: i18n,
+        languageCode: languageCode,
+        equipmentUuid: equipmentUuid,
       );
     }
 
-    if (state is HomeState || state is HomeLoggedInState || state is HomeSoonState) {
+    if (state is HomeLoggedInState || state is HomeSoonState) {
       return LoginWidget(
         user: state.user,
         member: state.member,

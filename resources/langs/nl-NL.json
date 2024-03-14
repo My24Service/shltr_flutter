@@ -330,5 +330,12 @@
       "snackbar_updated": "Voorkeuren opgeslagen"
     }
 
+  },
+
+  "equipment": {
+    "detail": {
+      "model_name": "Apparatuur",
+      "app_bar_title": "Apparatuur detail"
+    }
   }
 }

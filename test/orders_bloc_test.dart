@@ -96,9 +96,6 @@ void main() {
     final client = MockClient();
     final orderFormBloc = OrderFormBloc();
     orderFormBloc.api.httpClient = client;
-    // orderBloc.customerApi.httpClient = client;
-    // orderBloc.locationApi.httpClient = client;
-    // orderBloc.equipmentApi.httpClient = client;
     orderFormBloc.privateMemberApi.httpClient = client;
 
     Order orderModel = Order(
