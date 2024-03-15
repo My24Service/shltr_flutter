@@ -335,7 +335,13 @@
   "equipment": {
     "detail": {
       "model_name": "Apparatuur",
-      "app_bar_title": "Apparatuur detail"
+      "app_bar_title": "Apparatuur detail",
+      "info_workorder": "Werkbon",
+      "info_view_order": "Bekijk order",
+      "header_orderlines": "Opdrachtregels",
+      "button_open_workorder": "@:generic.button_open_workorder",
+      "button_no_workorder": "@:generic.button_no_workorder",
+      "button_view_order": "Bekijk"
     }
   }
 }
