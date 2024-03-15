@@ -381,9 +381,21 @@
   },
 
   "equipment": {
+    "name": "Name",
+    "brand": "Brand",
+    "description": "Description",
+    "installation_date": "Installation date",
+    "production_date": "Production date",
+    "serialnumber": "Serialnumber",
     "detail": {
       "model_name": "Equipment",
-      "app_bar_title": "Equipment detail"
+      "app_bar_title": "Equipment detail",
+      "info_workorder": "Workorder",
+      "info_view_order": "View order",
+      "header_orderlines": "Orderlines",
+      "button_open_workorder": "@:generic.button_open_workorder",
+      "button_no_workorder": "@:generic.button_no_workorder",
+      "button_view_order": "View"
     }
   }
 
