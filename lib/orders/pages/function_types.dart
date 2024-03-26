@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
+import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 import 'package:shltr_flutter/orders/pages/detail.dart';
 import 'package:shltr_flutter/orders/pages/list.dart';
 
 import '../blocs/order_form_bloc.dart';
 import 'form.dart';
+import 'form_from_equipment.dart';
 
 void navFormFunction(BuildContext context, int? orderPk, OrderEventStatus fetchMode) {
   Navigator.push(context,
@@ -35,6 +37,30 @@ void navDetailFunction(BuildContext context, int orderPk) {
           builder: (context) => OrderDetailPage(
             bloc: OrderBloc(),
             orderId: orderPk,
+          )
+      )
+  );
+}
+
+OrderFormBloc getBloc(String uuid, String orderType) {
+  OrderFormBloc bloc = OrderFormBloc();
+  bloc.add(const OrderFormEvent(status: OrderFormEventStatus.doAsync));
+  bloc.add(OrderFormEvent(
+      status: OrderFormEventStatus.newOrderFromEquipmentBranch,
+      equipmentUuid: uuid,
+      equipmentOrderType: orderType
+  ));
+
+  return bloc;
+}
+
+void navFormFromEquipmentFunction(BuildContext context, String uuid, String orderType) {
+  Navigator.push(context,
+      MaterialPageRoute(
+          builder: (context) => OrderFormFromEquipmentPage(
+            equipmentUuid: uuid,
+            equipmentOrderType: orderType,
+            bloc: getBloc(uuid, orderType),
           )
       )
   );

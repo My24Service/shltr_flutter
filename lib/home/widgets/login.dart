@@ -7,9 +7,11 @@ import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/models/base_models.dart';
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_core/widgets/widgets.dart';
+import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
 import 'package:my24_flutter_member_models/public/api.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
+import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:shltr_flutter/common/utils.dart';
@@ -17,8 +19,11 @@ import 'package:shltr_flutter/common/widgets.dart';
 import 'package:shltr_flutter/home/blocs/home_bloc.dart';
 import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
+import 'package:shltr_flutter/orders/blocs/order_form_bloc.dart';
 
 import '../../company/models/models.dart';
+import '../../equipment/pages/detail.dart';
+import '../../orders/pages/function_types.dart';
 import '../../orders/pages/list.dart';
 
 // we have three modes of entry:
@@ -200,6 +205,17 @@ class LoggedInButtons extends StatelessWidget {
     ));
   }
 
+  _navTest(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => EquipmentDetailPage(
+              bloc: EquipmentBloc(),
+              uuid: "75a00ffc-3ed7-448c-bd99-ec2eec98707c",
+            )
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -220,6 +236,11 @@ class LoggedInButtons extends StatelessWidget {
         createDefaultElevatedButton(
             i18n.$trans('equipment_list'),
             () { _soon(context); }
+        ),
+        const SizedBox(height: 5),
+        createDefaultElevatedButton(
+            i18n.$trans('Test equipment detail'),
+                () { _navTest(context); }
         ),
         const SizedBox(height: 5),
         createDefaultElevatedButton(

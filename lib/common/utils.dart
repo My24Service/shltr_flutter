@@ -95,7 +95,7 @@ class Utils with CoreApiMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String? userInfoData = prefs.getString('userInfoData');
-    if (userInfoData == null) {
+    if (userInfoData == null || withFetch) {
       if (!withFetch) {
         return null;
       }
@@ -110,6 +110,8 @@ class Utils with CoreApiMixin {
       if (res.statusCode == 200) {
         userInfoData = res.body;
         await prefs.setString('userInfoData', userInfoData);
+      } else {
+        userInfoData = null;
       }
     }
 

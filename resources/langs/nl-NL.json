@@ -80,6 +80,7 @@
     },
     "form": {
       "app_bar_title_insert": "Nieuwe opdracht",
+      "app_bar_title_insert_from_equipment": "Nieuwe {orderType}",
       "app_bar_title_update": "Wijzig opdracht",
 
       "error_loading_ordertypes": "Fout bij het laden van de opdrachttypes",
@@ -347,7 +348,8 @@
       "header_orderlines": "Opdrachtregels",
       "button_open_workorder": "@:generic.button_open_workorder",
       "button_no_workorder": "@:generic.button_no_workorder",
-      "button_view_order": "Bekijk"
+      "button_view_order": "Bekijk",
+      "new_order": "Nieuwe opdracht"
     }
   }
 }

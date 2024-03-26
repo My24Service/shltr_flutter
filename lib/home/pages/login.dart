@@ -39,6 +39,7 @@ class LoginPage extends StatelessWidget {
   final String languageCode;
   final String? equipmentUuid;
   final EquipmentBloc? equipmentBloc; // only here for testability
+  final bool isLoggedIn;
 
   LoginPage({
     super.key,
@@ -48,7 +49,8 @@ class LoginPage extends StatelessWidget {
     this.memberFromHome,
     required this.languageCode,
     this.equipmentUuid,
-    this.equipmentBloc
+    this.equipmentBloc,
+    required this.isLoggedIn
   });
 
   HomeBloc _initialCall() {
@@ -68,9 +70,8 @@ class LoginPage extends StatelessWidget {
   }
 
   Future<PageData> getPageData() async {
-    final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
     final title = isLoggedIn ? i18n.$trans('app_bar_title_logged_in') : i18n.$trans('app_bar_title');
-    final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
+    final BaseUser? user = await utils.getUserInfo();
     Member? member = memberFromHome != null ? memberFromHome! : await utils.fetchMember();
 
     return PageData(user: user, member: member, title: title);

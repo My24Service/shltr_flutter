@@ -88,6 +88,7 @@
     },
     "form": {
       "app_bar_title_insert": "New order",
+      "app_bar_title_insert_from_equipment": "New {orderType}",
       "app_bar_title_update": "Edit order",
 
       "error_loading_customer": "Failed to load customer details",
@@ -395,7 +396,8 @@
       "header_orderlines": "Orderlines",
       "button_open_workorder": "@:generic.button_open_workorder",
       "button_no_workorder": "@:generic.button_no_workorder",
-      "button_view_order": "View"
+      "button_view_order": "View",
+      "new_order": "New order"
     }
   }
 

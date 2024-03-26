@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:my24_flutter_equipment/pages/equipment/detail.dart';
 
 import 'package:shltr_flutter/orders/pages/function_types.dart';
-
-import '../../common/drawers.dart';
+import 'package:shltr_flutter/common/drawers.dart';
 
 class EquipmentDetailPage extends BaseEquipmentDetailPage {
   final bool? withoutDrawer;
@@ -15,7 +15,8 @@ class EquipmentDetailPage extends BaseEquipmentDetailPage {
     required super.bloc,
     this.withoutDrawer
   }) : super(
-      navDetailFunction: navDetailFunction
+    navDetailFunction: navDetailFunction,
+    navFormFromEquipmentFunction: navFormFromEquipmentFunction
   );
 
   @override

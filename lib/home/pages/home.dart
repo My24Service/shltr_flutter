@@ -173,6 +173,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         bloc: HomeBloc(),
         memberFromHome: memberIn,
         equipmentUuid: equipmentUuid,
+        isLoggedIn: isLoggedIn,
       );
     }
 
