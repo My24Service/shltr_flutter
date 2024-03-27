@@ -5,17 +5,19 @@ import 'package:logging/logging.dart';
 import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_core/widgets/widgets.dart';
+import 'package:my24_flutter_orders/blocs/order_bloc.dart';
+import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 
 import 'package:my24_flutter_orders/blocs/order_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
 
-import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_form_states.dart';
 import 'package:my24_flutter_orders/models/orderline/form_data.dart';
 import 'package:my24_flutter_orders/widgets/form/error.dart';
 
 import '../blocs/order_form_bloc.dart';
 import '../widgets/form_from_equipment.dart';
+import 'detail.dart';
 
 final log = Logger('orders.pages.form_from_equipment');
 
@@ -24,7 +26,7 @@ Future sleep1() {
 }
 
 class OrderFormFromEquipmentPage extends StatelessWidget {
-  final i18n = My24i18n(basePath: "orders.form");
+  final i18n = My24i18n(basePath: "orders");
   final CoreWidgets widgets = CoreWidgets();
   final CoreUtils utils = CoreUtils();
   final OrderFormBloc? bloc; // this bloc is here so we can use a custom bloc in tests
@@ -63,6 +65,10 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
     return useBloc;
   }
 
+  bool isPlanning(OrderPageMetaData orderListData) {
+    return orderListData.submodel == 'planning_user';
+  }
+
   @override
   Widget build(BuildContext context) {
     log.info("build");
@@ -72,7 +78,6 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
           if (snapshot.hasData) {
             final OrderPageMetaData? orderListData = snapshot.data;
             return BlocProvider(
-              lazy: false,
                 create: (context) => _initialCall(context),
                 child: BlocConsumer<OrderFormBloc, OrderFormState>(
                     listener: (context, state) {
@@ -105,7 +110,14 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
     if (state is OrderInsertedState) {
       if (context.mounted) {
         widgets.createSnackBar(context, i18n.$trans('list.snackbar_added'));
-        // TODO now what?
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(
+                builder: (context) => OrderDetailPage(
+                  bloc: OrderBloc(),
+                  orderId: state.order!.id!,
+                )
+            )
+        );
       }
     }
 
@@ -131,13 +143,34 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
   Widget? _getBody(context, state, OrderPageMetaData orderPageMetaData) {
     log.info("_getBody state: $state");
 
+    if (state is OrderFormInitialState) {
+      final OrderFormBloc bloc = BlocProvider.of<OrderFormBloc>(context);
+      bloc.add(const OrderFormEvent(status: OrderFormEventStatus.doAsync));
+      bloc.add(OrderFormEvent(
+          status: OrderFormEventStatus.newOrderFromEquipmentBranch,
+          equipmentUuid: equipmentUuid,
+          equipmentOrderType: equipmentOrderType
+      ));
+      return null;
+    }
+
+    if (state is OrderLoadedState) {
+      return OrderFormFromEquipmentWidget(
+          formData: state.formData,
+          orderPageMetaData: orderPageMetaData,
+          widgets: widgets,
+          orderlineFormData: OrderlineFormData.createFromModel(state.formData!.orderLines[0]),
+          isPlanning: isPlanning(orderPageMetaData)
+      );
+    }
+
     if (state is OrderNewState) {
       return OrderFormFromEquipmentWidget(
         formData: state.formData,
         orderPageMetaData: orderPageMetaData,
         widgets: widgets,
-        i18n: i18n,
         orderlineFormData: OrderlineFormData.createFromModel(state.formData!.orderLines[0]),
+        isPlanning: isPlanning(orderPageMetaData)
       );
     }
 

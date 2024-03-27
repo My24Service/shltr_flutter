@@ -60,6 +60,7 @@ class OrderFormBloc extends OrderFormBlocBase {
       final Branch branch = await branchApi.detail(equipment.branch!);
 
       OrderFormData orderFormData = OrderFormData.newFromOrderTypes(orderTypes);
+      orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
       orderFormData.orderType = event.equipmentOrderType!;
       orderFormData.fillFromBranch(branch);
 

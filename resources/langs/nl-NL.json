@@ -102,13 +102,16 @@
       "validator_ordertype_dialog_content": "Kies een opdrachttype",
 
       "notification_order_date": "NB. De uiteindelijke datum van de opdracht wordt vastgesteld door de planning",
+      "header_order_details": "Opdracht details",
       "documents": {
         "delete_dialog_title": "Verwijder document",
         "delete_dialog_content": "Wilt u dit document verwijderen?",
         "header": "Documenten",
+        "header_pictures": "Afbeeldingen",
         "header_new": "Nieuw",
         "info_name": "Naam",
         "info_document": "Document",
+        "info_image": "Afbeelding",
         "error_adding": "Fout bij het toevoegen van het document",
         "no_items": "Geen documenten gevonden",
         "button_add": "Voeg document toe"
