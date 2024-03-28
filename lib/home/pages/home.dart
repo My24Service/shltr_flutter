@@ -1,6 +1,7 @@
 import 'dart:async';
 
 // import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logging/logging.dart';
@@ -41,15 +42,19 @@ class HomePageData {
 
 }
 
+var uuid = Uuid();
+
 class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin {
   StreamSubscription? _sub;
   StreamSubscription<Map>? _streamSubscription;
   Member? member;
   String? equipmentUuid;
+  Key? _key;
 
   @override
   void initState() {
     super.initState();
+    _key = Key(uuid.v4());
     _setBasePrefs();
     _handleIncomingLinks();
     _handleInitialUri();
@@ -77,6 +82,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
         if (data.containsKey('equipment')) {
           equipmentUuid = data['equipment'];
+          _key = Key(uuid.v4());
         }
 
         setState(() {});
@@ -227,6 +233,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
               home: Scaffold(
+                key: _key,
                 body: pageData.loadWidget,
               )
           );
