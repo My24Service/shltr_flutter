@@ -28,6 +28,7 @@
     "info_order_customer_remarks": "Klant opmerkingen",
     "info_add_orderline": "Voeg opdrachtregel toe",
     "info_infoline": "Info",
+    "info_not_yet_accepted": "NOG NIET GEACCEPTEERD",
     "info_license_plate": "Kenteken",
     "header_order_details": "Opdracht details",
     "header_orderlines": "Opdrachtregels",
@@ -352,7 +353,8 @@
       "button_open_workorder": "@:generic.button_open_workorder",
       "button_no_workorder": "@:generic.button_no_workorder",
       "button_view_order": "Bekijk",
-      "new_order": "Nieuwe opdracht"
+      "new_order": "Nieuwe opdracht",
+      "order_history": "Historie"
     }
   }
 }

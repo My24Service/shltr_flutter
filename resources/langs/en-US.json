@@ -28,6 +28,7 @@
     "info_order_customer_remarks": "Customer remarks",
     "info_add_orderline": "Add orderline",
     "info_infoline": "Info",
+    "info_not_yet_accepted": "NOT YET ACCEPTED",
     "info_license_plate": "License plate",
     "header_order_details": "Order details",
     "header_assigned_users_info": "Assigned users",
@@ -400,7 +401,8 @@
       "button_open_workorder": "@:generic.button_open_workorder",
       "button_no_workorder": "@:generic.button_no_workorder",
       "button_view_order": "View",
-      "new_order": "New order"
+      "new_order": "New order",
+      "order_history": "History"
     }
   }
 
