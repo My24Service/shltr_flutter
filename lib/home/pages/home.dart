@@ -1,7 +1,6 @@
 import 'dart:async';
 
 // import 'package:flutter/foundation.dart';
-import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logging/logging.dart';
@@ -42,19 +41,16 @@ class HomePageData {
 
 }
 
-var uuid = Uuid();
-
 class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin {
   StreamSubscription? _sub;
   StreamSubscription<Map>? _streamSubscription;
   Member? member;
   String? equipmentUuid;
-  Key? _key;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    _key = Key(uuid.v4());
     _setBasePrefs();
     _handleIncomingLinks();
     _handleInitialUri();
@@ -80,13 +76,26 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         log.info('_listenDynamicLinks: Company code: ${data["cc"]}');
         member = await utils.fetchMember(companycode: data['cc']);
 
+        bool isLoggedIn = false;
         if (data.containsKey('equipment')) {
           equipmentUuid = data['equipment'];
-          _key = Key(uuid.v4());
+          isLoggedIn = await coreUtils.isLoggedInSlidingToken();
         }
 
-        setState(() {});
-        // _streamSubscription?.cancel();
+        if (equipmentUuid != null && isLoggedIn) {
+          await navigatorKey.currentState!.pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => EquipmentDetailPage(
+                    bloc: EquipmentBloc(),
+                    uuid: equipmentUuid,
+                  )
+              ),
+              (route) => false
+          );
+        } else {
+          setState(() {});
+          // _streamSubscription?.cancel();
+        }
       }
     }, onError: (error) {
       log.severe('InitSession error: ${error.toString()}');
@@ -233,7 +242,6 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
               ),
               home: Scaffold(
-                key: _key,
                 body: pageData.loadWidget,
               )
           );
