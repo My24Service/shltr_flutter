@@ -92,10 +92,9 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
               ),
               (route) => false
           );
-        } else {
-          setState(() {});
-          // _streamSubscription?.cancel();
         }
+        setState(() {});
+        // _streamSubscription?.cancel();
       }
     }, onError: (error) {
       log.severe('InitSession error: ${error.toString()}');
@@ -226,6 +225,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
+              navigatorKey: navigatorKey,
               builder: (context, child) =>
                   MediaQuery(
                       data: MediaQuery.of(context).copyWith(
