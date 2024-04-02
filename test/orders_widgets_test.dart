@@ -283,6 +283,7 @@ void main() async {
     orderFormBloc.api.httpClient = client;
     orderFormBloc.privateMemberApi.httpClient = client;
     orderFormBloc.branchApi.httpClient = client;
+    orderFormBloc.myBranchApi.httpClient = client;
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,

@@ -56,6 +56,7 @@ void main() async {
     LoginPage page = LoginPage(
       bloc: bloc,
       languageCode: 'nl',
+      isLoggedIn: false,
     );
 
     // return token request with a 200
@@ -100,6 +101,7 @@ void main() async {
       bloc: bloc,
       languageCode: 'nl',
       memberFromHome: demoMember,
+      isLoggedIn: true,
     );
     page.coreUtils.httpClient = client;
     page.utils.httpClient = client;
@@ -153,6 +155,7 @@ void main() async {
       bloc: bloc,
       memberFromHome: demoMember,
       languageCode: 'nl',
+      isLoggedIn: false,
     );
 
     // return token request with a 200
@@ -235,6 +238,7 @@ void main() async {
       initialMode: "login",
       loginState: loginState,
       languageCode: 'nl',
+      isLoggedIn: false,
     );
 
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
@@ -297,6 +301,7 @@ void main() async {
       initialMode: "login",
       loginState: loginState,
       languageCode: 'nl',
+      isLoggedIn: false,
     );
     page.coreUtils.httpClient = client;
 

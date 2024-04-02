@@ -28,6 +28,7 @@
     "info_order_customer_remarks": "Klant opmerkingen",
     "info_add_orderline": "Voeg opdrachtregel toe",
     "info_infoline": "Info",
+    "info_not_yet_accepted": "NOG NIET GEACCEPTEERD",
     "info_license_plate": "Kenteken",
     "header_order_details": "Opdracht details",
     "header_orderlines": "Opdrachtregels",
@@ -80,6 +81,7 @@
     },
     "form": {
       "app_bar_title_insert": "Nieuwe opdracht",
+      "app_bar_title_insert_from_equipment": "Nieuwe {orderType}",
       "app_bar_title_update": "Wijzig opdracht",
 
       "error_loading_ordertypes": "Fout bij het laden van de opdrachttypes",
@@ -101,13 +103,16 @@
       "validator_ordertype_dialog_content": "Kies een opdrachttype",
 
       "notification_order_date": "NB. De uiteindelijke datum van de opdracht wordt vastgesteld door de planning",
+      "header_order_details": "Opdracht details",
       "documents": {
         "delete_dialog_title": "Verwijder document",
         "delete_dialog_content": "Wilt u dit document verwijderen?",
         "header": "Documenten",
+        "header_pictures": "Afbeeldingen",
         "header_new": "Nieuw",
         "info_name": "Naam",
         "info_document": "Document",
+        "info_image": "Afbeelding",
         "error_adding": "Fout bij het toevoegen van het document",
         "no_items": "Geen documenten gevonden",
         "button_add": "Voeg document toe"
@@ -347,7 +352,9 @@
       "header_orderlines": "Opdrachtregels",
       "button_open_workorder": "@:generic.button_open_workorder",
       "button_no_workorder": "@:generic.button_no_workorder",
-      "button_view_order": "Bekijk"
+      "button_view_order": "Bekijk",
+      "new_order": "Nieuwe opdracht",
+      "order_history": "Historie"
     }
   }
 }

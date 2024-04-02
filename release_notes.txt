@@ -1,1 +1,1 @@
-Open equipment details after QR scan with camera
+Create order from equipment details

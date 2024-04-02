@@ -2,9 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 import 'package:my24_flutter_core/utils.dart';
+import 'package:my24_flutter_equipment/models/equipment/models.dart';
 import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_form_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
+import 'package:my24_flutter_orders/models/orderline/models.dart';
 
 import '../../company/models/branch/api.dart';
 import '../../company/models/branch/models.dart';
@@ -12,13 +14,18 @@ import '../models/form_data.dart';
 
 class OrderFormBloc extends OrderFormBlocBase {
   final CoreUtils coreUtils = CoreUtils();
-  final MyBranchApi branchApi = MyBranchApi();
+  final BranchApi branchApi = BranchApi();
+  final MyBranchApi myBranchApi = MyBranchApi();
 
   OrderFormBloc() : super(OrderFormInitialState()) {
     on<OrderFormEvent>((event, emit) async {
       if (event.status == OrderFormEventStatus.newOrder) {
         await _handleNewFormDataState(event, emit);
-      } else {
+      }
+      else if (event.status == OrderFormEventStatus.newOrderFromEquipmentBranch) {
+        await _handleNewFormDataFromEquipmentState(event, emit);
+      }
+      else {
         await handleEvent(event, emit);
       }
     },
@@ -37,12 +44,40 @@ class OrderFormBloc extends OrderFormBlocBase {
     orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
 
     if (submodel == 'branch_employee_user') {
-      final Branch branch = await branchApi.fetchMyBranch();
+      final Branch branch = await myBranchApi.fetchMyBranch();
       orderFormData.fillFromBranch(branch);
     }
 
     emit(OrderNewState(
         formData: orderFormData
     ));
+  }
+
+  Future<void> _handleNewFormDataFromEquipmentState(OrderFormEvent event, Emitter<OrderFormState> emit) async {
+    try {
+      final OrderTypes orderTypes = await api.fetchOrderTypes();
+      final Equipment equipment = await equipmentApi.getByUuid(event.equipmentUuid!);
+      final Branch branch = await branchApi.detail(equipment.branch!);
+
+      OrderFormData orderFormData = OrderFormData.newFromOrderTypes(orderTypes);
+      orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
+      orderFormData.orderType = event.equipmentOrderType!;
+      orderFormData.fillFromBranch(branch);
+
+      Orderline orderline = Orderline(
+        product: equipment.name,
+        location: equipment.locationName,
+        equipment: equipment.id,
+        equipmentLocation: equipment.location,
+      );
+
+      orderFormData.orderLines!.add(orderline);
+
+      emit(OrderNewState(
+          formData: orderFormData
+      ));
+    } catch (e) {
+      emit(OrderFormErrorState(message: e.toString()));
+    }
   }
 }

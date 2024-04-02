@@ -76,7 +76,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
     try {
       final bool isLoggedIn = await coreUtils.isLoggedInSlidingToken();
-      final BaseUser? user = await utils.getUserInfo(withFetch: isLoggedIn);
+      final BaseUser? user = await utils.getUserInfo();
+
       if (event.memberFromHome == null) {
         member = await utils.fetchMember();
       }

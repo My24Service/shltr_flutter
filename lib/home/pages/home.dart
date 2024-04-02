@@ -46,6 +46,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   StreamSubscription<Map>? _streamSubscription;
   Member? member;
   String? equipmentUuid;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   void initState() {
@@ -75,10 +76,23 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         log.info('_listenDynamicLinks: Company code: ${data["cc"]}');
         member = await utils.fetchMember(companycode: data['cc']);
 
+        bool isLoggedIn = false;
         if (data.containsKey('equipment')) {
           equipmentUuid = data['equipment'];
+          isLoggedIn = await coreUtils.isLoggedInSlidingToken();
         }
 
+        if (equipmentUuid != null && isLoggedIn) {
+          await navigatorKey.currentState!.pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => EquipmentDetailPage(
+                    bloc: EquipmentBloc(),
+                    uuid: equipmentUuid,
+                  )
+              ),
+              (route) => false
+          );
+        }
         setState(() {});
         // _streamSubscription?.cancel();
       }
@@ -173,6 +187,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         bloc: HomeBloc(),
         memberFromHome: memberIn,
         equipmentUuid: equipmentUuid,
+        isLoggedIn: isLoggedIn,
       );
     }
 
@@ -210,6 +225,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
+              navigatorKey: navigatorKey,
               builder: (context, child) =>
                   MediaQuery(
                       data: MediaQuery.of(context).copyWith(

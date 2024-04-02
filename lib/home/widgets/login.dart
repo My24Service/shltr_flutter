@@ -7,6 +7,7 @@ import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/models/base_models.dart';
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_core/widgets/widgets.dart';
+import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
 import 'package:my24_flutter_member_models/public/api.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
@@ -19,6 +20,7 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
 
 import '../../company/models/models.dart';
+import '../../equipment/pages/detail.dart';
 import '../../orders/pages/list.dart';
 
 // we have three modes of entry:
@@ -200,6 +202,28 @@ class LoggedInButtons extends StatelessWidget {
     ));
   }
 
+  _navTestWithLocation(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => EquipmentDetailPage(
+              bloc: EquipmentBloc(),
+              uuid: "9e0402b2-7537-40ec-8a55-31336ea78398",
+            )
+        )
+    );
+  }
+
+  _navTestNoLocation(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => EquipmentDetailPage(
+              bloc: EquipmentBloc(),
+              uuid: "2eae7977-3bb6-4971-83d2-97093753be2d",
+            )
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -221,7 +245,21 @@ class LoggedInButtons extends StatelessWidget {
             i18n.$trans('equipment_list'),
             () { _soon(context); }
         ),
-        const SizedBox(height: 5),
+        if (member!.companycode == "shltr")
+          const SizedBox(height: 5),
+        if (member!.companycode == "shltr")
+          createDefaultElevatedButton(
+              'Test equipment detail (with location)',
+              () { _navTestWithLocation(context); }
+          ),
+        if (member!.companycode == "shltr")
+          const SizedBox(height: 5),
+        if (member!.companycode == "shltr")
+          createDefaultElevatedButton(
+              'Test equipment detail (no location)',
+              () { _navTestNoLocation(context); }
+          ),
+          const SizedBox(height: 5),
         createDefaultElevatedButton(
             i18n.$trans('location_list'),
             () { _soon(context); }
