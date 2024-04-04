@@ -113,15 +113,15 @@ class OrderFormData extends BaseOrderFormData {
 
   void fillFromBranch(Branch branch) {
     this.branch = branch.id;
-    orderNameController!.text = branch.name!;
-    orderAddressController!.text = branch.address!;
-    orderPostalController!.text = branch.postal!;
-    orderCityController!.text = branch.city!;
+    orderNameController!.text = checkNull(branch.name);
+    orderAddressController!.text = checkNull(branch.address);
+    orderPostalController!.text = checkNull(branch.postal);
+    orderCityController!.text = checkNull(branch.city);
     orderCountryCode = branch.countryCode;
-    orderContactController!.text = branch.contact!;
-    orderEmailController!.text = branch.email!;
-    orderTelController!.text = branch.tel!;
-    orderMobileController!.text = branch.mobile!;
+    orderContactController!.text = checkNull(branch.contact);
+    orderEmailController!.text = checkNull(branch.email);
+    orderTelController!.text = checkNull(branch.tel);
+    orderMobileController!.text = checkNull(branch.mobile);
   }
 
   factory OrderFormData.createFromModel(Order order, OrderTypes orderTypes) {
