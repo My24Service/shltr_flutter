@@ -1,1 +1,1 @@
-Create order from equipment details
+Bugfix in create order from equipment.
