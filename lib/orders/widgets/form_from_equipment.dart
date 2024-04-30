@@ -229,8 +229,11 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
                 context,
                 Text(My24i18n.tr('generic.info_remarks'))
             ),
-            Text("Location: ${widget.orderlineFormData.equipmentLocation}"),
             TextFormField(
+              decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+              ),
               controller: remarksController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
