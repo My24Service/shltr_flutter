@@ -46,6 +46,8 @@
     "list": {
       "model_name": "Order",
       "notice_no_order": "No orders found",
+      "app_bar_title_empty": "No orders",
+      "app_bar_title_error": "Error",
 
       "_page": "-------------------",
       "dialog_add_documents_title": "Add documents?",

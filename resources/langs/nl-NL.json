@@ -44,6 +44,8 @@
     "button_documents": "Documenten",
 
     "list": {
+      "app_bar_title_empty": "Geen opdrachten",
+      "app_bar_title_error": "Fout",
       "model_name": "Opdracht",
       "notice_no_order": "Geen opdrachten gevonden.",
 
