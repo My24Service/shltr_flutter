@@ -422,4 +422,60 @@ void main() async {
     verify(client.patch(Uri.parse('https://demo.my24service-dev.com/api/order/orderline/1/'), headers: anyNamed('headers'), body: anyNamed('body'))).called(1);
     // verify(client.post(Uri.parse('https://demo.my24service-dev.com/api/order/orderline/'), headers: anyNamed('headers'), body: anyNamed('body'))).called(1);
   });
+
+  testWidgets('loads form edit employee', (tester) async {
+    final client = MockClient();
+    final orderFormBloc = OrderFormBloc();
+    orderFormBloc.api.httpClient = client;
+    orderFormBloc.privateMemberApi.httpClient = client;
+    orderFormBloc.myBranchApi.httpClient = client;
+
+    SharedPreferences.setMockInitialValues({
+      'member_has_branches': false,
+      'submodel': 'branch_employee_user'
+    });
+
+    // return token request with a 200
+    when(
+        client.post(Uri.parse('https://demo.my24service-dev.com/api/jwt-token/refresh/'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body')
+        )
+    ).thenAnswer((_) async => http.Response(tokenData, 200));
+
+    // branch data
+    when(
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/company/branch-my/'),
+            headers: anyNamed('headers')
+        )
+    ).thenAnswer((_) async => http.Response(myBranchData, 200));
+
+    // return order data with a 200
+    when(
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/1/'),
+            headers: anyNamed('headers')
+        )
+    ).thenAnswer((_) async => http.Response(order, 200));
+
+    // return order types data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/order_types/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(orderTypes, 200));
+
+    // return member settings data with a 200
+    when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(memberSettings, 200));
+
+    OrderFormPage widget = OrderFormPage(
+        pk: 1,
+        bloc: orderFormBloc,
+        fetchMode: OrderEventStatus.fetchAll
+    );
+    widget.utils.httpClient = client;
+    await mockNetworkImagesFor(() async => await tester.pumpWidget(
+        createWidget(child: widget))
+    );
+    await mockNetworkImagesFor(() async => await tester.pumpAndSettle());
+
+    expect(find.byType(OrderFormPage), findsOneWidget);
+  });
 }
