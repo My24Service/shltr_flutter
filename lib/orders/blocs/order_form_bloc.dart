@@ -55,9 +55,19 @@ class OrderFormBloc extends OrderFormBlocBase {
 
   Future<void> _handleNewFormDataFromEquipmentState(OrderFormEvent event, Emitter<OrderFormState> emit) async {
     try {
+      String? submodel = await coreUtils.getUserSubmodel();
       final OrderTypes orderTypes = await api.fetchOrderTypes();
       final Equipment equipment = await equipmentApi.getByUuid(event.equipmentUuid!);
-      final Branch branch = await branchApi.detail(equipment.branch!);
+      Branch branch;
+
+      if (submodel == 'branch_employee_user') {
+        branch = await myBranchApi.fetchMyBranch();
+        if (branch.id != equipment.branch!) {
+          throw "Equipment not for your branch";
+        }
+      } else {
+        branch = await branchApi.detail(equipment.branch!);
+      }
 
       OrderFormData orderFormData = OrderFormData.newFromOrderTypes(orderTypes);
       orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
