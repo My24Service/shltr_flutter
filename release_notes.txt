@@ -1,1 +1,1 @@
-Bugfixes
+Bugfix in create order from QR code
