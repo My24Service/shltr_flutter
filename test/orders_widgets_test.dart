@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:my24_flutter_orders/blocs/order_form_states.dart';
-import 'package:my24_flutter_orders/widgets/empty.dart';
-import 'package:my24_flutter_orders/widgets/list.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
 import 'package:my24_flutter_core/dev_logging.dart';
-
+import 'package:my24_flutter_orders/blocs/order_form_states.dart';
+import 'package:my24_flutter_orders/widgets/empty.dart';
+import 'package:my24_flutter_orders/widgets/list.dart';
 import 'package:my24_flutter_orders/blocs/order_bloc.dart';
 import 'package:my24_flutter_orders/widgets/detail.dart';
 import 'package:my24_flutter_orders/widgets/error.dart';
@@ -58,7 +57,7 @@ void main() async {
     // return order data with a 200
     const String orders = '{"next": null, "previous": null, "count": 4, "num_pages": 1, "results": [$order]}';
     when(
-        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/?order_by=-start_date'),
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/'),
             headers: anyNamed('headers')
         )
     ).thenAnswer((_) async => http.Response(orders, 200));
@@ -96,7 +95,7 @@ void main() async {
     // return nothing with a 200
     const String orders = '{"next": null, "previous": null, "count": 0, "num_pages": 1, "results": []}';
     when(
-        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/?order_by=-start_date'),
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/'),
             headers: anyNamed('headers')
         )
     ).thenAnswer((_) async => http.Response(orders, 200));
@@ -134,7 +133,7 @@ void main() async {
     // return a 500
     const String orders = '{"next": null, "previous": null, "count": 0, "num_pages": 1, "results": []}';
     when(
-        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/?order_by=-start_date'),
+        client.get(Uri.parse('https://demo.my24service-dev.com/api/order/order/'),
             headers: anyNamed('headers')
         )
     ).thenAnswer((_) async => http.Response(orders, 500));
