@@ -16,7 +16,7 @@ const String order = '{"id":1,"uuid":"f194abef-04dc-4874-ac79-38b6c1204849","cus
     '"total_price_selling":"0.00","customer_relation":1167,"customer_rate_avg":null,"required_assigned":"1/1 (100.00%)","required_users":1,'
     '"user_order_available_set_count":0,"assigned_count":1,'
     '"workorder_url":"https://demo.my24service-dev.com/#/orders/orders/workorder/f194abef-04dc-4874-ac79-38b6c1204849",'
-    '"workorder_pdf_url_partner":"","customer_order_accepted":true,"workorder_documents":[],"workorder_documents_partners":[],'
+    '"workorder_pdf_url_partner":[],"customer_order_accepted":true,"workorder_documents":[],"workorder_documents_partners":[],'
     '"maintenance_product_lines":[],"reported_codes_extra_data":[],"branch":null}';
 const String orderDocument = '{"id": 1, "order": 1, "name": "grappig.png", "description": "", "document": "grappig.png"}';
 const String orderTypes = '["Storing","Reparatie","Onderhoud","Klein onderhoud","Groot onderhoud","2 verdiepingen","Trap mal"]';

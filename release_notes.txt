@@ -1,2 +1,4 @@
 Changes:
-- bugfixes in sorting and pagination
+- show workorder PDFs partners
+- show original order IDs
+- show copied order IDs
