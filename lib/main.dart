@@ -16,7 +16,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   await FlutterBranchSdk.init(
-      useTestKey: false, enableLogging: false, disableTracking: false);
+      useTestKey: false, enableLogging: false, disableTracking: true);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -29,7 +29,7 @@ void main() async {
       options.dsn = const String.fromEnvironment('SENTRY_DSN');
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
       // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
+      options.tracesSampleRate = 0.1;
     },
     appRunner: () => runApp(
       EasyLocalization(
