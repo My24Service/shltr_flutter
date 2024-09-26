@@ -4,15 +4,14 @@ publish_to: 'none'
 version: 0.5.2+34
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.4.0 <4.0.0'
 
 dependencies:
-  sentry_flutter: ^7.16.1
+  sentry_flutter: ^8.9.0
   bloc_concurrency: ^0.2.3
   easy_localization: ^3.0.3
   equatable: ^2.0.5
-  firebase_core: ^2.25.1
-  firebase_messaging: ^14.7.12
+  firebase_messaging: ^15.1.2
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
