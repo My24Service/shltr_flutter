@@ -64,7 +64,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     super.dispose();
   }
 
-  void _listenDynamicLinks() async {
+  void _listenDynamicLinks() {
     _streamSubscription = FlutterBranchSdk.listSession().listen((data) async {
       log.info('listenDynamicLinks - DeepLink Data: $data');
       if (data.containsKey("+clicked_branch_link") &&

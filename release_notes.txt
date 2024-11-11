@@ -1,4 +1,1 @@
-Changes:
-- show workorder PDFs partners
-- show original order IDs
-- show copied order IDs
+Bugfix in opening deeplinks after QR code scan
