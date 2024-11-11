@@ -1,2 +1,1 @@
-Test build. Changes:
-- deeplink domain to my24service.app
+Bugfix in opening deeplinks after QR code scan
