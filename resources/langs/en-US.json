@@ -400,6 +400,7 @@
     "installation_date": "Installation date",
     "production_date": "Production date",
     "serialnumber": "Serialnumber",
+    "app_bar_title_error": "Error",
     "detail": {
       "model_name": "Equipment",
       "app_bar_title": "Equipment detail",

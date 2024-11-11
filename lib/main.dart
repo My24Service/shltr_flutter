@@ -15,14 +15,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  await FlutterBranchSdk.init(
-      useTestKey: false, enableLogging: false, disableTracking: true);
+  await FlutterBranchSdk.init(enableLogging: true, disableTracking: true);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
   setUpLogging();
+
+  print("HOI?");
 
   await SentryFlutter.init(
     (options) {

@@ -352,6 +352,7 @@
     "installation_date": "Installatiedatum",
     "production_date": "Productiedatum",
     "serialnumber": "Serienummer",
+    "app_bar_title_error": "Fout",
     "detail": {
       "model_name": "Apparatuur",
       "app_bar_title": "Apparatuur detail",
