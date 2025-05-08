@@ -27,7 +27,8 @@ dependencies:
       url: https://github.com/mufassalhussain/open_filex
   path_provider: ^2.1.2
   shared_preferences: ^2.2.2
-  uni_links3: ^0.5.3  # replaces uni_links: ^0.5.1
+  #uni_links5: ^0.5.4
+  uni_links: ^0.5.1
   upgrader: ^9.0.0
   url_launcher: ^6.2.4
   logging: ^1.2.0
