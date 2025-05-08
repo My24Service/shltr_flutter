@@ -8,7 +8,7 @@ import 'package:flutter/services.dart' show PlatformException;
 import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:uni_links3/uni_links.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 
 import 'package:my24_flutter_core/utils.dart';
@@ -135,7 +135,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
       } else {
         if (!mounted) return;
         log.info('got initial uri: $uri');
-        List<String>? parts = uri.host.split('.');
+        final List<String> parts = uri.host.split('.');
         if (!_isCompanycodeOkay(parts[0])) return;
         member = await utils.fetchMember(companycode: parts[0]);
         setState(() {});
