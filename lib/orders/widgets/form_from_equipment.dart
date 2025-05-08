@@ -21,6 +21,16 @@ import '../models/form_data.dart';
 
 final log = Logger('orders.widgets.form_from_equipment');
 
+/// This is a StatelessWidget that was used before, but you might want
+/// to check the [OrderFormFromEquipmentStatefulWidget] that is actually
+/// used to work around a problem with the interface when user enters a
+/// Remark and pushes the Submit button -- the Remark is not updated (see
+/// code inside [MainFormFromEquipmentWidget] where a TapRegion is now
+/// used to get that last change up the hierarchy via the Bloc.
+///
+/// An issue arose when users enter a remark, but do not add a document,
+/// which eventually causes the orderLines to have old data where remarks
+/// is still null.
 class OrderFormFromEquipmentWidget extends StatelessWidget {
   final OrderFormData formData;
   final CoreWidgets widgets;
@@ -133,6 +143,133 @@ class OrderFormFromEquipmentWidget extends StatelessWidget {
   }
 }
 
+/// This fixes an issue with [OrderFormFromEquipmentWidget], see the
+/// notes above that class/
+class OrderFormFromEquipmentStatefulWidget extends StatefulWidget {
+  final OrderFormData formData;
+  final CoreWidgets widgets;
+  final i18n = My24i18n(basePath: "orders.form");
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final OrderPageMetaData orderPageMetaData;
+  final OrderlineFormData orderlineFormData;
+  final bool isPlanning;
+
+  OrderFormFromEquipmentStatefulWidget({
+    super.key,
+    required this.formData,
+    required this.widgets,
+    required this.orderlineFormData,
+    required this.isPlanning,
+    required this.orderPageMetaData
+  });
+
+  @override
+  State<StatefulWidget> createState() => _OrderFormFromEquipmentWidgetState();
+}
+
+class _OrderFormFromEquipmentWidgetState extends State<OrderFormFromEquipmentStatefulWidget> {
+  String getAppBarTitle(BuildContext context) {
+    return widget.i18n.$trans('app_bar_title_insert_from_equipment',
+        namedArgs: {'orderType': widget.formData.orderType!});
+  }
+
+  SliverAppBar getAppBar(BuildContext context) {
+    SmallAppBarFactory factory = SmallAppBarFactory(
+        context: context,
+        title: getAppBarTitle(context)
+    );
+    return factory.createAppBar();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final orderFormBloc = BlocProvider.of<OrderFormBloc>(context);
+    return Scaffold(
+        body: CustomScrollView(
+            slivers: <Widget>[
+              getAppBar(context),
+              SliverToBoxAdapter(
+                  child: Form(
+                      key: widget.formKey,
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 10
+                          ),
+                          alignment: Alignment.center,
+                          child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  OrderlineForm(
+                                    formData: widget.formData,
+                                    widgets: widget.widgets,
+                                    i18n: widget.i18n,
+                                    isPlanning: widget.isPlanning,
+                                    hasBranches: true,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  DocumentsWidget(
+                                    formData: widget.formData,
+                                    widgets: widget.widgets,
+                                    orderId: null,
+                                    onlyPictures: true,
+                                    bloc: orderFormBloc,
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  widget.widgets.createSubmitButton(
+                                      context,
+                                          () => _delayedAddOrder()
+                                  ),
+                                ],
+                              )
+                          )
+                      )
+                  )
+              )
+            ]
+        )
+    );
+  }
+
+  /// Intentional delay to allow any updates in the Orderline widget to complete. This
+  /// is a bit of an ugly workaround, but the UI needs to be rethought a bit to properly
+  /// deal with the remarks not coming through if no documents are added. See the notes
+  /// above [OrderFormFromEquipmentWidget].
+  _delayedAddOrder() {
+    Future.delayed(const Duration(seconds:1), () => _addOrder() );
+  }
+
+  _addOrder() {
+    if (widget.formKey.currentState!.validate() && widget.orderlineFormData.equipment != null &&
+        widget.orderlineFormData.equipmentLocation != null) {
+      widget.formKey.currentState!.save();
+
+      Order newOrder = widget.formData.toModel();
+      Orderline orderline = widget.orderlineFormData.toModel();
+
+      final orderFormBloc = BlocProvider.of<OrderFormBloc>(context);
+      orderFormBloc.add(const OrderFormEvent(status: OrderFormEventStatus.doAsync));
+      orderFormBloc.add(OrderFormEvent(
+        status: OrderFormEventStatus.insert,
+        order: newOrder,
+        orderLines: [orderline],
+        infoLines: [],
+        documents: widget.formData.documents,
+      ));
+    } else {
+      log.severe("error creating order; equipment: ${widget.orderlineFormData.equipment}, "
+          "equipment location: ${widget.orderlineFormData.equipmentLocation}");
+      widget.widgets.displayDialog(context,
+          My24i18n.tr('generic.error_dialog_title'),
+          widget.i18n.$trans('error_adding')
+      );
+    }
+  }
+}
+
 class MainFormFromEquipmentWidget extends StatefulWidget {
   final OrderFormData formData;
   final CoreWidgets widgets;
@@ -159,6 +296,7 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
   bool setLocationToEquipment = false;
   final FocusNode remarksTextFocus = FocusNode();
   bool hasChanges = false;
+  bool _hasRemarkChanged = false;
 
   @override
   void dispose() {
@@ -229,18 +367,28 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
                 context,
                 Text(My24i18n.tr('generic.info_remarks'))
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              controller: remarksController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              focusNode: remarksTextFocus,
-              validator: (value) {
-                return null;
-              }
+            /// This TapRegion allows us to detect a press outside the edit field,
+            /// i.e. when user taps Submit. This behaviour has changed over the years
+            /// so to get that _updateFormData() completed before Submit is handled,
+            /// we need to do this and keep track of `_hasRemarkChanged`.
+            TapRegion(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  controller: remarksController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  focusNode: remarksTextFocus,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                onTapOutside: (_) {
+                  if (_hasRemarkChanged) _updateFormData();
+                  _hasRemarkChanged = false;
+                }
             ),
           ]
         )
@@ -264,12 +412,10 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
   _addListeners() {
     remarksController.addListener(_remarksListen);
     remarksTextFocus.addListener(() {
-      if (hasChanges) {
+      if (!remarksTextFocus.hasFocus) {
         _updateFormData();
       }
-      setState(() {
-
-      });
+//      setState(() {});
     });
   }
 
@@ -285,6 +431,10 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
   }
 
   void _remarksListen() {
+    if (!_hasRemarkChanged) {
+      _hasRemarkChanged = remarksController.text != widget.orderlineFormData.remarks;
+    }
+
     if (remarksController.text.isEmpty) {
       widget.orderlineFormData.remarks = "";
     } else {
@@ -384,3 +534,4 @@ class OrderlineForm extends StatelessWidget {
     return widgets.loadingNotice();
   }
 }
+
