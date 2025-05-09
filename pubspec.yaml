@@ -1,7 +1,7 @@
 name: shltr_flutter
 description: SHLTR-Group app
 publish_to: 'none'
-version: 0.6.2+37
+version: 0.6.2+38
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
