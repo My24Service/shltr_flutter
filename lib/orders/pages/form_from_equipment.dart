@@ -155,7 +155,7 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
     }
 
     if (state is OrderLoadedState) {
-      return OrderFormFromEquipmentStatefulWidget(
+      return OrderFormFromEquipmentWidget(
           formData: state.formData,
           orderPageMetaData: orderPageMetaData,
           widgets: widgets,
@@ -165,12 +165,12 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
     }
 
     if (state is OrderNewState) {
-      return OrderFormFromEquipmentStatefulWidget(
+      return OrderFormFromEquipmentWidget(
         formData: state.formData,
         orderPageMetaData: orderPageMetaData,
         widgets: widgets,
         orderlineFormData: OrderlineFormData.createFromModel(state.formData!.orderLines[0]),
-        isPlanning: isPlanning(orderPageMetaData)
+        isPlanning: isPlanning(orderPageMetaData),
       );
     }
 
