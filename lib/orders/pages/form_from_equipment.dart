@@ -170,7 +170,7 @@ class OrderFormFromEquipmentPage extends StatelessWidget {
         orderPageMetaData: orderPageMetaData,
         widgets: widgets,
         orderlineFormData: OrderlineFormData.createFromModel(state.formData!.orderLines[0]),
-        isPlanning: isPlanning(orderPageMetaData)
+        isPlanning: isPlanning(orderPageMetaData),
       );
     }
 

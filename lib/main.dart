@@ -23,8 +23,6 @@ void main() async {
 
   setUpLogging();
 
-  print("HOI?");
-
   await SentryFlutter.init(
     (options) {
       options.dsn = const String.fromEnvironment('SENTRY_DSN');

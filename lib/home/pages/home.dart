@@ -135,7 +135,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
       } else {
         if (!mounted) return;
         log.info('got initial uri: $uri');
-        List<String>? parts = uri.host.split('.');
+        final List<String> parts = uri.host.split('.');
         if (!_isCompanycodeOkay(parts[0])) return;
         member = await utils.fetchMember(companycode: parts[0]);
         setState(() {});

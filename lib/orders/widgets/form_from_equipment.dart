@@ -36,7 +36,7 @@ class OrderFormFromEquipmentWidget extends StatelessWidget {
     required this.widgets,
     required this.orderlineFormData,
     required this.isPlanning,
-    required this.orderPageMetaData
+    required this.orderPageMetaData,
   });
 
   String getAppBarTitle(BuildContext context) {
@@ -110,8 +110,23 @@ class OrderFormFromEquipmentWidget extends StatelessWidget {
         orderlineFormData.equipmentLocation != null) {
       formKey.currentState!.save();
 
-      Order newOrder = formData.toModel();
-      Orderline orderline = orderlineFormData.toModel();
+      final Order newOrder = formData.toModel();
+
+      // HVG:
+      //
+      // The `formData` reference gets passed to the [OrderlineForm], and
+      // the `remarks` field might be set that we do not yet have in the `orderlineFormData`,
+      // which comes from the Bloc state down the line. So the OrderlineForm might
+      // have an update for that, we don't yet have in the orderlineFormData. The issue
+      // with the `remarks` field arose because of a race-condition -- the submit can be pressed
+      // before that completes (it doesn't happen with Location or Document changes, because those
+      // require a user interaction to complete, which is not the case for the remarks field.
+      //
+      // I'm quite certain (not 100%) that we can always `orderLines[0]`, I have not observed
+      // any problems with that.
+      final Orderline orderline = (formData.orderLines?.isNotEmpty ?? false)
+          ? formData.orderLines![0]
+          : orderlineFormData.toModel();
 
       final orderFormBloc = BlocProvider.of<OrderFormBloc>(context);
       orderFormBloc.add(const OrderFormEvent(status: OrderFormEventStatus.doAsync));
@@ -147,7 +162,7 @@ class MainFormFromEquipmentWidget extends StatefulWidget {
     required this.widgets,
     required this.i18n,
     required this.orderlineFormData,
-    required this.isPlanning
+    required this.isPlanning,
   });
 
   @override
@@ -157,14 +172,13 @@ class MainFormFromEquipmentWidget extends StatefulWidget {
 class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidget> {
   final TextEditingController remarksController = TextEditingController();
   bool setLocationToEquipment = false;
-  final FocusNode remarksTextFocus = FocusNode();
   bool hasChanges = false;
+  bool _hasRemarkChanged = false;
 
   @override
   void dispose() {
     super.dispose();
     remarksController.dispose();
-    remarksTextFocus.dispose();
   }
 
   @override
@@ -229,18 +243,29 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
                 context,
                 Text(My24i18n.tr('generic.info_remarks'))
             ),
-            TextFormField(
-              decoration: const InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              controller: remarksController,
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              focusNode: remarksTextFocus,
-              validator: (value) {
-                return null;
-              }
+            /// This TapRegion allows us to detect a press outside the edit field,
+            /// i.e. when user taps Submit. This behaviour has changed over the years
+            /// so to get that _updateFormData() completed before Submit is handled,
+            /// we need to do this and keep track of `_hasRemarkChanged`.
+            TapRegion(
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  controller: remarksController,
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                onTapOutside: (_) {
+                  if (_hasRemarkChanged) {
+                    _updateFormDataOrderline();
+                  }
+                  _hasRemarkChanged = false;
+                }
             ),
           ]
         )
@@ -263,28 +288,29 @@ class _MainFormFromEquipmentWidgetState extends State<MainFormFromEquipmentWidge
 
   _addListeners() {
     remarksController.addListener(_remarksListen);
-    remarksTextFocus.addListener(() {
-      if (hasChanges) {
-        _updateFormData();
-      }
-      setState(() {
-
-      });
-    });
   }
 
+  void _updateFormDataOrderline() {
+    Orderline orderline = widget.orderlineFormData.toModel();
+    widget.formData.orderLines![0] = orderline;
+  }
+  
   void _updateFormData() {
     Orderline orderline = widget.orderlineFormData.toModel();
     widget.formData.orderLines![0] = orderline;
 
     final orderFormBloc = BlocProvider.of<OrderFormBloc>(context);
     orderFormBloc.add(OrderFormEvent(
-      status: OrderFormEventStatus.updateFormData,
-      formData: widget.formData
+       status: OrderFormEventStatus.updateFormData,
+       formData: widget.formData
     ));
   }
 
   void _remarksListen() {
+    if (!_hasRemarkChanged) {
+      _hasRemarkChanged = remarksController.text != widget.orderlineFormData.remarks;
+    }
+
     if (remarksController.text.isEmpty) {
       widget.orderlineFormData.remarks = "";
     } else {
@@ -308,7 +334,7 @@ class OrderlineForm extends StatelessWidget {
     required this.widgets,
     required this.isPlanning,
     required this.hasBranches,
-    required this.i18n
+    required this.i18n,
   });
 
   @override
@@ -384,3 +410,4 @@ class OrderlineForm extends StatelessWidget {
     return widgets.loadingNotice();
   }
 }
+
