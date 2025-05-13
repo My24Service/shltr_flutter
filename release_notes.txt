@@ -1,1 +1,1 @@
-Bugfix in opening deeplinks after QR code scan
+Bugfix for missing 'remarks' when reporting a fault with equipment.
