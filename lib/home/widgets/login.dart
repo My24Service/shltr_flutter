@@ -20,7 +20,7 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
 
 import '../../company/models/models.dart';
-import '../../equipment/pages/detail.dart';
+import '../../equipment/pages/equipment_detail.dart';
 import '../../orders/pages/list.dart';
 
 // we have three modes of entry:

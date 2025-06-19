@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
+import 'package:my24_flutter_equipment/blocs/location_bloc.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
@@ -18,7 +19,8 @@ import 'package:shltr_flutter/common/utils.dart';
 import 'package:shltr_flutter/common/widgets.dart';
 
 import '../../app_config.dart';
-import '../../equipment/pages/detail.dart';
+import '../../equipment/pages/equipment_detail.dart';
+import '../../equipment/pages/location_detail.dart';
 import '../blocs/home_bloc.dart';
 
 final log = Logger('ShltrApp');
@@ -46,6 +48,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   StreamSubscription<Map>? _streamSubscription;
   Member? member;
   String? equipmentUuid;
+  String? locationUuid;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
@@ -77,6 +80,8 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
         member = await utils.fetchMember(companycode: data['cc']);
 
         bool isLoggedIn = false;
+
+        // handle QR scan equipment
         if (data.containsKey('equipment')) {
           equipmentUuid = data['equipment'];
           isLoggedIn = await coreUtils.isLoggedInSlidingToken();
@@ -93,6 +98,25 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
               (route) => false
           );
         }
+
+        // handle QR scan location
+        if (data.containsKey('location')) {
+          locationUuid = data['location'];
+          isLoggedIn = await coreUtils.isLoggedInSlidingToken();
+        }
+
+        if (locationUuid != null && isLoggedIn) {
+          await navigatorKey.currentState!.pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => LocationDetailPage(
+                    bloc: EquipmentLocationBloc(),
+                    uuid: locationUuid,
+                  )
+              ),
+              (route) => false
+          );
+        }
+
         setState(() {});
         // _streamSubscription?.cancel();
       }
@@ -180,6 +204,11 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
       initialPage = EquipmentDetailPage(
         bloc: EquipmentBloc(),
         uuid: equipmentUuid,
+      );
+    } else if (isLoggedIn && locationUuid != null) {
+      initialPage = LocationDetailPage(
+        bloc: EquipmentLocationBloc(),
+        uuid: locationUuid,
       );
     } else {
       initialPage = LoginPage(
