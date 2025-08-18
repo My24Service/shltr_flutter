@@ -239,7 +239,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                     primary: colorCustom,
                     brightness: Brightness.light,
                   ),
-                  bottomAppBarTheme: BottomAppBarTheme(color: colorCustom)
+                  bottomAppBarTheme: BottomAppBarThemeData(color: colorCustom)
               ),
               home: Scaffold(
                 body: pageData.loadWidget,
