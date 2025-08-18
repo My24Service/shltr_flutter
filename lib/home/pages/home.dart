@@ -9,7 +9,7 @@ import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
 import 'package:my24_flutter_equipment/blocs/location_bloc.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:app_links/app_links.dart';
 import 'package:flutter_branch_sdk/flutter_branch_sdk.dart';
 
 import 'package:my24_flutter_core/utils.dart';
@@ -24,6 +24,7 @@ import '../../equipment/pages/location_detail.dart';
 import '../blocs/home_bloc.dart';
 
 final log = Logger('ShltrApp');
+final appLinks = AppLinks();
 
 class ShltrApp extends StatefulWidget {
   const ShltrApp({super.key});
@@ -137,7 +138,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
   void _handleIncomingLinks() async {
     // It will handle app links while the app is already started - be it in
     // the foreground or in the background.
-    _sub = uriLinkStream.listen((Uri? uri) async {
+    _sub = appLinks.uriLinkStream.listen((Uri? uri) async {
       if (!mounted) return;
       log.info('got host: ${uri!.host}');
       List<String>? parts = uri.host.split('.');
@@ -153,7 +154,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
 
   Future<void> _handleInitialUri() async {
     try {
-      final uri = await getInitialUri();
+      final uri = await appLinks.getInitialLink();
       if (uri == null) {
         log.info('no initial uri');
       } else {
