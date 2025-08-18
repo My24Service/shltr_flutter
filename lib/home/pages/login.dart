@@ -13,7 +13,7 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 
 import '../../common/utils.dart';
 import '../../company/models/models.dart';
-import '../../equipment/pages/detail.dart';
+import '../../equipment/pages/equipment_detail.dart';
 
 class PageData {
   final BaseUser? user;

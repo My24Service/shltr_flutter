@@ -412,7 +412,24 @@
       "button_view_order": "View",
       "new_order": "New order",
       "order_history": "History"
+    },
+    "location": {
+      "name": "Name",
+      "app_bar_title_error": "Error",
+      "detail": {
+        "model_name": "Location",
+        "app_bar_title": "Location detail",
+        "info_workorder": "Workorder",
+        "info_view_order": "View order",
+        "header_orderlines": "Orderlines",
+        "button_open_workorder": "@:generic.button_open_workorder",
+        "button_no_workorder": "@:generic.button_no_workorder",
+        "button_view_order": "View",
+        "new_order": "New order",
+        "order_history": "History",
+        "equipment_header": "Equipment",
+        "nav_equipment_detail": "Equipment detail"
+      }
     }
   }
-
 }

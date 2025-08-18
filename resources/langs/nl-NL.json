@@ -364,6 +364,24 @@
       "button_view_order": "Bekijk",
       "new_order": "Nieuwe opdracht",
       "order_history": "Historie"
+    },
+    "location": {
+      "name": "Naam",
+      "app_bar_title_error": "Fout",
+      "detail": {
+        "model_name": "Locatie",
+        "app_bar_title": "Locatie detail",
+        "info_workorder": "Werkbon",
+        "info_view_order": "Bekijk order",
+        "header_orderlines": "Opdrachtregels",
+        "button_open_workorder": "@:generic.button_open_workorder",
+        "button_no_workorder": "@:generic.button_no_workorder",
+        "button_view_order": "Bekijk",
+        "new_order": "Nieuwe opdracht",
+        "order_history": "Historie",
+        "equipment_header": "Apparatuur",
+        "nav_equipment_detail": "Equipment detail"
+      }
     }
   }
 }
