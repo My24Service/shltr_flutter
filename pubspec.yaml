@@ -1,7 +1,7 @@
 name: shltr_flutter
 description: SHLTR-Group app
 publish_to: 'none'
-version: 0.6.2+39
+version: 0.6.3+40
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -21,7 +21,6 @@ dependencies:
   http: ^1.2.0
   latlong2: ^0.9.0
   modal_progress_hud_nsn: ^0.5.1
-  # open_filex: ^4.3.4
   open_filex:
     git:
       url: https://github.com/javaherisaber/open_filex
