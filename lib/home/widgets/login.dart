@@ -106,17 +106,10 @@ class CompanyLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: 100,
-        height: 100,
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.network(memberPicture, cacheWidth: 100),
-            ]
-        )
+    return Container(
+      alignment: Alignment.topCenter,
+      height: 100,
+      child: Image.network(memberPicture, cacheWidth: 100, fit: BoxFit.contain),
     );
   }
 }
