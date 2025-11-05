@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:my24_flutter_core/widgets/widgets.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
 import 'package:my24_flutter_orders/models/orderline/form_data.dart';
-import 'package:my24_flutter_orders/pages/form_from_equipment.dart';
+import 'package:my24_flutter_orders/pages/form_from_location.dart';
 
 import '../blocs/order_form_bloc.dart';
-import '../widgets/form_from_equipment.dart';
+import '../widgets/form_from_location.dart';
 import 'function_types.dart';
 
-class OrderFormFromEquipmentPage extends BaseOrderFormFromEquipmentPage<OrderFormBloc> {
-  OrderFormFromEquipmentPage({
+class OrderFormFromLocationPage extends BaseOrderFormFromLocationPage<OrderFormBloc> {
+  OrderFormFromLocationPage({
     super.key,
     super.bloc,
-    required super.equipmentUuid,
-    required super.equipmentOrderType,
+    required super.locationUuid,
+    required super.locationOrderType,
   }) : super(
       navDetailFunction: navDetailFunction
   );
@@ -26,7 +26,7 @@ class OrderFormFromEquipmentPage extends BaseOrderFormFromEquipmentPage<OrderFor
       required CoreWidgets widgets,
       required isPlanning
     }) {
-    return OrderFormFromEquipmentWidget(
+    return OrderFormFromLocationWidget(
       formData: formData,
       widgets: widgets,
       orderlineFormData: orderlineFormData,

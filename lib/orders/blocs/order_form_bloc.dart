@@ -3,6 +3,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_equipment/models/equipment/models.dart';
+import 'package:my24_flutter_equipment/models/location/models.dart';
 import 'package:my24_flutter_orders/blocs/order_form_bloc.dart';
 import 'package:my24_flutter_orders/blocs/order_form_states.dart';
 import 'package:my24_flutter_orders/models/order/models.dart';
@@ -24,6 +25,9 @@ class OrderFormBloc extends OrderFormBlocBase {
       }
       else if (event.status == OrderFormEventStatus.newOrderFromEquipmentBranch) {
         await _handleNewFormDataFromEquipmentState(event, emit);
+      }
+      else if (event.status == OrderFormEventStatus.newOrderFromLocationBranch) {
+        await _handleNewFormDataFromLocationState(event, emit);
       }
       else {
         await handleEvent(event, emit);
@@ -79,6 +83,42 @@ class OrderFormBloc extends OrderFormBlocBase {
         location: equipment.locationName,
         equipment: equipment.id,
         equipmentLocation: equipment.location,
+      );
+
+      orderFormData.orderLines!.add(orderline);
+
+      emit(OrderNewState(
+          formData: orderFormData
+      ));
+    } catch (e) {
+      emit(OrderFormErrorState(message: e.toString()));
+    }
+  }
+
+  Future<void> _handleNewFormDataFromLocationState(OrderFormEvent event, Emitter<OrderFormState> emit) async {
+    try {
+      String? submodel = await coreUtils.getUserSubmodel();
+      final OrderTypes orderTypes = await api.fetchOrderTypes();
+      final EquipmentLocation location = await locationApi.getByUuid(event.locationUuid!);
+      Branch branch;
+
+      if (submodel == 'branch_employee_user') {
+        branch = await myBranchApi.fetchMyBranch();
+        if (branch.id != location.branch!) {
+          throw "Equipment not for your branch";
+        }
+      } else {
+        branch = await branchApi.detail(location.branch!);
+      }
+
+      OrderFormData orderFormData = OrderFormData.newFromOrderTypes(orderTypes);
+      orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
+      orderFormData.orderType = event.locationOrderType!;
+      orderFormData.fillFromBranch(branch);
+
+      Orderline orderline = Orderline(
+        location: location.name,
+        equipmentLocation: location.id,
       );
 
       orderFormData.orderLines!.add(orderline);

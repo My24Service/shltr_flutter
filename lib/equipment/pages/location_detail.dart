@@ -17,7 +17,7 @@ class LocationDetailPage extends BaseLocationDetailPage {
     this.withoutDrawer
   }) : super(
     navDetailFunction: navDetailFunction,
-    navFormFromEquipmentFunction: navFormFromEquipmentFunction
+    navFormFromLocationFunction: navFormFromLocationFunction
   );
 
   @override
@@ -37,7 +37,8 @@ class LocationDetailPage extends BaseLocationDetailPage {
         MaterialPageRoute(
             builder: (context) => EquipmentDetailPage(
               bloc: EquipmentBloc(),
-              pk: equipmentPk
+              pk: equipmentPk,
+              withoutDrawer: true,
             )
         )
     );
