@@ -32,14 +32,14 @@ void navListFunction(BuildContext context, OrderEventStatus fetchMode) {
   );
 }
 
-void navDetailFunction(BuildContext context, int orderPk, {bool? withDrawer}) {
-  if (withDrawer != null && withDrawer) {
+void navDetailFunction(BuildContext context, int orderPk, {bool? withoutDrawer}) {
+  if (withoutDrawer != null && !withoutDrawer) {
     Navigator.push(context,
         MaterialPageRoute(
             builder: (context) => OrderDetailPage(
               bloc: OrderBloc(),
               orderId: orderPk,
-              withDrawer: true,
+              withoutDrawer: false,
             )
         )
     );
