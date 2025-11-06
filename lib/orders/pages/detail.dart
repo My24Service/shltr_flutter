@@ -6,6 +6,7 @@ class OrderDetailPage<OrderBloc> extends BaseOrderDetailPage {
     super.key,
     required super.bloc,
     required super.orderId,
+    super.withDrawer
   });
 
   @override

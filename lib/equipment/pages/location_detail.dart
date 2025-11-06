@@ -31,7 +31,7 @@ class LocationDetailPage extends BaseLocationDetailPage {
   }
 
   @override
-  void navEquipmentDetail(BuildContext context, int equipmentPk) {
+  void navEquipmentDetail(BuildContext context, int equipmentPk, {bool? withDrawer}) {
     Navigator.push(
         context,
         MaterialPageRoute(

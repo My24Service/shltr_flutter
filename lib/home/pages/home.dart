@@ -94,6 +94,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   builder: (context) => EquipmentDetailPage(
                     bloc: EquipmentBloc(),
                     uuid: equipmentUuid,
+                    withoutDrawer: false,
                   )
               ),
               (route) => false
@@ -112,6 +113,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   builder: (context) => LocationDetailPage(
                     bloc: EquipmentLocationBloc(),
                     uuid: locationUuid,
+                    withoutDrawer: false,
                   )
               ),
               (route) => false

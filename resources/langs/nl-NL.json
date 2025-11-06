@@ -123,6 +123,7 @@
 
       "notification_order_date": "NB. De uiteindelijke datum van de opdracht wordt vastgesteld door de planning",
       "header_order_details": "Opdracht details",
+      "error_adding": "Fout in het formulier",
       "documents": {
         "delete_dialog_title": "Verwijder document",
         "delete_dialog_content": "Wilt u dit document verwijderen?",

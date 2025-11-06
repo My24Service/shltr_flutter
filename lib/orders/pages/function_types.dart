@@ -32,15 +32,28 @@ void navListFunction(BuildContext context, OrderEventStatus fetchMode) {
   );
 }
 
-void navDetailFunction(BuildContext context, int orderPk) {
-  Navigator.push(context,
-      MaterialPageRoute(
-          builder: (context) => OrderDetailPage(
-            bloc: OrderBloc(),
-            orderId: orderPk,
-          )
-      )
-  );
+void navDetailFunction(BuildContext context, int orderPk, {bool? withDrawer}) {
+  if (withDrawer != null && withDrawer) {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => OrderDetailPage(
+              bloc: OrderBloc(),
+              orderId: orderPk,
+              withDrawer: true,
+            )
+        )
+    );
+  } else {
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) =>
+                OrderDetailPage(
+                  bloc: OrderBloc(),
+                  orderId: orderPk,
+                )
+        )
+    );
+  }
 }
 
 void navFormFromEquipmentFunction(BuildContext context, String uuid, String orderType) {
