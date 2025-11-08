@@ -57,9 +57,25 @@ class OrderFormBloc extends OrderFormBlocBase {
     ));
   }
 
+  _canCreateLocation(bool isPlanning, OrderFormData formData) {
+    return (isPlanning && formData.quickCreateSettings!.equipmentLocationPlanningQuickCreate) ||
+        (!isPlanning && formData.quickCreateSettings!.equipmentLocationQuickCreate);
+  }
+
+  _canCreateEquipment(bool isPlanning, OrderFormData formData) {
+    return (isPlanning && formData.quickCreateSettings!.equipmentPlanningQuickCreate) ||
+        (!isPlanning && formData.quickCreateSettings!.equipmentQuickCreate);
+  }
+
+  Future<bool> _isPlanning({String? submodel}) async {
+    submodel ??= await coreUtils.getUserSubmodel();
+    return submodel == 'planning_user';
+  }
+
   Future<void> _handleNewFormDataFromEquipmentState(OrderFormEvent event, Emitter<OrderFormState> emit) async {
     try {
-      String? submodel = await coreUtils.getUserSubmodel();
+      final String? submodel = await coreUtils.getUserSubmodel();
+      final bool isPlanning = await _isPlanning(submodel: submodel);
       final OrderTypes orderTypes = await api.fetchOrderTypes();
       final Equipment equipment = await equipmentApi.getByUuid(event.equipmentUuid!);
       Branch branch;
@@ -77,6 +93,20 @@ class OrderFormBloc extends OrderFormBlocBase {
       orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
       orderFormData.orderType = event.equipmentOrderType!;
       orderFormData.fillFromBranch(branch);
+      orderFormData.canCreateLocation = _canCreateLocation(
+          isPlanning, orderFormData
+      );
+      orderFormData.canCreateEquipment = _canCreateEquipment(
+          isPlanning, orderFormData
+      );
+      List<EquipmentLocation> locations = [];
+
+      if (!orderFormData.canCreateLocation) {
+        locations = await locationApi.fetchLocationsForSelect(
+          branch: branch.id,
+          customerPk: null
+        );
+      }
 
       Orderline orderline = Orderline(
         product: equipment.name,
@@ -86,6 +116,7 @@ class OrderFormBloc extends OrderFormBlocBase {
       );
 
       orderFormData.orderLines!.add(orderline);
+      orderFormData.locations = locations;
 
       emit(OrderNewState(
           formData: orderFormData
@@ -97,7 +128,8 @@ class OrderFormBloc extends OrderFormBlocBase {
 
   Future<void> _handleNewFormDataFromLocationState(OrderFormEvent event, Emitter<OrderFormState> emit) async {
     try {
-      String? submodel = await coreUtils.getUserSubmodel();
+      final String? submodel = await coreUtils.getUserSubmodel();
+      final bool isPlanning = await _isPlanning(submodel: submodel);
       final OrderTypes orderTypes = await api.fetchOrderTypes();
       final EquipmentLocation location = await locationApi.getByUuid(event.locationUuid!);
       Branch branch;
@@ -115,6 +147,20 @@ class OrderFormBloc extends OrderFormBlocBase {
       orderFormData = await addQuickCreateSettings(orderFormData) as OrderFormData;
       orderFormData.orderType = event.locationOrderType!;
       orderFormData.fillFromBranch(branch);
+      orderFormData.canCreateLocation = _canCreateLocation(
+          isPlanning, orderFormData
+      );
+      orderFormData.canCreateEquipment = _canCreateEquipment(
+          isPlanning, orderFormData
+      );
+      List<EquipmentLocation> locations = [];
+
+      if (!orderFormData.canCreateLocation) {
+        locations = await locationApi.fetchLocationsForSelect(
+            branch: branch.id,
+            customerPk: null
+        );
+      }
 
       Orderline orderline = Orderline(
         location: location.name,
@@ -122,6 +168,7 @@ class OrderFormBloc extends OrderFormBlocBase {
       );
 
       orderFormData.orderLines!.add(orderline);
+      orderFormData.locations = locations;
 
       emit(OrderNewState(
           formData: orderFormData

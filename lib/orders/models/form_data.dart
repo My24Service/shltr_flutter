@@ -49,7 +49,9 @@ class OrderFormData extends BaseOrderFormData {
     super.customerBranchId,
     super.equipmentLocationUpdates,
 
-    super.infolineFormData
+    super.infolineFormData,
+
+    super.locations,
   });
 
   factory OrderFormData.newFromOrderTypes(OrderTypes orderTypes) {

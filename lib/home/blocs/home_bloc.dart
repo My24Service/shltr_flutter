@@ -86,12 +86,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
       if (isLoggedIn) {
         await coreUtils.fetchSetInitialData();
+        emit(HomeLoggedInState(
+          member: member!,
+          user: user!,
+        ));
+      } else {
+        emit(HomeState(
+          member: member,
+          user: user,
+        ));
       }
 
-      emit(HomeState(
-        member: member,
-        user: user,
-      ));
     } catch(e) {
       emit(HomeLoginErrorState(
         error: e.toString(),
