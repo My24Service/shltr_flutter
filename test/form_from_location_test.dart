@@ -9,8 +9,8 @@ import 'package:my24_flutter_core/dev_logging.dart';
 import 'package:my24_flutter_core/tests/http_client.mocks.dart';
 
 import 'package:shltr_flutter/common/utils.dart';
-import 'package:shltr_flutter/orders/pages/form_from_equipment.dart';
-import 'package:shltr_flutter/orders/widgets/form_from_equipment.dart';
+import 'package:shltr_flutter/orders/pages/form_from_location.dart';
+import 'package:shltr_flutter/orders/widgets/form_from_location.dart';
 import 'fixtures.dart';
 import 'helpers.dart';
 
@@ -36,14 +36,14 @@ void main() async {
   SharedPreferences.setMockInitialValues({});
   setUpLogging();
 
-  testWidgets('loads minimal create order from equipment form', (tester) async {
+  testWidgets('loads minimal create order from location form', (tester) async {
     final client = MockClient();
     final orderFormBloc = getOrderFormBloc(client);
 
-    OrderFormFromEquipmentPage page = OrderFormFromEquipmentPage(
+    OrderFormFromLocationPage page = OrderFormFromLocationPage(
       bloc: orderFormBloc,
-      equipmentUuid: "c56ddfe1-f51b-4045-9d85-776e8ab0dcd4",
-      equipmentOrderType: "storing",
+      locationUuid: "c56ddfe1-f51b-4045-9d85-776e8ab0dcd4",
+      locationOrderType: "storing",
     );
 
     // return token request with a 200
@@ -64,9 +64,9 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
-    // return equipment data with a 200
+    // return location data with a 200
     when(client.get(Uri.parse(
-        'https://demo.my24service-dev.com/api/equipment/equipment/c56ddfe1-f51b-4045-9d85-776e8ab0dcd4/uuid/'),
+        'https://demo.my24service-dev.com/api/equipment/location/c56ddfe1-f51b-4045-9d85-776e8ab0dcd4/uuid/'),
         headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(equipment, 200));
 
@@ -93,7 +93,7 @@ void main() async {
     );
     await mockNetworkImagesFor(() async => await tester.pumpAndSettle());
 
-    expect(find.byType(OrderFormFromEquipmentPage), findsOneWidget);
-    expect(find.byType(OrderFormFromEquipmentWidget), findsOneWidget);
+    expect(find.byType(OrderFormFromLocationPage), findsOneWidget);
+    expect(find.byType(OrderFormFromLocationWidget), findsOneWidget);
   });
 }

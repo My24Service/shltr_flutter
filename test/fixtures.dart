@@ -1,5 +1,5 @@
 const String tokenData = '{"token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjRsUTZwNDROZHdxaU5vSDJfTnItaG5HYUFNOGp4ZDRIdlVFUmZlbHI1dU0iLCJ0eXAiOiJKV1QifQ.eyJ0b2tlbl90eXBlIjoic2xpZGluZyIsImV4cCI6MTcwODM0Mzk1NCwiaWF0IjoxNzA4MTcxMTU0LCJqdGkiOiI2MmYxZmUwMzRlZWI0MjYxYTRlOTAxYWRmOWUxOTg5OSIsInJlZnJlc2hfZXhwIjoxNzA5MzgwNzU0LCJpc3MiOiJodHRwczovL2FwaS5teTI0c2VydmljZS5jb20vIiwidXNlcl90eXBlIjoic3VwZXJ1c2VyIiwidXNlcl9pZCI6IjJmMzQyNmEwLTFkZWYtNDc0MC1iNGQzLWFkMDIwN2IyY2FjNCJ9.FO0IZ3N3uBV22Iy_0Klo89Y7iqIyyANFWCit4zEBIeRvbnZo0OtfoUd8ldMGUBmDx3C9kwVQmJctaDzwDRUe9Gy_g2JFESoHtL_gExrxbt1_uZbp2iLqytKqAiRRHIkOSflpeAdN4OocZIYyLFs2cc3b0kHnkwfSXJbHTXfVt7zZUDru-raBN0v8VPiBPyVIVpJNMQMHfSJMP4kSWA19MQD8pLKpEQitcKlDyObY-ycYCpuO_bjPT5_6VNKolcO-nZGfeFe01LUyp4LmpLHXMRmpD7Bb3dGk-xAXXdGwYSDUQYYGV6gciMigUd3YHxcykUo8hgM7-drcbnCFW3gfX4DvJ4niyEmwCJivkN5t5qjtnYxOrLcuLRKl4apP-Nb8xlHnrPkdTdH0-KRf5iHsd-Wtu_L77iwdz5fz6R8s6vlz4HrGU0j-X_e15qJCwivIwqi8bzBAK9YKWLTmpckttWGn7DgzobX8gX29tSL1_ufDzusMD0r0RIWrb__CEPDdNv1t1kopPI3c2u6JByd2eYIQBkSmikwnOOGWB4Gm8BwdXN6v05CydTxIqXuIcBFrwtT7WSVeZRHpa6gWs8mrsYWrz6XwG20n8RoUtxh_5EumxEluuiutfAGYhz4oB25Csw2fVj7qOvaKXg6JALCbWRjlXL20q84dqMFAWA1NlWg"}';
-const String order = '{"id":1,"uuid":"f194abef-04dc-4874-ac79-38b6c1204849","customer_id":"1263","order_id":"10603","service_number":null,'
+const String order = '{"id":1,"branch": 4, "uuid":"f194abef-04dc-4874-ac79-38b6c1204849","customer_id":"1263","order_id":"10603","service_number":null,'
     '"order_reference":"","order_type":"Onderhoud","customer_remarks":"","description":null,"start_date":"17/03/2023","start_time":"",'
     '"end_date":"17/03/2023","end_time":"","order_date":"17/03/2023","last_status":"Workorder signed",'
     '"last_status_full":"17/03/2023 11:52 Workorder signed","remarks":null,"order_name":"Fictie B.V.","order_address":"Metaalweg 4",'
@@ -13,7 +13,7 @@ const String order = '{"id":1,"uuid":"f194abef-04dc-4874-ac79-38b6c1204849","cus
     '"location":"df","remarks":"df","price_purchase":"0.00","price_selling":"0.00","amount":0,"material_relation":null,'
     '"location_relation_inventory":null,"purchase_order_material":null}],'
     '"workorder_pdf_url":"https://demo.my24service-dev.com/media/workorders/demo/workorder-demo-10603.pdf","total_price_purchase":"0.00",'
-    '"total_price_selling":"0.00","customer_relation":1167,"customer_rate_avg":null,"required_assigned":"1/1 (100.00%)","required_users":1,'
+    '"total_price_selling":"0.00","customer_relation":null,"customer_rate_avg":null,"required_assigned":"1/1 (100.00%)","required_users":1,'
     '"user_order_available_set_count":0,"assigned_count":1,'
     '"workorder_url":"https://demo.my24service-dev.com/#/orders/orders/workorder/f194abef-04dc-4874-ac79-38b6c1204849",'
     '"workorder_pdf_url_partner":[],"customer_order_accepted":true,"workorder_documents":[],"workorder_documents_partners":[],'

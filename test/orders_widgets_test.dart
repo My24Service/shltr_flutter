@@ -17,9 +17,9 @@ import 'package:my24_flutter_orders/widgets/error.dart';
 import 'package:shltr_flutter/orders/pages/detail.dart';
 import 'package:shltr_flutter/orders/pages/form.dart';
 import 'package:shltr_flutter/orders/widgets/form.dart';
-import 'package:shltr_flutter/orders/blocs/order_form_bloc.dart';
 import 'package:shltr_flutter/orders/pages/list.dart';
 import 'fixtures.dart';
+import 'helpers.dart';
 
 Widget createWidget({Widget? child}) {
   return MaterialApp(
@@ -190,9 +190,7 @@ void main() async {
 
   testWidgets('loads form edit', (tester) async {
     final client = MockClient();
-    final orderFormBloc = OrderFormBloc();
-    orderFormBloc.api.httpClient = client;
-    orderFormBloc.privateMemberApi.httpClient = client;
+    final orderFormBloc = getOrderFormBloc(client);
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -222,12 +220,18 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
+    // return locations data with a 200
+    when(client.get(Uri.parse(
+        'https://demo.my24service-dev.com/api/equipment/location/list_for_select/?branch=4'),
+        headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(locations, 200));
+
     OrderFormPage widget = OrderFormPage(
       pk: 1,
       bloc: orderFormBloc,
       fetchMode: OrderEventStatus.fetchAll
     );
-    widget.utils.httpClient = client;
+
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: widget))
     );
@@ -238,9 +242,7 @@ void main() async {
 
   testWidgets('loads form new planning', (tester) async {
     final client = MockClient();
-    final orderFormBloc = OrderFormBloc();
-    orderFormBloc.api.httpClient = client;
-    orderFormBloc.privateMemberApi.httpClient = client;
+    final orderFormBloc = getOrderFormBloc(client);
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -263,12 +265,18 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
+    // return locations data with a 200
+    when(client.get(Uri.parse(
+        'https://demo.my24service-dev.com/api/equipment/location/list_for_select/?branch=4'),
+        headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(locations, 200));
+
     OrderFormPage widget = OrderFormPage(
         bloc: orderFormBloc,
         pk: null,
         fetchMode: OrderEventStatus.fetchAll
     );
-    widget.utils.httpClient = client;
+
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: widget))
     );
@@ -279,11 +287,7 @@ void main() async {
 
   testWidgets('loads form new employee', (tester) async {
     final client = MockClient();
-    final orderFormBloc = OrderFormBloc();
-    orderFormBloc.api.httpClient = client;
-    orderFormBloc.privateMemberApi.httpClient = client;
-    orderFormBloc.branchApi.httpClient = client;
-    orderFormBloc.myBranchApi.httpClient = client;
+    final orderFormBloc = getOrderFormBloc(client);
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -310,12 +314,18 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/company/branch-my/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(myBranchData, 200));
 
+    // return locations data with a 200
+    when(client.get(Uri.parse(
+        'https://demo.my24service-dev.com/api/equipment/location/list_for_select/?branch=4'),
+        headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(locations, 200));
+
     OrderFormPage widget = OrderFormPage(
         bloc: orderFormBloc,
         pk: null,
         fetchMode: OrderEventStatus.fetchAll
     );
-    widget.utils.httpClient = client;
+
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: widget))
     );
@@ -326,15 +336,7 @@ void main() async {
 
   testWidgets('loads form edit, enter data and submit', (tester) async {
     final client = MockClient();
-    final orderFormBloc = OrderFormBloc();
-    orderFormBloc.api.httpClient = client;
-    orderFormBloc.orderlineApi.httpClient = client;
-    orderFormBloc.infolineApi.httpClient = client;
-    orderFormBloc.orderDocumentApi.httpClient = client;
-    orderFormBloc.infolineApi.httpClient = client;
-    orderFormBloc.locationApi.httpClient = client;
-    orderFormBloc.equipmentApi.httpClient = client;
-    orderFormBloc.privateMemberApi.httpClient = client;
+    final orderFormBloc = getOrderFormBloc(client);
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': true,
@@ -364,6 +366,12 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
+    // return locations data with a 200
+    when(client.get(Uri.parse(
+        'https://demo.my24service-dev.com/api/equipment/location/list_for_select/?branch=4'),
+        headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(locations, 200));
+
     // update order
     when(client.patch(Uri.parse('https://demo.my24service-dev.com/api/order/order/1/'), headers: anyNamed('headers'), body: anyNamed('body')))
         .thenAnswer((_) async => http.Response(order, 200));
@@ -376,12 +384,17 @@ void main() async {
     when(client.post(Uri.parse('https://demo.my24service-dev.com/api/order/orderline/'), headers: anyNamed('headers'), body: anyNamed('body')))
         .thenAnswer((_) async => http.Response(orderLine2, 201));
 
+    // return locations data with a 200
+    when(client.get(Uri.parse(
+        'https://demo.my24service-dev.com/api/equipment/location/list_for_select/?branch=4'),
+        headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(locations, 200));
+
     OrderFormPage widget = OrderFormPage(
         pk: 1,
         bloc: orderFormBloc,
         fetchMode: OrderEventStatus.fetchAll
     );
-    widget.utils.httpClient = client;
 
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: widget))
@@ -424,10 +437,7 @@ void main() async {
 
   testWidgets('loads form edit employee', (tester) async {
     final client = MockClient();
-    final orderFormBloc = OrderFormBloc();
-    orderFormBloc.api.httpClient = client;
-    orderFormBloc.privateMemberApi.httpClient = client;
-    orderFormBloc.myBranchApi.httpClient = client;
+    final orderFormBloc = getOrderFormBloc(client);
 
     SharedPreferences.setMockInitialValues({
       'member_has_branches': false,
@@ -464,12 +474,18 @@ void main() async {
     when(client.get(Uri.parse('https://demo.my24service-dev.com/api/member/member/get_my_settings/'), headers: anyNamed('headers')))
         .thenAnswer((_) async => http.Response(memberSettings, 200));
 
+    // return locations data with a 200
+    when(client.get(Uri.parse(
+        'https://demo.my24service-dev.com/api/equipment/location/list_for_select/?branch=4'),
+        headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response(locations, 200));
+
     OrderFormPage widget = OrderFormPage(
         pk: 1,
         bloc: orderFormBloc,
         fetchMode: OrderEventStatus.fetchAll
     );
-    widget.utils.httpClient = client;
+
     await mockNetworkImagesFor(() async => await tester.pumpWidget(
         createWidget(child: widget))
     );
