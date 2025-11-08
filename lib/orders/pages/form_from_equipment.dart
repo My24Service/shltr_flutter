@@ -15,7 +15,8 @@ class OrderFormFromEquipmentPage extends BaseOrderFormFromEquipmentPage<OrderFor
     required super.equipmentUuid,
     required super.equipmentOrderType,
   }) : super(
-      navDetailFunction: navDetailFunction
+      navDetailFunction: navDetailFunction,
+      hasBranches: true
   );
 
   @override

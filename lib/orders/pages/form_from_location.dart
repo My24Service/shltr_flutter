@@ -15,7 +15,8 @@ class OrderFormFromLocationPage extends BaseOrderFormFromLocationPage<OrderFormB
     required super.locationUuid,
     required super.locationOrderType,
   }) : super(
-      navDetailFunction: navDetailFunction
+      navDetailFunction: navDetailFunction,
+      hasBranches: true
   );
 
   @override
