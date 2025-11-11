@@ -94,6 +94,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   builder: (context) => EquipmentDetailPage(
                     bloc: EquipmentBloc(),
                     uuid: equipmentUuid,
+                    withoutDrawer: false,
                   )
               ),
               (route) => false
@@ -112,6 +113,7 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
                   builder: (context) => LocationDetailPage(
                     bloc: EquipmentLocationBloc(),
                     uuid: locationUuid,
+                    withoutDrawer: false,
                   )
               ),
               (route) => false
@@ -200,6 +202,8 @@ class _ShltrAppState extends State<ShltrApp> with SingleTickerProviderStateMixin
     Locale? locale = coreUtils.lang2locale(languageCode);
 
     Widget initialPage;
+    locationUuid = '5512b8e4-eeb1-4a8f-a5b0-bc1d1a735b8e';
+    // equipmentUuid = 'e8954213-3660-4d4b-8b07-268844e75cdb';
 
     if (isLoggedIn && equipmentUuid != null) {
       initialPage = EquipmentDetailPage(

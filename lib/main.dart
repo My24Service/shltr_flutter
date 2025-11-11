@@ -15,7 +15,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  await FlutterBranchSdk.init(enableLogging: true, disableTracking: true);
+  // await FlutterBranchSdk.init(enableLogging: true, disableTracking: true);
+  await FlutterBranchSdk.init(enableLogging: true);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
