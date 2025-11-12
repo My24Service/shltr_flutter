@@ -32,7 +32,10 @@ if (flutterVersionName == null) {
 android {
     namespace "com.shltr.shltr_flutter"
     compileSdkVersion 36
-    ndkVersion flutter.ndkVersion
+//    ndkVersion flutter.ndkVersion
+// Change this back to flutter.ndkVersion once $FLUTTER_ROOT/packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt
+// has version 28.x
+    ndkVersion "28.2.13676358"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
