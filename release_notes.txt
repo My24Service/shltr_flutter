@@ -1,1 +1,1 @@
-Bugfix for missing 'remarks' when reporting a fault with equipment.
+Scan QR code for locations for order history and to create a new order

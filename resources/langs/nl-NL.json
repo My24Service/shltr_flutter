@@ -88,6 +88,7 @@
     "form": {
       "app_bar_title_insert": "Nieuwe opdracht",
       "app_bar_title_insert_from_equipment": "Nieuwe {orderType}",
+      "app_bar_title_insert_from_location": "Nieuwe {orderType}",
       "app_bar_title_update": "Wijzig opdracht",
 
       "error_loading_ordertypes": "Fout bij het laden van de opdrachttypes",
@@ -96,6 +97,18 @@
 
       "label_search_branch": "Zoek vestiging",
       "typeahead_label_search_branch": "Zoek",
+
+      "typeahead_label_search_equipment": "Zoek apparatuur",
+      "equipment_not_found": "Geen apparatuur gevonden",
+      "create_new_equipment": "Voeg apparatuur toe",
+      "validator_equipment": "Apparatuur is vereist",
+      "adding_equipment": "Apparatuur aan het toevoegen...",
+
+      "typeahead_label_search_location": "Zoek locatie",
+      "location_not_found": "Geen locatie gevonden",
+      "create_new_location": "Voeg locatie toe",
+      "validator_location": "Locatie is vereist",
+      "adding_location": "Locatie aan het toevoegen...",
 
       "button_order_update": "Wijzig opdracht",
       "button_order_insert": "Voeg opdracht toe",
@@ -110,6 +123,7 @@
 
       "notification_order_date": "NB. De uiteindelijke datum van de opdracht wordt vastgesteld door de planning",
       "header_order_details": "Opdracht details",
+      "error_adding": "Fout in het formulier",
       "documents": {
         "delete_dialog_title": "Verwijder document",
         "delete_dialog_content": "Wilt u dit document verwijderen?",
@@ -363,7 +377,31 @@
       "button_no_workorder": "@:generic.button_no_workorder",
       "button_view_order": "Bekijk",
       "new_order": "Nieuwe opdracht",
-      "order_history": "Historie"
+      "order_history": "Historie",
+      "documents": "Documenten",
+      "no_name": "(geen naam)",
+      "no_identifier": "(geen identifier)"
+    },
+    "location": {
+      "name": "Naam",
+      "app_bar_title_error": "Fout",
+      "detail": {
+        "model_name": "Locatie",
+        "app_bar_title": "Locatie detail",
+        "info_workorder": "Werkbon",
+        "info_view_order": "Bekijk order",
+        "header_orderlines": "Opdrachtregels",
+        "button_open_workorder": "@:generic.button_open_workorder",
+        "button_no_workorder": "@:generic.button_no_workorder",
+        "button_view_order": "Bekijk",
+        "new_order": "Nieuwe opdracht",
+        "order_history": "Historie",
+        "equipment_header": "Apparatuur",
+        "nav_equipment_detail": "Apparatuur detail",
+        "documents": "Documenten",
+        "no_name": "(geen naam)",
+        "no_identifier": "(geen identifier)"
+      }
     }
   }
 }

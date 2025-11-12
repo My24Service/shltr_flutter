@@ -20,7 +20,7 @@ class EquipmentDetailPage extends BaseEquipmentDetailPage {
   );
 
   @override
-  Future<Widget?> getDrawerForUserWithSubmodel(BuildContext context, String? submodel) async {
+  Future<Widget?> getDrawer(BuildContext context, String? submodel) async {
     if (withoutDrawer != null && withoutDrawer!) {
       return null;
     }

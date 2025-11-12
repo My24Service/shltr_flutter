@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my24_flutter_core/i18n.dart';
 import 'package:my24_flutter_core/utils.dart';
 import 'package:my24_flutter_equipment/blocs/equipment_bloc.dart';
+import 'package:my24_flutter_equipment/blocs/location_bloc.dart';
 import 'package:my24_flutter_member_models/public/models.dart';
 
 import 'package:shltr_flutter/home/widgets/login.dart';
@@ -13,7 +14,8 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 
 import '../../common/utils.dart';
 import '../../company/models/models.dart';
-import '../../equipment/pages/detail.dart';
+import '../../equipment/pages/equipment_detail.dart';
+import '../../equipment/pages/location_detail.dart';
 
 class PageData {
   final BaseUser? user;
@@ -38,7 +40,9 @@ class LoginPage extends StatelessWidget {
   final Utils utils = Utils();
   final String languageCode;
   final String? equipmentUuid;
+  final String? locationUuid;
   final EquipmentBloc? equipmentBloc; // only here for testability
+  final EquipmentLocationBloc? equipmentLocationBloc; // only here for testability
   final bool isLoggedIn;
 
   LoginPage({
@@ -49,7 +53,9 @@ class LoginPage extends StatelessWidget {
     this.memberFromHome,
     required this.languageCode,
     this.equipmentUuid,
+    this.locationUuid,
     this.equipmentBloc,
+    this.equipmentLocationBloc,
     required this.isLoggedIn
   });
 
@@ -70,10 +76,12 @@ class LoginPage extends StatelessWidget {
   }
 
   Future<PageData> getPageData() async {
-    final title = isLoggedIn ? i18n.$trans('app_bar_title_logged_in') : i18n.$trans('app_bar_title');
+    final title = isLoggedIn ? i18n.$trans('app_bar_title_logged_in') :
+        i18n.$trans('app_bar_title');
     final BaseUser? user = await utils.getUserInfo();
-    Member? member = memberFromHome != null ? memberFromHome! : await utils.fetchMember();
 
+    Member? member = memberFromHome != null ? memberFromHome! : await utils
+        .fetchMember();
     return PageData(user: user, member: member, title: title);
   }
 
@@ -119,6 +127,20 @@ class LoginPage extends StatelessWidget {
               EquipmentDetailPage(
                 bloc: equipmentBloc != null ? equipmentBloc! : EquipmentBloc(),
                 uuid: equipmentUuid,
+              )
+          )
+      );
+    }
+
+    if (state is HomeLoggedInState && locationUuid != null) {
+      createSnackBar(context, i18n.$trans('snackbar_logged_in'));
+
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) =>
+              LocationDetailPage(
+                bloc: equipmentLocationBloc != null ? equipmentLocationBloc! : EquipmentLocationBloc(),
+                uuid: locationUuid,
               )
           )
       );

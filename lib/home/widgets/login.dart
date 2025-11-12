@@ -20,7 +20,7 @@ import 'package:shltr_flutter/home/blocs/home_states.dart';
 import 'package:shltr_flutter/home/pages/home.dart';
 
 import '../../company/models/models.dart';
-import '../../equipment/pages/detail.dart';
+import '../../equipment/pages/equipment_detail.dart';
 import '../../orders/pages/list.dart';
 
 // we have three modes of entry:
@@ -106,17 +106,10 @@ class CompanyLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        width: 100,
-        height: 100,
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.network(memberPicture, cacheWidth: 100),
-            ]
-        )
+    return Container(
+      alignment: Alignment.topCenter,
+      height: 100,
+      child: Image.network(memberPicture, cacheWidth: 100, fit: BoxFit.contain),
     );
   }
 }

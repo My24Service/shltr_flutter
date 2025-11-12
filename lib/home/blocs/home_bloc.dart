@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:logging/logging.dart';
@@ -84,12 +86,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
 
       if (isLoggedIn) {
         await coreUtils.fetchSetInitialData();
+        emit(HomeLoggedInState(
+          member: member!,
+          user: user!,
+        ));
+      } else {
+        emit(HomeState(
+          member: member,
+          user: user,
+        ));
       }
 
-      emit(HomeState(
-        member: member,
-        user: user,
-      ));
     } catch(e) {
       emit(HomeLoginErrorState(
         error: e.toString(),
@@ -98,11 +105,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeBaseState> {
     }
   }
 
+  String _getAppSource() {
+    if (Platform.isAndroid) {
+      return "flutter-android";
+    } else if (Platform.isIOS) {
+      return "flutter-android";
+    }
+    return "flutter-unknown";
+  }
+
   Future<void> _handleDoLoginState(HomeEvent event, Emitter<HomeBaseState> emit) async {
     Member? member;
 
     try {
-      final SlidingToken? token = await coreUtils.attemptLogIn(event.doLoginState!.userName, event.doLoginState!.password);
+      final SlidingToken? token = await coreUtils.attemptLogIn(event.doLoginState!.userName,
+          event.doLoginState!.password,
+          app:_getAppSource());
       member = await utils.fetchMember(companycode: event.doLoginState!.companycode);
       final BaseUser? user = await utils.getUserInfo();
 
