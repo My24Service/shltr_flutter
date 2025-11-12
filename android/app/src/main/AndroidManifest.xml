@@ -37,7 +37,7 @@
     </queries>
 
     <application
-        android:label="SHLTR-Group app"
+        android:label="SHLTR-Group"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
